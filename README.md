@@ -1,24 +1,10 @@
-# Project Template
+# Aardvark
 
-This is a template repository for CSC 207 projects. 
-This repository contains starter code for a gradle project.
-It also contains workflow documents that give instructions on how to manage your Github repository and how to use Github Projects for efficient collaboration.
+This is the repository for the drawing and image creation software called Aardvark. This project is built using Java and JavaFX. Below are some useful links related to the development of the project.
 
-## Checklist For Your Project
-- [ ] Verify the correct settings for your project repository
-- [ ] Set up Github Projects
-- [ ] Create the implementation plan using issues and Github Projects
-- [ ] Create deveopment branches for your features
-- [ ] Use pull requests to merge finished features into main branch
-- [ ] Conduct code reviews
+* [Figma Designs](https://www.figma.com/file/TGjtdbXueRo7Ui4jmofLry/Aardvark?type=design&node-id=41%3A2&mode=design&t=Hhz1FIdWzme6Wmlt-1)
+* [Spec and User Stories](https://docs.google.com/document/d/1bEORd52PppURtDqi6MqqlkDdX-i_tyUgb_kfk-4wmmM/edit?usp=sharing)
 
-**If your team has trouble with any of these steps, please ask on Piazza. For example, with how GitHub Classroom works, your team *may* not have permissions to do some of the first few steps, in which case we'll post alternative instructions as needed.**
-
-## Workflow Documents
-
-* Github Workflow: Please refer to the workflow that was introduced in the first lab. You should follow this when working on your code. The following document provides additional details too.
-
-* [Project Planning and Development Guide](project_plan_dev.md): This document helps you to understand how to create and maintain a project plan for your class project. **This document helps you to complete the Implementation Plan Milestone.**
 
 ## Gradle Project
 Import this project into your Intellij editor. It should automatically recognise this as a gradle repository.
