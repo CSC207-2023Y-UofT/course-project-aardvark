@@ -2,13 +2,13 @@ package tutorial;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openjfx.MainApp;
 
-class HelloWorldTest {
-
+class MainAppTest {
     @Test
     public void HelloWorldNormalNumbers() {
 
-        HelloWorld hw = new HelloWorld();
+        MainApp hw = new MainApp();
         Assertions.assertEquals("1", hw.convert(1));
         Assertions.assertEquals("2", hw.convert(2));
     }
@@ -16,21 +16,21 @@ class HelloWorldTest {
     @Test
     public void HelloWorldThreeNumbers() {
 
-        HelloWorld fb = new HelloWorld();
+        MainApp fb = new MainApp();
         Assertions.assertEquals("Hello", fb.convert(3));
     }
 
     @Test
     public void HelloWorldFiveNumbers() {
 
-        HelloWorld hw = new HelloWorld();
+        MainApp hw = new MainApp();
         Assertions.assertEquals("World", hw.convert(5));
     }
 
     @Test
     public void HelloWorldThreeAndFiveNumbers() {
 
-        HelloWorld hw = new HelloWorld();
+        MainApp hw = new MainApp();
         Assertions.assertEquals("World", hw.convert(5));
     }
 }
