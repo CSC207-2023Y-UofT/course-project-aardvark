@@ -1,6 +1,6 @@
 plugins {
-    id 'application'
-    id( "org.openjfx.javafxplugin" ) version "0.0.13"
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
 repositories {
@@ -20,8 +20,8 @@ test {
 }
 
 javafx {
-    version = "17"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    version = "16"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base']
 }
 
 mainClassName = 'org.openjfx.MainApp'
