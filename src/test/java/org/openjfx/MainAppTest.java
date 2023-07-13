@@ -1,4 +1,4 @@
-package tutorial;
+package org.openjfx;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
