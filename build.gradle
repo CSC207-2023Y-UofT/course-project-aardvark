@@ -21,7 +21,7 @@ test {
 
 javafx {
     version = "16"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base']
 }
 
 mainClassName = 'org.openjfx.MainApp'
