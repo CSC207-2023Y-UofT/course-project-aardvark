@@ -26,7 +26,7 @@
             </HBox>
             <VBox alignment="CENTER_LEFT" maxWidth="716.0" prefHeight="296.0" prefWidth="716.0" spacing="4.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
                <children>
-                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Email" textFill="#222222">
+                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Email" textFill="#222">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -39,7 +39,7 @@
                         <Insets bottom="16.0" />
                      </VBox.margin>
                   </TextField>
-                  <Label contentDisplay="BOTTOM" style="-fx-text-alignment: left;" text="Password" textFill="#222222">
+                  <Label contentDisplay="BOTTOM" style="-fx-text-alignment: left;" text="Password" textFill="#222">
                      <font>
                         <Font size="20.0" />
                      </font>
