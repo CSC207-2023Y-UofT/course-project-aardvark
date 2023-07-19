@@ -1,0 +1,43 @@
+.button {
+    -fx-border-width: 2px;
+    -fx-border-insets: -2px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.button:hover {
+
+}
+
+.button:focused {
+    -fx-border-color: #90CBFF;
+}
+
+.button:pressed {
+    -fx-border-color: #0067C0;
+}
+
+#info-btn {
+    -fx-background-image: url("/images/info.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 24 24;
+    -fx-background-position: center center;
+    -fx-background-color: #EFEDF0;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+}
+
+#info-btn:hover {
+    -fx-background-color: #e3e1e4;
+}
+
+#info-btn:pressed {
+    -fx-background-color: #e3e1e4;
+}
+
+.text-field:focused {
+    -fx-border-color: #0067C0 !important;
+}
