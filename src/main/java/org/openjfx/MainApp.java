@@ -13,15 +13,16 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("scene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("signin.fxml"));
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
+        stage.setResizable(false);
+//        stage.setMinWidth(800);
+//        stage.setMinHeight(800);
 
         stage.setTitle("Aardvark");
         stage.setScene(scene);

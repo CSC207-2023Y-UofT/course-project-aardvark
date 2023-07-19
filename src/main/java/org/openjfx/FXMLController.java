@@ -1,21 +1,36 @@
 package org.openjfx;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class FXMLController implements Initializable {
-    
-    @FXML
-    private Label label;
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        label.setText("Hello, JavaFX " + javafxVersion + "\nRunning on Java " + javaVersion + ".");
-    }    
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+
+public class FXMLController {
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("signup.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("signin.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

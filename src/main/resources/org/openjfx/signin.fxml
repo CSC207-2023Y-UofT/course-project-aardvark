@@ -10,43 +10,49 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.openjfx.FXMLController">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: EFEDF0;" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" minWidth="500.0" prefHeight="100.0" prefWidth="500.0">
+            <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 20;">
                <children>
                   <Text fill="#222222" strokeType="OUTSIDE" strokeWidth="0.0" text="Aardvark" HBox.hgrow="ALWAYS">
                      <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="Segoe UI Semibold" size="24.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </Text>
-                  <Button mnemonicParsing="false" text="Info" />
+                  <Button id="info-btn" mnemonicParsing="false" />
                </children>
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
             </HBox>
             <VBox alignment="CENTER_LEFT" maxWidth="716.0" prefHeight="296.0" prefWidth="716.0" spacing="4.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
                <children>
                   <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Email" textFill="#222">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="Segoe UI Semibold" size="20.0" />
                      </font>
                   </Label>
                   <TextField minHeight="40.0" promptText="Email" style="-fx-background-radius: 4; -fx-background-color: #EFEDF0; -fx-border-color: #ccc; -fx-border-radius: 4; -fx-border-width: 0 0 2  0;">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI" size="16.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="16.0" />
                      </VBox.margin>
                   </TextField>
-                  <Label contentDisplay="BOTTOM" style="-fx-text-alignment: left;" text="Password" textFill="#222">
+                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Password" textFill="#222">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="Segoe UI Semibold" size="20.0" />
                      </font>
                   </Label>
                   <TextField minHeight="40.0" promptText="Password" style="-fx-background-radius: 4; -fx-background-color: #EFEDF0; -fx-border-color: #ccc; -fx-border-radius: 4; -fx-border-width: 0 0 2  0;">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Segoe UI" size="16.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="16.0" />
@@ -54,24 +60,24 @@
                   </TextField>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #0067C0; -fx-background-radius: 8; -fx-min-width: 229; -fx-min-height: 50;" text="Sign in" textAlignment="CENTER" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #0067C0; -fx-min-width: 229; -fx-min-height: 50;" text="Sign in" textAlignment="CENTER" textFill="WHITE">
                            <font>
-                              <Font size="16.0" />
+                              <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
                         </Button>
                      </children>
                   </HBox>
                </children>
                <VBox.margin>
-                  <Insets bottom="50.0" left="50.0" right="50.0" />
+                  <Insets bottom="30.0" left="50.0" right="50.0" />
                </VBox.margin>
                <padding>
                   <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
                </padding>
             </VBox>
-            <Button mnemonicParsing="false" text="Don’t have an account? Sign up">
+            <Button mnemonicParsing="false" onAction="#switchToSignUp" style="-fx-background-color: #EFEDF0;" text="Don’t have an account? Sign up" textFill="#0067c0">
                <font>
-                  <Font size="16.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
             </Button>
          </children>
