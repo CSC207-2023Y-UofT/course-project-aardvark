@@ -1,43 +1,127 @@
+/* Text Field */
+.text-field {
+    -fx-background-radius: 4;
+    -fx-background-color: #EFEDF0;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4;
+    -fx-border-width: 0 0 2 0;
+}
+
+.text-field:hover {
+    -fx-background-color: #F0F0F0;
+}
+
+.text-field:focused {
+    -fx-border-color: #0067C0;
+    -fx-background-color: #F0F0F0;
+}
+
+
+/* Button */
 .button {
     -fx-border-width: 2px;
     -fx-border-insets: -2px;
     -fx-border-color: transparent;
     -fx-border-radius: 8;
+    -fx-background-color: #EFEDF0;
     -fx-background-radius: 8;
 }
 
 .button:hover {
-
+    -fx-background-color: #e3e1e4;
 }
 
 .button:focused {
     -fx-border-color: #90CBFF;
 }
 
-.button:pressed {
-    -fx-border-color: #0067C0;
-}
 
+/* Info Button */
 #info-btn {
     -fx-background-image: url("/images/info.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: 24 24;
     -fx-background-position: center center;
-    -fx-background-color: #EFEDF0;
     -fx-background-radius: 50;
     -fx-border-radius: 50;
-    -fx-min-width: 40;
-    -fx-min-height: 40;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
 }
 
-#info-btn:hover {
+
+/* Delete Button */
+#delete {
+    -fx-background-image: url("/images/delete.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 20 20;
+    -fx-background-position: center center;
+    -fx-background-color: #fff;
+}
+
+#delete:hover {
+    -fx-background-color: #FFDDE0;
+}
+
+
+/* Project Button */
+#project {
     -fx-background-color: #e3e1e4;
 }
 
-#info-btn:pressed {
-    -fx-background-color: #e3e1e4;
+#project:hover {
+    -fx-background-color: #d8d6d8;
 }
 
-.text-field:focused {
-    -fx-border-color: #0067C0 !important;
+
+/* Blue Button */
+#primary-btn {
+    -fx-background-color: #0067C0;
+    -fx-min-width: 229;
+    -fx-min-height: 50;
+}
+
+#primary-btn:hover {
+    -fx-background-color: #0056A0;
+}
+
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: #EFEDF0;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 5em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #AAA;
+}
+
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #999;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #EFEDF0;
 }
