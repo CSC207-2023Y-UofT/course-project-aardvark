@@ -60,7 +60,7 @@
                   </PasswordField>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" text="Sign in" textAlignment="CENTER" textFill="#fff">
+                        <Button id="primary-btn" onAction="#switchToProjects" alignment="CENTER" mnemonicParsing="false" text="Sign in" textAlignment="CENTER" textFill="#fff">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
