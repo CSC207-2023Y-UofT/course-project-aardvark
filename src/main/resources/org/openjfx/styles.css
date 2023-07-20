@@ -49,6 +49,30 @@
 }
 
 
+/* Delete Button */
+#delete {
+    -fx-background-image: url("/images/delete.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 20 20;
+    -fx-background-position: center center;
+    -fx-background-color: #fff;
+}
+
+#delete:hover {
+    -fx-background-color: #FFDDE0;
+}
+
+
+/* Project Button */
+#project {
+    -fx-background-color: #e3e1e4;
+}
+
+#project:hover {
+    -fx-background-color: #d8d6d8;
+}
+
+
 /* Blue Button */
 #primary-btn {
     -fx-background-color: #0067C0;
@@ -58,4 +82,46 @@
 
 #primary-btn:hover {
     -fx-background-color: #0056A0;
+}
+
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: #EFEDF0;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 5em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #AAA;
+}
+
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #999;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #EFEDF0;
 }
