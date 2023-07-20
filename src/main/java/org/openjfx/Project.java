@@ -3,9 +3,11 @@ package org.openjfx;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Date;
 
 public class Project {
     private String projectName;
+    private Date createdAt;
     private List<VisualElement> elements;
     private Stack<VisualElement> redoStack;
 
@@ -13,13 +15,21 @@ public class Project {
         projectName = name;
         elements = new ArrayList<>();
         redoStack = new Stack<>();
+        createdAt = new Date();
     }
+
+    public Date getDate() {
+        return createdAt;
+    }
+
+    public void setDate(Date date) {
+        this.createdAt = date;}
 
     public void setProjectName(String name) {
         projectName = name;
     }
 
-    public String getProjectName() {
+    public String getName() {
         return projectName;
     }
 
@@ -38,7 +48,7 @@ public class Project {
      * Otherwise, does nothing.
      */
     public void redoVisualElement() {
-        if( redoStack.empty() ) {
+        if (redoStack.empty()) {
             return;
         }
         VisualElement v = redoStack.pop();
@@ -49,3 +59,4 @@ public class Project {
         return !redoStack.empty();
     }
 }
+
