@@ -1,43 +1,61 @@
+/* Text Field */
+.text-field {
+    -fx-background-radius: 4;
+    -fx-background-color: #EFEDF0;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4;
+    -fx-border-width: 0 0 2 0;
+}
+
+.text-field:hover {
+    -fx-background-color: #F0F0F0;
+}
+
+.text-field:focused {
+    -fx-border-color: #0067C0;
+    -fx-background-color: #F0F0F0;
+}
+
+
+/* Button */
 .button {
     -fx-border-width: 2px;
     -fx-border-insets: -2px;
     -fx-border-color: transparent;
     -fx-border-radius: 8;
+    -fx-background-color: #EFEDF0;
     -fx-background-radius: 8;
 }
 
 .button:hover {
-
+    -fx-background-color: #e3e1e4;
 }
 
 .button:focused {
     -fx-border-color: #90CBFF;
 }
 
-.button:pressed {
-    -fx-border-color: #0067C0;
-}
 
+/* Info Button */
 #info-btn {
     -fx-background-image: url("/images/info.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: 24 24;
     -fx-background-position: center center;
-    -fx-background-color: #EFEDF0;
     -fx-background-radius: 50;
     -fx-border-radius: 50;
-    -fx-min-width: 40;
-    -fx-min-height: 40;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
 }
 
-#info-btn:hover {
-    -fx-background-color: #e3e1e4;
+
+/* Blue Button */
+#primary-btn {
+    -fx-background-color: #0067C0;
+    -fx-min-width: 229;
+    -fx-min-height: 50;
 }
 
-#info-btn:pressed {
-    -fx-background-color: #e3e1e4;
-}
-
-.text-field:focused {
-    -fx-border-color: #0067C0 !important;
+#primary-btn:hover {
+    -fx-background-color: #0056A0;
 }
