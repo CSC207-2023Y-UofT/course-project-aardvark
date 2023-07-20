@@ -45,9 +45,7 @@ public class FXMLController implements Initializable {
         List<Project> ls = new ArrayList<Project>();
 
         for (int i = 0; i < 15; i++) {
-            Project project = new Project();
-            project.setName("Untitled Project");
-            project.setDate("Modified July 20");
+            Project project = new Project("Untitled Project");
             ls.add(project);
         }
 
