@@ -1,4 +1,4 @@
-package org.openjfx;
+package models;
 
 public interface VisualElement {
 }

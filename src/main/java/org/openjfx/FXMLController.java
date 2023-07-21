@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import controllers.ProjectItemController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import models.Project;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class FXMLController implements Initializable {
         }
     }
 
-    private  List<Project> projects() {
+    private List<Project> projects() {
 //      Temporary code to simulate project list
         List<Project> ls = new ArrayList<Project>();
 
