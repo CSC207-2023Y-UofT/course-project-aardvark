@@ -24,4 +24,5 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base']
 }
 
-mainClassName = 'org.openjfx.MainApp'
+// mainClassName = 'org.openjfx.MainApp'
+mainClassName = 'text.TextMain'
