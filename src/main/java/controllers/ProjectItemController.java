@@ -25,7 +25,7 @@ public class ProjectItemController implements Initializable {
 
     public void setData(Project project) {
         name.setText(project.getName());
-        date.setText(project.getDate());
+        // date.setText(project.getDate());
     }
 
     @Override
