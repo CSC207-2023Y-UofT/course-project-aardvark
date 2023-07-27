@@ -35,6 +35,7 @@ public class Project {
 
     public void addVisualElement(VisualElement v) {
         elements.add(v);
+        redoStack.clear();
     }
 
     public void undoVisualElement() {
