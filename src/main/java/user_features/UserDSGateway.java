@@ -9,6 +9,10 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 
 public class UserDSGateway {
+    /**
+     * A gateway class that is used to access and edit the data in the data file "user.json".
+     *
+     */
 
     // instance variable
     JSONObject userDocument;
