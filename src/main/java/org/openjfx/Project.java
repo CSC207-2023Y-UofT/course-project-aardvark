@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Project {
     private String projectName;
-    private Date createdAt;
+    private Date updatedAt;
     private List<VisualElement> elements;
     private Stack<VisualElement> redoStack;
 
@@ -15,15 +15,22 @@ public class Project {
         projectName = name;
         elements = new ArrayList<>();
         redoStack = new Stack<>();
-        createdAt = new Date();
+        updatedAt = new Date();
+    }
+
+    public Project(String name, List<VisualElement> elements, Date updatedAt) {
+        projectName = name;
+        this.elements = elements;
+        redoStack = new Stack<>();
+        this.updatedAt = updatedAt;
     }
 
     public Date getDate() {
-        return createdAt;
+        return updatedAt;
     }
 
     public void setDate(Date date) {
-        this.createdAt = date;}
+        this.updatedAt = date;}
 
     public void setProjectName(String name) {
         projectName = name;
