@@ -1,4 +1,5 @@
 package user_features;
 
-public class UserFactory {
+public class UserFactory{
+
 }
