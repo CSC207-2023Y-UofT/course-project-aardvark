@@ -72,16 +72,24 @@ public class Project {
         return !redoStack.empty();
     }
 
+    /**
+     *
+     * @return Hashmap containing
+     */
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dictionary = new HashMap<>();
+
         dictionary.put("ProjectName", projectName);
         dictionary.put("UpdateDate", updatedAt);
         dictionary.put("Width", width);
         dictionary.put("Height", height);
+
         List<HashMap<String, Object>> elementList = new ArrayList<>();
         for(int i = 0; i < elements.size(); i++) {
             elementList.add(elements.get(i).toDict());
         }
+        dictionary.put("VisualElements", elementList);
+
         return dictionary;
     }
 }
