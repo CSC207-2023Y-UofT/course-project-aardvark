@@ -1,5 +1,7 @@
 package models;
 
+import javafx.scene.control.Alert;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -59,6 +61,14 @@ public class Project {
 
     public boolean canRedo() {
         return !redoStack.empty();
+    }
+
+    public void showErrorDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
 
