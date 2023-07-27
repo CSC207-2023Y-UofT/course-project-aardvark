@@ -1,5 +1,8 @@
 package user_features;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.Objects;
 
 public class UserRegisterUseCase {
@@ -7,7 +10,7 @@ public class UserRegisterUseCase {
     // instance variable
     User user;
 
-    public UserRegisterUseCase(User user){
+    public UserRegisterUseCase(User user) throws IOException, ParseException {
         this.user = user;
     }
 
@@ -35,11 +38,14 @@ public class UserRegisterUseCase {
         user.repeatPassword = repeatPassword;
     }
 
-    public void addNewUser(){
+    // public void addNewUser(){
 
-        }
+       // }
+
+    User user1 = new User("ama", "123@gmail.com", "1234", "1234");
+    UserDSGateway g = new UserDSGateway();
+
 
 
     }
 
-}
