@@ -154,7 +154,8 @@ public class FXMLController implements Initializable {
                 double xValue = event.getX();
                 double yValue = event.getY();
                 textDialog.showAndWait();
-                AardText newText = new AardText(defaultInput[0], (Color) gc.getFill(), gc.getFont(), xValue, yValue);
+                Color currentColor = (Color) gc.getFill();
+                AardText newText = new AardText(defaultInput[0], currentColor.toString(), gc.getFont(), xValue, yValue);
                 textArrayList.add(newText);
                 newText.draw(gc);
             }
