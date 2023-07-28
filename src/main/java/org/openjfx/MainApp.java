@@ -31,25 +31,5 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
-        // Boiler plate for Tests, delete later
-        for (int i = 1; i <= 100; i++) {
-            System.out.println(convert(i));
-        }
     }
-
-    // Boiler plate for Tests, delete later
-    public static String convert(int decide) {
-        if (decide % 15 == 0) {
-            return "tutorial.HelloWorld";
-        }
-        if (decide % 3 == 0) {
-            return "Hello";
-        }
-        if (decide % 5 == 0) {
-            return "World";
-        }
-        return String.valueOf(decide);
-    }
-
 }

@@ -13,16 +13,19 @@ public class CanvasResizerController {
     private Canvas canvas;
     private Project project;
 
-    public CanvasResizerController() {
-        this(new Canvas(), new Project("untitled project"));
+    public CanvasResizerController(Canvas canvas, Project project) {
+        this.canvas = canvas;
+        this.project = project;
     }
 
     public CanvasResizerController(Canvas canvas) {
         this(canvas, new Project("untitled project"));
     }
-    public CanvasResizerController(Canvas canvas, Project project) {
-        this.canvas = canvas;
-        this.project = project;
+    public CanvasResizerController(Project project) {
+        this(new Canvas(800, 600), project);
+    }
+    public CanvasResizerController() {
+        this(new Canvas(600, 600), new Project("untitled project"));
     }
 
     public void resizeCanvas(double newWidth, double newHeight) {

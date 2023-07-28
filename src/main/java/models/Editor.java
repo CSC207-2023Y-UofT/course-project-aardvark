@@ -61,27 +61,7 @@ public class Editor extends Application {
         root.setCenter(canvas);
 
         Button exportBtn = new Button("Export as PNG");
-        exportBtn.setOnAction(e -> {
-            // Show a file chooser to get the save location and name for the PNG image
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Export as PNG");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Image (*.png)", "*.png"));
-            File file = fileChooser.showSaveDialog(primaryStage);
-
-            if (file != null) {
-                try {
-                    // Convert the canvas to a writable image
-                    WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
-                    canvas.snapshot(null, writableImage);
-
-                    // Write the writable image to the specified file as a PNG image
-                    ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
-                } catch (IOException ex) {
-                    // Handle the exception if there was an error saving the image
-                    projectItem.showErrorDialog("Error exporting as PNG. Please try again.");
-                }
-            }
-        });
+        exportBtn.setOnAction(e -> canvasExporter.export(primaryStage, projectItem));
 
         // HBox to hold the color picker, color buttons, and resize button
         HBox controlBox = new HBox(10);
@@ -90,10 +70,9 @@ public class Editor extends Application {
         root.setTop(controlBox);
 
         // Set up the scene
-        Scene scene = new Scene(root, 1920, 1080);
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
-
 
         // Event handler for drawing on the canvas
         canvas.setOnMousePressed(e -> {

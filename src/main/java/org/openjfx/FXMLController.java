@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.Editor;
 import models.Project;
 
 import javax.imageio.ImageIO;
@@ -108,109 +109,8 @@ public class FXMLController implements Initializable {
     }
     @FXML
     public void switchToEditor2(javafx.event.ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Canvas canvas = new Canvas(800, 600);
-        GraphicsContext graphicsContext;
-        Color currentColor = Color.BLACK;
-
-        // Create canvas and graphics context
-        canvas = new Canvas(800, 600);
-        graphicsContext = canvas.getGraphicsContext2D();
-        graphicsContext.setLineWidth(2.0);
-
-        // Set up a new Project
-        Project projectItem = new Project("Hello World");
-
-
-        // Create a resize controller and set the name of the project to the
-        CanvasResizerController canvasResizer = new CanvasResizerController(canvas);
-        primaryStage.setTitle(projectItem.getName());
-
-        // Create a export controller
-        CanvasExportController canvasExporter = new CanvasExportController(canvas, projectItem);
-
-
-        // Color picker to allow selecting custom colors
-        ColorPicker colorPicker = new ColorPicker(currentColor);
-        colorPicker.setOnAction(e -> setCurrentColor(colorPicker.getValue()));
-
-        // Clear button to reset the canvas
-        Button clearBtn = new Button("Clear Canvas");
-        clearBtn.setOnAction(e -> clearCanvas());
-
-        // BorderPane to arrange the canvas and control buttons
-        BorderPane root = new BorderPane();
-
-        // Button to resize the canvas
-        Button resizeBtn = new Button("Resize Canvas");
-        resizeBtn.setOnAction(e -> canvasResizer.resize());
-        root.setCenter(canvas);
-
-        Button exportBtn = new Button("Export as PNG");
-        Canvas finalCanvas = canvas;
-        exportBtn.setOnAction(e -> {
-            // Show a file chooser to get the save location and name for the PNG image
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Export as PNG");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Image (*.png)", "*.png"));
-            File file = fileChooser.showSaveDialog(primaryStage);
-
-            if (file != null) {
-                try {
-                    // Convert the canvas to a writable image
-                    WritableImage writableImage = new WritableImage((int) finalCanvas.getWidth(), (int) finalCanvas.getHeight());
-                    finalCanvas.snapshot(null, writableImage);
-
-                    // Write the writable image to the specified file as a PNG image
-                    ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
-                } catch (IOException ex) {
-                    // Handle the exception if there was an error saving the image
-                    projectItem.showErrorDialog("Error exporting as PNG. Please try again.");
-                }
-            }
-        });
-
-        // HBox to hold the color picker, color buttons, and resize button
-        HBox controlBox = new HBox(10);
-        controlBox.getChildren().addAll(colorPicker, clearBtn, resizeBtn, exportBtn);
-        root.setCenter(canvas);
-        root.setTop(controlBox);
-
-        // Set up the scene
-        Scene scene = new Scene(root, 1920, 1080);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-
-        // Event handler for drawing on the canvas
-        canvas.setOnMousePressed(e -> {
-            graphicsContext.beginPath();
-            graphicsContext.moveTo(e.getX(), e.getY());
-            graphicsContext.setStroke(currentColor);
-            graphicsContext.stroke();
-        });
-
-        canvas.setOnMouseDragged(e -> {
-            graphicsContext.lineTo(e.getX(), e.getY());
-            graphicsContext.stroke();
-        });
-    }
-    // Helper method to create color buttons
-    private Button createColorButton(Color color) {
-        Button button = new Button();
-        button.setPrefSize(30, 30);
-        button.setStyle("-fx-background-color: #" + color.toString().substring(2) + ";");
-        button.setOnAction(e -> setCurrentColor(color));
-        return button;
-    }
-
-    // Helper method to set the current drawing color
-    private void setCurrentColor(Color color) {
-        currentColor = color;
-    }
-
-    // Helper method to clear the canvas
-    private void clearCanvas() {
-        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Editor editor = new Editor();
+        editor.start(primaryStage);
     }
 }
