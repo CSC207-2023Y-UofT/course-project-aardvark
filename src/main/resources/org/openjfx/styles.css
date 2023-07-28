@@ -36,16 +36,50 @@
 }
 
 
-/* Info Button */
-#info-btn {
-    -fx-background-image: url("/images/info.png");
+/* Fab Buttons */
+#info-btn, #home-btn, #rename-btn, #resize-btn, #undo-btn, #redo-btn,
+#export-btn, #text-increase-btn, #text-decrease-btn {
     -fx-background-repeat: no-repeat;
     -fx-background-size: 24 24;
     -fx-background-position: center center;
-    -fx-background-radius: 50;
-    -fx-border-radius: 50;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
     -fx-min-width: 36;
     -fx-min-height: 36;
+}
+
+#info-btn {
+    -fx-background-image: url("/images/info.png");
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+
+#home-btn {
+    -fx-background-image: url("/images/home.png");
+}
+
+#resize-btn {
+    -fx-background-image: url("/images/resize.png");
+}
+
+#undo-btn {
+    -fx-background-image: url("/images/undo.png");
+}
+
+#redo-btn {
+    -fx-background-image: url("/images/redo.png");
+}
+
+#export-btn {
+    -fx-background-image: url("/images/export.png");
+}
+
+#text-increase-btn {
+    -fx-background-image: url("/images/increase.png");
+}
+
+#text-decrease-btn {
+    -fx-background-image: url("/images/decrease.png");
 }
 
 
