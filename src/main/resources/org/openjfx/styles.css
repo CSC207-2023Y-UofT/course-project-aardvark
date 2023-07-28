@@ -76,7 +76,7 @@
 /* Blue Button */
 #primary-btn {
     -fx-background-color: #0067C0;
-    -fx-min-width: 229;
+    -fx-min-width: 160;
     -fx-min-height: 50;
 }
 
@@ -88,6 +88,7 @@
 /* ScrollPane */
 .scroll-pane {
     -fx-background-color: #EFEDF0;
+    -fx-background: #EFEDF0;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
