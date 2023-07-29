@@ -3,7 +3,7 @@ package text;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
-import org.openjfx.VisualElement;
+import models.VisualElement;
 
 import java.util.HashMap;
 

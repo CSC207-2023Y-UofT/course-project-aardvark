@@ -2,14 +2,15 @@ package models;
 
 import javafx.scene.control.Alert;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.Date;
+import java.util.*;
 
 public class Project {
     private String projectName;
-    private Date createdAt;
+    private Date updatedAt;
+    private int height;
+    public static int DEFAULT_HEIGHT = 600;
+    private int width;
+    public static int DEFAULT_WIDTH = 800;
     private List<VisualElement> elements;
     private Stack<VisualElement> redoStack;
 
@@ -17,15 +18,26 @@ public class Project {
         projectName = name;
         elements = new ArrayList<>();
         redoStack = new Stack<>();
-        createdAt = new Date();
+        updatedAt = new Date();
+        height = DEFAULT_HEIGHT;
+        width = DEFAULT_WIDTH;
+    }
+
+    public Project(String name, List<VisualElement> elements, Date updatedAt, int x, int y) {
+        projectName = name;
+        this.elements = elements;
+        redoStack = new Stack<>();
+        this.updatedAt = updatedAt;
+        height = y;
+        width = x;
     }
 
     public Date getDate() {
-        return createdAt;
+        return this.updatedAt;
     }
 
     public void setDate(Date date) {
-        this.createdAt = date;}
+        this.updatedAt = date;}
 
     public void setProjectName(String name) {
         projectName = name;
@@ -37,6 +49,7 @@ public class Project {
 
     public void addVisualElement(VisualElement v) {
         elements.add(v);
+        redoStack.clear();
     }
 
     public void undoVisualElement() {
@@ -69,6 +82,27 @@ public class Project {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     *
+     * @return Hashmap containing
+     */
+    public HashMap<String, Object> toDict() {
+        HashMap<String, Object> dictionary = new HashMap<>();
+
+        dictionary.put("ProjectName", projectName);
+        dictionary.put("UpdateDate", updatedAt);
+        dictionary.put("Width", width);
+        dictionary.put("Height", height);
+
+        List<HashMap<String, Object>> elementList = new ArrayList<>();
+        for(int i = 0; i < elements.size(); i++) {
+            elementList.add(elements.get(i).toDict());
+        }
+        dictionary.put("VisualElements", elementList);
+
+        return dictionary;
     }
 }
 
