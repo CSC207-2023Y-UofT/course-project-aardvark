@@ -212,6 +212,9 @@
                <padding>
                   <Insets bottom="12.0" left="8.0" right="8.0" top="8.0" />
                </padding>
+               <VBox.margin>
+                  <Insets right="12.0" />
+               </VBox.margin>
             </VBox>
          </children>
          <GridPane.margin>
