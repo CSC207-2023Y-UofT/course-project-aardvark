@@ -92,6 +92,7 @@ public class FXMLController implements Initializable {
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("projects.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setResizable(false);
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
@@ -99,12 +100,23 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    public void createNewProject(javafx.event.ActionEvent event) {
+    public void createNewProject(javafx.event.ActionEvent event) throws IOException {
         switchToEditor(event);
     }
 
     @FXML
-    public void switchToEditor(javafx.event.ActionEvent event){
+    public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("editor.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setResizable(true);
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void switchToEditorJess(javafx.event.ActionEvent event){
         ArrayList<AardText> textArrayList = new ArrayList<AardText>();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setTitle("Writing Text");
