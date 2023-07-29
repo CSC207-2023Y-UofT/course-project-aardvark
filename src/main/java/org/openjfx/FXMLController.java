@@ -99,6 +99,11 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
+    public void createNewProject(javafx.event.ActionEvent event) {
+        switchToEditor(event);
+    }
+
+    @FXML
     public void switchToEditor(javafx.event.ActionEvent event){
         ArrayList<AardText> textArrayList = new ArrayList<AardText>();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

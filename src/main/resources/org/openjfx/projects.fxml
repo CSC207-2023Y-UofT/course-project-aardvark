@@ -30,7 +30,7 @@
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
                         </Button>
-                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff" onAction="#switchToEditor">
+                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff" onAction="#createNewProject">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
