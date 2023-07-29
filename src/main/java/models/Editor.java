@@ -75,17 +75,14 @@ public class Editor extends Application {
         freeDrawBtn.setOnAction(e -> {
             isFreeDrawMode = true;
             textboxBtn.setSelected(false);
-            canvas.setMouseTransparent(false); // Enable mouse events for free draw
         });
 
         textboxBtn.setOnAction(e -> {
             isFreeDrawMode = false;
             freeDrawBtn.setSelected(false);
-            canvas.setMouseTransparent(true); // Disable mouse events for textbox
         });
 
 
-        // HBox to hold the color picker, color buttons, and resize button
         HBox modeToggleButtonBox = new HBox(10, freeDrawBtn, textboxBtn);
         HBox controlBox = new HBox(10);
         VBox toolsRoot = new VBox();
@@ -94,53 +91,45 @@ public class Editor extends Application {
         HBoxSeparator.setMaxWidth(10);
         HBoxSeparator.setOrientation(Orientation.VERTICAL);
 
-        Font defaultFont = Font.font("Verdana", 15);
+        Font defaultFont = Font.font("Verdana", 16);
         graphicsContext.setFont(defaultFont);
-        String [] defaultInput = new String[]{"lol"};
+        String [] defaultInput = new String[]{"Hello World!"};
         IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(15);
 
         /*===== Creating Text =====*/
 
         /* Setting the Text */
-        TextField textField = new TextField("lol");
-        EventHandler<ActionEvent> setTextHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                defaultInput[0] = textField.getText();
-            }
-        };
+        TextField textField = new TextField("");
+        EventHandler<ActionEvent> setTextHandler = event -> defaultInput[0] = textField.getText();
+
         textField.setOnAction(setTextHandler);
         TextInputDialog textDialog = new TextInputDialog();
+
         textDialog.setTitle("Input Text");
-        textDialog.setHeaderText("Please write");
+        textDialog.setHeaderText("Please input text");
 
-        textDialog.setX(10);
-        textDialog.setY(10);
+        textDialog.setX(8);
+        textDialog.setY(8);
 
-        EventHandler<DialogEvent> getTextHandler = new EventHandler<DialogEvent>() {
-            @Override
-            public void handle(DialogEvent event) {
-                defaultInput[0] = textDialog.getResult();
-            }
-        };
+        EventHandler<DialogEvent> getTextHandler = event -> defaultInput[0] = textDialog.getResult();
         textDialog.setOnCloseRequest(getTextHandler);
 
         /* Creating Text at a Specified Location */
-        EventHandler<MouseEvent> writeTextHandler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        EventHandler<MouseEvent> writeTextHandler = event -> {
+            if (!(isFreeDrawMode)) {
                 double xValue = event.getX();
                 double yValue = event.getY();
                 textDialog.showAndWait();
                 Color currentColor = (Color) graphicsContext.getFill();
-                AardText newText = new AardText(defaultInput[0], currentColor.toString(), graphicsContext.getFont(), xValue, yValue);
+                AardText newText = new AardText(defaultInput[0], currentColor.toString(),
+                        graphicsContext.getFont(), xValue, yValue);
                 textArrayList.add(newText);
                 newText.draw(graphicsContext);
             }
         };
         canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
 
-        canvasRoot.getChildren().add(canvas);
+        // canvasRoot.getChildren().add(canvas);
         canvasRoot.getChildren().add(textField);
 
         /*===== Changing and Adjusting Text-Related Settings on the Canvas =====*/
@@ -211,14 +200,14 @@ public class Editor extends Application {
         btDecreaseText.addEventFilter(MouseEvent.MOUSE_CLICKED, decreaseFontHandler);
         toolsRoot.getChildren().add(btDecreaseText);
 
-        root.getChildren().addAll(toolsRoot, HBoxSeparator, canvasRoot);
 
         // Set up the scene
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1920, 1080);
         primaryStage.setScene(scene);
         primaryStage.show();
 
         controlBox.getChildren().addAll(colorPicker, clearBtn, resizeBtn, exportBtn);
+        controlBox.getChildren().addAll(toolsRoot, HBoxSeparator, canvasRoot, modeToggleButtonBox);
         root.setCenter(canvas);
         root.setTop(controlBox);
 
