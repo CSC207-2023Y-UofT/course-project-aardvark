@@ -22,6 +22,10 @@ public class UserRegisterUseCase {
         user.name = name;
     }
 
+    public String getEmail() { return user.email; }
+
+    public void setEmail(String email) { user.email = email; }
+
     public String getPassword() {
         return user.password;
     }
@@ -38,13 +42,7 @@ public class UserRegisterUseCase {
         user.repeatPassword = repeatPassword;
     }
 
-    // public void addNewUser(){
-
-       // }
-
-    User user1 = new User("ama", "123@gmail.com", "1234", "1234");
-    UserDSGateway g = new UserDSGateway();
-
+    public boolean checkPasswordMatch() {return (Objects.equals(user.password, user.repeatPassword));}
 
 
     }
