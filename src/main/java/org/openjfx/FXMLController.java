@@ -1,5 +1,6 @@
 package org.openjfx;
 
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -26,6 +27,8 @@ import text.AardText;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import user_features.UserRegisterUseCase;
 
 public class FXMLController implements Initializable {
 
@@ -78,6 +81,28 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML TextField emailText;
+    @FXML TextField nameText;
+    @FXML PasswordField passwordText;
+    @FXML PasswordField repeatPasswordText;
+    @FXML
+    public void signUp(javafx.event.ActionEvent event) throws IOException
+    /*
+     * Handles the signUp button and creates a new user register use case which in turn creates a new user and adds
+     * it to the data file.
+     */
+    {
+        if (passwordText.getText().equals(repeatPasswordText.getText())){
+            UserRegisterUseCase register = new UserRegisterUseCase(nameText.getText(), emailText.getText(),
+                    passwordText.getText());
+            register.addUser();
+            switchToProjects(event);
+        }
+    }
+
+
+
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signin.fxml"));
@@ -87,6 +112,8 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+
     @FXML TextField textField;
     @FXML PasswordField passwordField;
     @FXML
@@ -94,6 +121,7 @@ public class FXMLController implements Initializable {
         if (textField.getText().equals("") && passwordField.getText().equals("")) {
             switchToProjects(event);
         }
+
     }
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {

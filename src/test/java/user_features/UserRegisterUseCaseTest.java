@@ -11,78 +11,44 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserRegisterUseCaseTest {
 
     @Test
-    void getNameTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
+    void getNameTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
         Assertions.assertEquals("Alice", register.getName());
 
     }
 
     @Test
-    void setNameTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
+    void setNameTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
         register.setName("Jennifer");
         Assertions.assertEquals("Jennifer", register.getName());
     }
 
     @Test
-    void getEmailTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
+    void getEmailTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
         Assertions.assertEquals("1234@gmail.com", register.getEmail());
 
     }
 
     @Test
-    void setEmailTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
+    void setEmailTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
         register.setEmail("abcdef@gmail.com");
         Assertions.assertEquals("abcdef@gmail.com", register.getEmail());
     }
 
     @Test
-    void getPasswordTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
+    void getPasswordTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
         Assertions.assertEquals("12345", register.getPassword());
     }
 
     @Test
-    void setPasswordTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
+    void setPasswordTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
         register.setPassword("abcdef");
         Assertions.assertEquals("abcdef", register.getPassword());
     }
 
-    @Test
-    void getRepeatPasswordTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
-        Assertions.assertEquals("12345", register.getRepeatPassword());
-    }
-
-    @Test
-    void setRepeatPasswordTest() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
-        register.setRepeatPassword("abcdef");
-        Assertions.assertEquals("abcdef", register.getRepeatPassword());
-    }
-
-    @Test
-    void checkPasswordMatchTrue() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
-        assertTrue(register.checkPasswordMatch());
-    }
-
-    @Test
-    void checkPasswordMatchFalse() throws IOException, ParseException {
-        User user = new User("Alice", "1234@gmail.com", "12345", "abcdef");
-        UserRegisterUseCase register = new UserRegisterUseCase(user);
-        assertFalse(register.checkPasswordMatch());
-    }
 }

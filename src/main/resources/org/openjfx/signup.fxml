@@ -37,7 +37,7 @@
                         <Font name="Segoe UI Semibold" size="20.0" />
                      </font>
                   </Label>
-                  <TextField minHeight="40.0" promptText="Email">
+                  <TextField fx:id="emailText" minHeight="40.0" promptText="Email">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
@@ -50,7 +50,7 @@
                         <Font name="Segoe UI Semibold" size="20.0" />
                      </font>
                   </Label>
-                  <TextField minHeight="40.0" promptText="Name">
+                  <TextField fx:id="nameText" minHeight="40.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <Font name="Segoe UI Semibold" size="20.0" />
                      </font>
                   </Label>
-                  <PasswordField minHeight="40.0" promptText="Password">
+                  <PasswordField fx:id="passwordText" minHeight="40.0" promptText="Password">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
@@ -76,7 +76,7 @@
                         <Font name="Segoe UI Semibold" size="20.0" />
                      </font>
                   </Label>
-                  <PasswordField minHeight="40.0" promptText="Confirm Password">
+                  <PasswordField fx:id="repeatPasswordText" minHeight="40.0" promptText="Confirm Password">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
@@ -86,7 +86,7 @@
                   </PasswordField>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button id="primary-btn" onAction="#switchToProjects" alignment="CENTER" mnemonicParsing="false" text="Sign up" textAlignment="CENTER" textFill="#fff">
+                        <Button id="primary-btn" onAction="#signUp" alignment="CENTER" mnemonicParsing="false" text="Sign up" textAlignment="CENTER" textFill="#fff">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>

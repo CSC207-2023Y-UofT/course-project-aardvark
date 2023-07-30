@@ -10,8 +10,8 @@ public class UserRegisterUseCase {
     // instance variable
     User user;
 
-    public UserRegisterUseCase(User user) throws IOException, ParseException {
-        this.user = user;
+    public UserRegisterUseCase(String name, String email, String password){
+        this.user = new User(name, email, password);
     }
 
     public String getName(){
@@ -34,15 +34,17 @@ public class UserRegisterUseCase {
         user.password = password;
     }
 
-    public String getRepeatPassword() {
-        return user.repeatPassword;
-    }
+    public void addUser() {
 
-    public void setRepeatPassword(String repeatPassword) {
-        user.repeatPassword = repeatPassword;
+        try {
+            UserDSGateway gateway = new UserDSGateway();
+            gateway.addUser(this.user);
+            gateway.saveChanges();
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
     }
-
-    public boolean checkPasswordMatch() {return (Objects.equals(user.password, user.repeatPassword));}
 
 
     }

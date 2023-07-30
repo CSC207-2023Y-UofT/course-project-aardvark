@@ -23,7 +23,7 @@ public class UserDSGateway {
     File file;
 
     @SuppressWarnings("unchecked")
-    public UserDSGateway() throws IOException, ParseException {
+    public UserDSGateway() throws IOException {
 
         // Creating file object to check if file exists and create it if it does not
         this.file = new File("src/main/java/user_features/DataModel.json");
@@ -43,9 +43,14 @@ public class UserDSGateway {
             }
         }
 
-        // Handles case after file has been created
-        JSONParser jsonParser = new JSONParser();
-        this.dataDocument = (JSONObject) jsonParser.parse(new FileReader(file));
+        try {
+            // Handles case after file has been created
+            JSONParser jsonParser = new JSONParser();
+            this.dataDocument = (JSONObject) jsonParser.parse(new FileReader(file));
+        }
+        catch (ParseException ex){
+            ex.printStackTrace();
+        }
 
     }
     @SuppressWarnings("unchecked")
@@ -56,12 +61,17 @@ public class UserDSGateway {
         userDetails.put("Name", user.name);
         userDetails.put("Email", user.email);
         userDetails.put("Password", user.password);
+        userDetails.put("Projects", new ArrayList<>());
 
         // using the user email as the key since it is unique to each user
         this.dataDocument.put(user.email, userDetails);
 
     }
 
+
+    // addProject
+
+    // deleteProject
     public void saveChanges(){
 
     try (FileWriter fw = new FileWriter(this.file)){

@@ -15,8 +15,8 @@ class UserDSGatewayTest {
 
     @Test
     void addUserTest() throws IOException, ParseException {
-        User user = new User("Alice", "alice@gmail.com", "12345", "12345");
-        User user1 = new User("Bob", "bob@gmail.com", "123456", "123456");
+        User user = new User("Alice", "alice@gmail.com", "12345");
+        User user1 = new User("Bob", "bob@gmail.com", "123456");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
         gateway.addUser(user1);
@@ -27,8 +27,8 @@ class UserDSGatewayTest {
 
     @Test
     void addUserTest1() throws IOException, ParseException {
-        User user = new User("Ama", "ama@gmail.com", "12345", "12345");
-        User user1 = new User("Robbie", "robbie@gmail.com", "123456", "123456");
+        User user = new User("Ama", "ama@gmail.com", "12345");
+        User user1 = new User("Robbie", "robbie@gmail.com", "123456");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
         gateway.addUser(user1);
