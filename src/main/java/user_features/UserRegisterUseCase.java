@@ -36,14 +36,16 @@ public class UserRegisterUseCase {
 
     public void addUser() {
 
-        try {
-            UserDSGateway gateway = new UserDSGateway();
-            gateway.addUser(this.user);
-            gateway.saveChanges();
-        }
-        catch (IOException e) {
-            System.out.println(e);
-        }
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(this.user);
+        gateway.saveChanges();
+    }
+
+    public boolean checkExists(){
+
+        UserDSGateway gateway = new UserDSGateway();
+        return gateway.checkUserExists(this.user);
+
     }
 
 

@@ -10,27 +10,19 @@ class UserTest {
 
     @Test
     public void getNameTest(){
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
+        User user = new User("Alice", "1234@gmail.com", "12345");
         Assertions.assertEquals("Alice", user.getName());
     }
 
     @Test
     public void getEmailTest(){
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
+        User user = new User("Alice", "1234@gmail.com", "12345");
         Assertions.assertEquals("1234@gmail.com", user.getEmail());
     }
 
     @Test
     public void getPasswordTest(){
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        Assertions.assertEquals("12345", user.getPassword());
+        User user = new User("Alice", "1234@gmail.com", "12345");
     }
-
-    @Test
-    public void getRepeatPasswordTest(){
-        User user = new User("Alice", "1234@gmail.com", "12345", "12345");
-        Assertions.assertEquals("12345", user.getRepeatPassword());
-    }
-
 
 }

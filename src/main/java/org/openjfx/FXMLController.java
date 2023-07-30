@@ -93,9 +93,10 @@ public class FXMLController implements Initializable {
      * it to the data file.
      */
     {
-        if (passwordText.getText().equals(repeatPasswordText.getText())){
-            UserRegisterUseCase register = new UserRegisterUseCase(nameText.getText(), emailText.getText(),
-                    passwordText.getText());
+        UserRegisterUseCase register = new UserRegisterUseCase(nameText.getText(), emailText.getText(),
+                passwordText.getText());
+        if (passwordText.getText().equals(repeatPasswordText.getText()) && !register.checkExists()){
+
             register.addUser();
             switchToProjects(event);
         }

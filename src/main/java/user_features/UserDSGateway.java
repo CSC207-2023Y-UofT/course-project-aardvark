@@ -5,6 +5,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import javax.imageio.IIOException;
 import java.io.FileWriter;
 
 import java.io.*;
@@ -23,7 +25,7 @@ public class UserDSGateway {
     File file;
 
     @SuppressWarnings("unchecked")
-    public UserDSGateway() throws IOException {
+    public UserDSGateway(){
 
         // Creating file object to check if file exists and create it if it does not
         this.file = new File("src/main/java/user_features/DataModel.json");
@@ -48,7 +50,7 @@ public class UserDSGateway {
             JSONParser jsonParser = new JSONParser();
             this.dataDocument = (JSONObject) jsonParser.parse(new FileReader(file));
         }
-        catch (ParseException ex){
+        catch (ParseException | IOException ex){
             ex.printStackTrace();
         }
 
@@ -66,6 +68,18 @@ public class UserDSGateway {
         // using the user email as the key since it is unique to each user
         this.dataDocument.put(user.email, userDetails);
 
+    }
+
+    public boolean checkUserExists(User user){
+
+        return(this.dataDocument.containsKey(user.email));
+
+    }
+
+    public boolean checkPassword(User oldUser){
+
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(oldUser.email);
+        return(oldUser.password == userDetails.get("Password"));
     }
 
 
