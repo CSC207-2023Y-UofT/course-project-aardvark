@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class FXMLController implements Initializable {
 
@@ -88,11 +89,19 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML TextField textField;
+    @FXML PasswordField passwordField;
+    @FXML
+    public void signIn(javafx.event.ActionEvent event) throws IOException {
+        if (textField.getText().equals("") && passwordField.getText().equals("")) {
+            switchToProjects(event);
+        }
+    }
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("projects.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setResizable(false);
+        stage.setResizable(false); //what is this for?
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
@@ -100,8 +109,13 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    public void createNewProject(javafx.event.ActionEvent event) throws IOException {
-        switchToEditor(event);
+    public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("new_project.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
