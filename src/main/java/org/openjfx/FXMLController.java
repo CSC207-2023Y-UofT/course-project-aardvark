@@ -19,14 +19,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import text.AardText;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class FXMLController implements Initializable {
 
@@ -88,10 +87,19 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML TextField textField;
+    @FXML PasswordField passwordField;
+    @FXML
+    public void signIn(javafx.event.ActionEvent event) throws IOException {
+        if (textField.getText().equals("") && passwordField.getText().equals("")) {
+            switchToProjects(event);
+        }
+    }
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("projects.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setResizable(false); //what is this for?
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
@@ -99,7 +107,45 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    public void switchToEditor(javafx.event.ActionEvent event){
+    Text nameError;
+
+    @FXML
+    public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("new_project.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML TextField newProjectName;
+    @FXML
+    public void createNewProject(javafx.event.ActionEvent event) throws IOException {
+        Random rand = new Random();
+        if(rand.nextBoolean()) { //should be replaced with project name unique
+            Project project = new Project(newProjectName.getText());
+            System.out.println(project.getName());
+            switchToEditor(event);
+        }
+        else {
+            nameError.setText("Project Name should be unique");
+        }
+    }
+
+    @FXML
+    public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("editor.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setResizable(true);
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void switchToEditorJess(javafx.event.ActionEvent event){
         ArrayList<AardText> textArrayList = new ArrayList<AardText>();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setTitle("Writing Text");
