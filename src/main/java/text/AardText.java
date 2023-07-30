@@ -55,6 +55,7 @@ public class AardText implements VisualElement {
 
     /**
      * Creates a hashmap for the given AardText object and its instance variables.
+     * Overrides the toDict method of the VisualElement interface.
      * @return A hashmap containing "AardText" as its key, and an array of the
      * the AardText object's parameters as the hashmap's value.
      */
