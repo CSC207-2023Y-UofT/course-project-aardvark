@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import java.io.FileWriter;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -19,21 +20,21 @@ public class UserDSGateway {
 
     // instance variable
     JSONObject dataDocument;
-    JSONObject usersList;
-
     File file;
 
+    @SuppressWarnings("unchecked")
     public UserDSGateway() throws IOException, ParseException {
 
         // Creating file object to check if file exists and create it if it does not
         this.file = new File("src/main/java/user_features/DataModel.json");
-        if (this.file.exists()) {
+        if (!this.file.exists()) {
             try (FileWriter fw = new FileWriter(this.file)) {
                 this.dataDocument = new JSONObject();
                 JSONObject userDetails = new JSONObject();
                 userDetails.put("Name", "Sample User");
                 userDetails.put("Email", "sample.user@gmail.com");
                 userDetails.put("Password", "12345");
+                userDetails.put("Projects", new ArrayList<>());
                 this.dataDocument.put("sample.user@gmail.com", userDetails);
                 fw.write(this.dataDocument.toJSONString());
                 fw.flush();
@@ -47,7 +48,7 @@ public class UserDSGateway {
         this.dataDocument = (JSONObject) jsonParser.parse(new FileReader(file));
 
     }
-
+    @SuppressWarnings("unchecked")
     public void addUser(User user) {
 
         // Creating json object for user
@@ -61,16 +62,14 @@ public class UserDSGateway {
 
     }
 
-    public boolean saveChanges(){
+    public void saveChanges(){
 
     try (FileWriter fw = new FileWriter(this.file)){
         fw.write(this.dataDocument.toJSONString());
         fw.flush();
-        return true;
     }
     catch (IOException e){
         e.printStackTrace();
-        return false;
     }
     }
 }
