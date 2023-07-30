@@ -12,6 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.skin.ColorPalette.ColorPickerGrid?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.openjfx.FXMLController">
     <center>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: EFEDF0;" BorderPane.alignment="CENTER">
@@ -23,14 +24,19 @@
                                 <Font name="Segoe UI Semibold" size="20.0" />
                             </font>
                         </Label>
-                        <TextField minHeight="40.0" promptText="Project Name">
+                        <TextField fx:id="newProjectName" minHeight="40.0" promptText="Project Name">
                             <font>
                                 <Font name="Segoe UI" size="16.0" />
                             </font>
                             <VBox.margin>
-                                <Insets bottom="16.0" />
+                                <Insets bottom="5.0" />
                             </VBox.margin>
                         </TextField>
+                        <Text fx:id="nameError" text="" fill="#b20918">
+                            <font>
+                                <Font name="Segoe UI" size="16.0" />
+                            </font>
+                        </Text>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                             <children>
                                 <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#switchToProjects" text="Back" textAlignment="CENTER" textFill="#fff">
@@ -38,7 +44,7 @@
                                         <Font name="Segoe UI Semibold" size="16.0" />
                                     </font>
                                 </Button>
-                                <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#switchToEditor" text="Continue" textAlignment="CENTER" textFill="#fff">
+                                <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#createNewProject" text="Continue" textAlignment="CENTER" textFill="#fff">
                                     <font>
                                         <Font name="Segoe UI Semibold" size="16.0" />
                                     </font>
