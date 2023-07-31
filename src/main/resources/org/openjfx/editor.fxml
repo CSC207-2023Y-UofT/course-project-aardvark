@@ -10,7 +10,7 @@
 
 <?import javafx.scene.canvas.Canvas?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.EditorController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080" prefWidth="1920" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.EditorController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="212.0" />
@@ -79,15 +79,6 @@
             <Button fx:id="exportBtn" id="export-btn" mnemonicParsing="false" onAction="#onSave">
                <tooltip>
                   <Tooltip text="Export Canvas">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </Tooltip>
-               </tooltip>
-            </Button>
-            <Button fx:id="exitBtn" id="exitBtn" mnemonicParsing="false" onAction="#onExit">
-               <tooltip>
-                  <Tooltip text="Exit">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -227,7 +218,7 @@
       </VBox>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 12, 0, 0, 2);" GridPane.rowIndex="2">
          <content>
-            <Canvas fx:id="canvas" id="canvas" height="800.0" width="600.0" />
+            <Canvas fx:id="canvas" id="canvas" height="700" width="1200" />
          </content>
          <GridPane.margin>
             <Insets bottom="12.0" left="12.0" right="12.0" />

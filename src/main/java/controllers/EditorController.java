@@ -40,10 +40,11 @@ public class EditorController {
     private TextField brushSize;
     public GraphicsContext gc;
     public static Stage primaryStage;
+    private CanvasResizerController resizerController;
     public void initialize() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setLineWidth(3.0);
-
+        resizerController = new CanvasResizerController(canvas, project);
         canvas.setOnMousePressed(e -> {
             double x = e.getX();
             double y = e.getY();
@@ -84,9 +85,6 @@ public class EditorController {
             alert.showAndWait();
         }
     }
-    public void onExit() {
-        Platform.exit();
-    }
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         FXMLController switcher = new FXMLController();
@@ -94,6 +92,7 @@ public class EditorController {
     }
 
     public void resizeCanvas(ActionEvent actionEvent) {
+        this.resizerController.resize();
     }
 
     public void clearCanvas(ActionEvent actionEvent) {
