@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -119,10 +120,12 @@ public class FXMLController implements Initializable {
     public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("editor.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        // Editor editor = new Editor();
         stage.setResizable(true);
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
+        // editor.start(stage);
         stage.show();
     }
 }

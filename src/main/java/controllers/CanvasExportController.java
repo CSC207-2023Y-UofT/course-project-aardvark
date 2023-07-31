@@ -52,7 +52,11 @@ public class CanvasExportController {
                 ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
             } catch (IOException ex) {
                 // Handle the exception if there was an error saving the image
-                projectItem.showErrorDialog("Error exporting as PNG. Please try again.");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Error exporting as PNG. Please try again.");
+                alert.showAndWait();
             }
         }
     }
