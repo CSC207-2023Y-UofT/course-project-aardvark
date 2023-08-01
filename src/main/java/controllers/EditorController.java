@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import models.Project;
 import org.openjfx.FXMLController;
 import text.AardText;
+import text.WriteTextUseCase;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -57,6 +58,7 @@ public class EditorController {
     public GraphicsContext gc;
     public static Stage primaryStage;
     private CanvasResizerController resizerController;
+
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
     private ArrayList<AardText> textArrayList = new ArrayList<>();
@@ -72,19 +74,14 @@ public class EditorController {
         // Default font and font size
         gc.setFont(defaultFont);
         fontSize.setText("16");
-
-
         textField.setOnKeyReleased(e -> defaultInput[0] = textField.getText());
 
         /* Creating Text at a Specified Location */
         EventHandler<MouseEvent> writeTextHandler = event -> {
             if (textBoxBtn.isSelected()) {
-                double xValue = event.getX();
-                double yValue = event.getY();
-                AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
-                        gc.getFont(), xValue, yValue);
+                WriteTextUseCase writeTextUseCase = new WriteTextUseCase(gc, event);
+                AardText newText = writeTextUseCase.writeText(defaultInput[0], currentColorText);
                 textArrayList.add(newText);
-                newText.draw(gc);
             }
         };
 

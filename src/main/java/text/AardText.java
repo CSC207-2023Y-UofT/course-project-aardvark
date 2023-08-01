@@ -4,8 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 import models.VisualElement;
-
-import org.openjfx.VisualElement;
 import java.util.HashMap;
 
 /**
@@ -57,14 +55,8 @@ public class AardText implements VisualElement {
      * Creates a hashmap for the given AardText object and its instance variables.
      * Overrides the toDict method of the VisualElement interface.
      * @return A hashmap containing "AardText" as its key, and an array of the
-     * the AardText object's parameters as the hashmap's value.
+     * AardText object's parameters as the hashmap's value.
      */
-    @Override
-    public String toString(){
-        return this.text + ", " + getStringCoordinates() + ", " +
-                this.fontFamily + ", " + this.fontSize + ", " + this.color;
-    }
-
     @Override
     public HashMap<String, Object> toDict(){
         HashMap<String, Object> aardTextMap = new HashMap<>();
@@ -72,13 +64,5 @@ public class AardText implements VisualElement {
         aardTextMap.put("AardText", textArray);
         return aardTextMap;
     }
-
-//    public String getStringCoordinates(){
-//        return "(" + coordinates[0] + ", " + coordinates[1] + ")";
-//    }
-//    @Override
-//    public String toString(){
-//        return this.text + ", " + getStringCoordinates() + ", " + this.fontFamily + ", " + this.fontSize + ", " + this.color;
-//    }
 
 }
