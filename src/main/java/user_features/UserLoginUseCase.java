@@ -4,9 +4,12 @@ public class UserLoginUseCase {
 
     User user;
 
-    public UserLoginUseCase(String name, String email, String password){
+    public UserLoginUseCase(String email, String password){
 
+        UserDSGateway gateway = new UserDSGateway();
+        String name = gateway.getName(email);
         this.user = new User(name, email, password);
+
 
     }
 
@@ -21,6 +24,6 @@ public class UserLoginUseCase {
 
         UserDSGateway gateway = new UserDSGateway();
         return(gateway.checkPassword(this.user));
-        
+
    }
 }

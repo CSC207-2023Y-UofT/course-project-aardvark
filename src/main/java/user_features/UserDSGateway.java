@@ -1,18 +1,16 @@
 package user_features;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.imageio.IIOException;
 import java.io.FileWriter;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
+
 
 public class UserDSGateway {
     /**
@@ -70,6 +68,11 @@ public class UserDSGateway {
 
     }
 
+    public String getName(String email){
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(email);
+        return (String) userDetails.get("Name");
+    }
+
     public boolean checkUserExists(User user){
 
         return(this.dataDocument.containsKey(user.email));
@@ -82,10 +85,22 @@ public class UserDSGateway {
         return(oldUser.password == userDetails.get("Password"));
     }
 
+    @SuppressWarnings("unchecked")
+    public void addProject(User user, HashMap<String, Object> project){
 
-    // addProject
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
+        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
+        projectsArray.add(project);
 
-    // deleteProject
+
+
+    }
+
+    public void deleteProject(User user, HashMap<String, Object> project){
+
+
+
+    }
     public void saveChanges(){
 
     try (FileWriter fw = new FileWriter(this.file)){

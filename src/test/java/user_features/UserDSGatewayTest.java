@@ -80,6 +80,15 @@ class UserDSGatewayTest {
         Assertions.assertFalse(gateway.checkPassword(user));
     }
 
+    @Test
+    void addProjectTest(){
+        User user = new User("Jon", "jon.doe@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.addProject(user, project);
+
+    }
+
 
 
 

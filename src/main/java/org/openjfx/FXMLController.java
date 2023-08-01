@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 import user_features.UserRegisterUseCase;
+import user_features.UserLoginUseCase;
 
 public class FXMLController implements Initializable {
 
@@ -119,7 +120,9 @@ public class FXMLController implements Initializable {
     @FXML PasswordField passwordField;
     @FXML
     public void signIn(javafx.event.ActionEvent event) throws IOException {
-        if (textField.getText().equals("") && passwordField.getText().equals("")) {
+
+        UserLoginUseCase loginUser = new UserLoginUseCase(textField.getText(), passwordField.getText());
+        if (loginUser.checkExists() && loginUser.checkPassword(passwordField.getText())) {
             switchToProjects(event);
         }
 
