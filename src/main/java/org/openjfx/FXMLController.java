@@ -152,5 +152,7 @@ public class FXMLController implements Initializable {
         stage.setY(0);
         // editor.start(stage);
         stage.show();
+
+
     }
 }

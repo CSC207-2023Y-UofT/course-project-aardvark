@@ -32,6 +32,7 @@ public class EditorController {
     public Button exportBtn;
     public ToggleGroup selectTool;
     public RadioButton freeDrawBtn;
+    public RadioButton circleBtn;
     public RadioButton textBoxBtn;
     public RadioButton eraserBtn;
     private static Project project = new Project("untitled project");
@@ -148,6 +149,7 @@ public class EditorController {
         gc.setFill(Color.BLACK);
 
         freeDrawBtn.setSelected(true);
+        circleBtn.setSelected(true);
 
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
@@ -163,10 +165,15 @@ public class EditorController {
                 gc.moveTo(x, y);
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
-            } else if (textBoxBtn.isSelected()) {
+            }
+            else if (circleBtn.isSelected()) {
+
+            }
+            else if (textBoxBtn.isSelected()) {
                 colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
                 canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
-            } else if (eraserBtn.isSelected()) {
+            }
+            else if (eraserBtn.isSelected()) {
                 canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
                 colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
@@ -180,6 +187,7 @@ public class EditorController {
                 gc.stroke();
             }
         });
+
         canvas.setOnMouseDragged(e -> {
             if (freeDrawBtn.isSelected()) {
                 canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
