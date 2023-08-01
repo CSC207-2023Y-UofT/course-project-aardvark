@@ -17,12 +17,14 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Project;
+import models.VisualElement;
 import org.openjfx.FXMLController;
-import text.AardText;
+import text.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EditorController {
@@ -48,6 +50,16 @@ public class EditorController {
     private ColorPicker colorPickerDraw;
     @FXML
     public ColorPicker colorPickerText;
+    @FXML
+    public ColorPicker colourPickerShapeFill;
+    @FXML
+    public ColorPicker colourPickerShapeStroke;
+    @FXML
+    public CheckBox checkBoxShapeFill;
+    @FXML
+    public CheckBox checkBoxShapeStroke;
+    @FXML
+    public TextField textFieldShapeStroke;
     private Color currentColorDraw = Color.BLACK;
     private Color currentColorText = Color.BLACK;
     @FXML
@@ -63,6 +75,7 @@ public class EditorController {
     private ArrayList<AardText> textArrayList = new ArrayList<>();
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
+    static ArrayList<AardCircle> circles = new ArrayList<>();
     public void initialize() {
         // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
         gc = canvas.getGraphicsContext2D();
@@ -148,7 +161,7 @@ public class EditorController {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);
 
-        freeDrawBtn.setSelected(true);
+        //freeDrawBtn.setSelected(true);
         circleBtn.setSelected(true);
 
         canvas.setOnMousePressed(e -> {
@@ -167,7 +180,17 @@ public class EditorController {
                 gc.stroke();
             }
             else if (circleBtn.isSelected()) {
+                //canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
+                //colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
+                double x = e.getX();
+                double y = e.getY();
+
+                circles.add(new AardCircle(
+                        x - 25, y - 25, 50,
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
             }
             else if (textBoxBtn.isSelected()) {
                 colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
@@ -233,6 +256,10 @@ public class EditorController {
             alert.setContentText("Error exporting as PNG. Please try again.");
             alert.showAndWait();
         }
+
+        for (AardCircle circle : circles)
+            circle.draw(gc, checkBoxShapeFill.isSelected(), checkBoxShapeStroke.isSelected());
+
     }
 
     @FXML
