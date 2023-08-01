@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import controllers.EditorController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +27,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import models.Editor;
 import models.Project;
 
 import javax.imageio.ImageIO;
@@ -117,12 +117,7 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    @FXML
-    public void switchToEditor2(javafx.event.ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Editor editor = new Editor();
-        editor.start(primaryStage);
-    }
+
     @FXML
     Text nameError;
 
@@ -139,15 +134,9 @@ public class FXMLController implements Initializable {
     @FXML TextField newProjectName;
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
-        Random rand = new Random();
-        if(rand.nextBoolean()) { //should be replaced with project name unique
-            Project project = new Project(newProjectName.getText());
-            System.out.println(project.getName());
-            switchToEditor(event);
-        }
-        else {
-            nameError.setText("Project Name should be unique");
-        }
+        Project project = new Project(newProjectName.getText());
+        EditorController.setProject(project);
+        switchToEditor(event);
     }
 
     @FXML
@@ -159,6 +148,8 @@ public class FXMLController implements Initializable {
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
+        stage.setX(0);
+        stage.setY(0);
         // editor.start(stage);
         stage.show();
     }

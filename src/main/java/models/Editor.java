@@ -1,182 +1,176 @@
-package models;
-
-import controllers.CanvasExportController;
-import controllers.CanvasResizerController;
-import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import org.openjfx.FXMLController;
-import text.AardText;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import controllers.CanvasExportController;
-import controllers.CanvasResizerController;
-import javafx.application.Application;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import text.AardText;
-
-import java.util.ArrayList;
-
-public class Editor extends Application {
-    @FXML
-    private Button renameBtn;
-    @FXML
-    private Canvas canvas;
-    @FXML
-    private Button resizeBtn;
-    @FXML
-    private Button clearBtn;
-    @FXML
-    private Button exportBtn;
-    @FXML
-    private RadioButton freeDrawBtn;
-    @FXML
-    private RadioButton textBoxBtn;
-    @FXML
-    private VBox projectsLayout;
-    private GraphicsContext graphicsContext;
-    private Color currentColor = Color.BLACK;
-    private ColorPicker colorPicker;
-    private ToggleGroup toggleGroup;
-    private double x;
-    private double y;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    private ArrayList<AardText> textArrayList = new ArrayList<>();
-    // Set up a new Project
-    Project projectItem = new Project("Hello World");
-
-    // Create a resize controller and set the name of the project to the
-    CanvasResizerController canvasResizer = new CanvasResizerController(canvas);
-    // Create a export controller
-    CanvasExportController canvasExporter = new CanvasExportController(canvas, projectItem);
-
-    public static Editor instance;
-
-    public static Editor getInstance() {
-        if (instance == null) {
-            instance = new Editor();
-        }
-        return instance;
-    }
-
-    public Editor() {
-        instance = this;
-    }
-
-    @FXML
-    private void clearCanvas() {
-        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
-    @FXML
-    public void resizeCanvas(ActionEvent actionEvent) {
-        canvasResizer.resize();
-    }
-    @FXML
-    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
-        FXMLController temp = new FXMLController();
-        temp.switchToProjects(event);
-    }
-
-    private Button createColorButton(Color color) {
-        Button button = new Button();
-        button.setPrefSize(30, 30);
-        button.setStyle("-fx-background-color: #" + color.toString().substring(2) + ";");
-        button.setOnAction(e -> setCurrentColor(color));
-        return button;
-    }
-    // Helper method to set the current drawing color
-
-    private void setCurrentColor(Color color) {
-        currentColor = color;
-        graphicsContext.setStroke(color);
-        graphicsContext.setFill(color);
-    }
-    // Helper method to clear the canvas
-
-    @FXML
-    public void exportCanvas(ActionEvent actionEvent) {
-        canvasExporter.export(this.stage, projectItem);
-    }
-    public void actPressed(MouseEvent mouseEvent) {
-        this.x = mouseEvent.getX();
-        this.y = mouseEvent.getY();
-
-        if (freeDrawBtn.isPressed()) {
-            graphicsContext.beginPath();
-            graphicsContext.moveTo(x, y);
-            graphicsContext.setStroke(currentColor);
-            graphicsContext.stroke();
-        }
-    }
-    public void actDragged(MouseEvent mouseEvent) {
-        this.x = mouseEvent.getX();
-        this.y = mouseEvent.getY();
-        if (freeDrawBtn.isPressed()) {
-            graphicsContext.lineTo(x, y);
-            graphicsContext.stroke();
-        }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @FXML
-
-    public void start(Stage primaryStage) throws IOException {
-        // Create canvas and graphics context
-        textBoxBtn.isPressed();
-        Parent root = FXMLLoader.load(getClass().getResource("/resources/org.openjfx/editor.fxml"));
-        Scene scene = new Scene(root, 1920, 1080);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle(projectItem.getName());
-        this.graphicsContext = canvas.getGraphicsContext2D();
-        this.graphicsContext.setLineWidth(3.0);
-
-        this.stage = primaryStage;
-        primaryStage.show();
-
-        // Color picker to allow selecting custom colors
-//        this.colorPicker = (ColorPicker) loader.getNamespace().get("colorPicker");
-//        colorPicker.setOnAction(e -> setCurrentColor(colorPicker.getValue()));
-//        // root.setCenter(canvas);
+//package models;
 //
+//import controllers.CanvasExportController;
+//import controllers.CanvasResizerController;
+//import javafx.application.Application;
+//import javafx.fxml.FXML;
+//import javafx.fxml.FXMLLoader;
+//import javafx.fxml.Initializable;
+//import javafx.scene.Node;
+//import javafx.scene.Parent;
+//import javafx.scene.Scene;
+//import javafx.scene.canvas.Canvas;
+//import javafx.scene.canvas.GraphicsContext;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.ColorPicker;
+//import javafx.scene.control.ComboBox;
+//import javafx.scene.control.RadioButton;
+//import javafx.scene.control.Slider;
+//import javafx.scene.control.ToggleButton;
+//import javafx.scene.layout.BorderPane;
+//import javafx.scene.layout.VBox;
+//import javafx.scene.paint.Color;
+//import javafx.scene.text.Font;
+//import javafx.stage.Stage;
+//import org.openjfx.FXMLController;
+//import text.AardText;
+//
+//import java.io.IOException;
+//import java.util.ArrayList;
+//
+//import controllers.CanvasExportController;
+//import controllers.CanvasResizerController;
+//import javafx.application.Application;
+//import javafx.beans.property.IntegerProperty;
+//import javafx.beans.property.SimpleIntegerProperty;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
+//import javafx.geometry.Orientation;
+//import javafx.scene.Scene;
+//import javafx.scene.canvas.Canvas;
+//import javafx.scene.canvas.GraphicsContext;
+//import javafx.scene.control.*;
+//import javafx.scene.input.MouseEvent;
+//import javafx.scene.layout.BorderPane;
+//import javafx.scene.layout.HBox;
+//import javafx.scene.layout.VBox;
+//import javafx.scene.text.Font;
+//import javafx.stage.Stage;
+//import text.AardText;
+//
+//import java.util.ArrayList;
+//
+//        public class Editor extends Application {
+//            @FXML
+//            private Button renameBtn;
+//            @FXML
+//            private Canvas canvas;
+//            @FXML
+//            private Button resizeBtn;
+//            @FXML
+//            private Button clearBtn;
+//            @FXML
+//            private Button exportBtn;
+//            @FXML
+//            private RadioButton freeDrawBtn;
+//            @FXML
+//            private RadioButton textBoxBtn;
+//            @FXML
+//            private VBox projectsLayout;
+//            private GraphicsContext graphicsContext;
+//            private Color currentColor = Color.BLACK;
+//            private ColorPicker colorPicker;
+//            private ToggleGroup toggleGroup;
+//            private double x;
+//            private double y;
+//            private Stage stage;
+//            private Scene scene;
+//            private Parent root;
+//            private ArrayList<AardText> textArrayList = new ArrayList<>();
+//            // Set up a new Project
+//            Project projectItem = new Project("Hello World");
+//
+//            // Create a resize controller and set the name of the project to the
+//            CanvasResizerController canvasResizer = new CanvasResizerController(canvas);
+//            // Create a export controller
+//            CanvasExportController canvasExporter = new CanvasExportController(canvas, projectItem);
+//
+//            public static models.Editor instance;
+//
+//            public static models.Editor getInstance() {
+//                if (instance == null) {
+//                    instance = new models.Editor();
+//                }
+//                return instance;
+//            }
+//
+//            public Editor() {
+//                instance = this;
+//    }
+
+//    @FXML
+//    private void clearCanvas() {
+//        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//    }
+//    @FXML
+//    public void resizeCanvas(ActionEvent actionEvent) {
+//        canvasResizer.resize();
+//    }
+//    @FXML
+//    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+//        FXMLController temp = new FXMLController();
+//        temp.switchToProjects(event);
+//    }
+
+//    private Button createColorButton(Color color) {
+//        Button button = new Button();
+//        button.setPrefSize(30, 30);
+//        button.setStyle("-fx-background-color: #" + color.toString().substring(2) + ";");
+//        button.setOnAction(e -> setCurrentColor(color));
+//        return button;
+//    }
+//    // Helper method to set the current drawing color
+//
+//    private void setCurrentColor(Color color) {
+//        currentColor = color;
+//        graphicsContext.setStroke(color);
+//        graphicsContext.setFill(color);
+//    }
+//    // Helper method to clear the canvas
+//
+//    @FXML
+//    public void exportCanvas(ActionEvent actionEvent) {
+//        canvasExporter.export(this.stage, projectItem);
+//    }
+//    public void actPressed(MouseEvent mouseEvent) {
+//        this.x = mouseEvent.getX();
+//        this.y = mouseEvent.getY();
+//
+//        if (freeDrawBtn.isPressed()) {
+//            graphicsContext.beginPath();
+//            graphicsContext.moveTo(x, y);
+//            graphicsContext.setStroke(currentColor);
+//            graphicsContext.stroke();
+//        }
+//    }
+//    public void actDragged(MouseEvent mouseEvent) {
+//        this.x = mouseEvent.getX();
+//        this.y = mouseEvent.getY();
+//        if (freeDrawBtn.isPressed()) {
+//            graphicsContext.lineTo(x, y);
+//            graphicsContext.stroke();
+//        }
+//    }
+//
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
+//
+//    @FXML
+//
+//    public void start(Stage primaryStage) throws IOException {
+//        // Create canvas and graphics context
+//        textBoxBtn.isPressed();
+//        Parent root = FXMLLoader.load(getClass().getResource("/resources/org.openjfx/editor.fxml"));
+//        Scene scene = new Scene(root, 1920, 1080);
+//        primaryStage.setScene(scene);
+//        primaryStage.setTitle(projectItem.getName());
+//        this.graphicsContext = canvas.getGraphicsContext2D();
+//        this.graphicsContext.setLineWidth(3.0);
+//
+//        this.stage = primaryStage;
+//        primaryStage.show();
+
 //        ToggleButton freeDrawBtn = (ToggleButton) loader.getNamespace().get("freeDrawBtn");
 //        ToggleButton textboxBtn = (ToggleButton) loader.getNamespace().get("textboxBtn");
 //        freeDrawBtn.setSelected(true); // Start in Free Draw mode
@@ -336,5 +330,5 @@ public class Editor extends Application {
 
         // Event handler for drawing on the canvas
 
-    }
-}
+//    }
+//}
