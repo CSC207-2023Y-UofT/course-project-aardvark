@@ -25,12 +25,12 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#switchToSignIn" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0">
+                        <Button mnemonicParsing="false" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0" onAction="#switchToSignIn">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
                         </Button>
-                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff" onAction="#switchToEditor">
+                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff" onAction="#switchToNameProject">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>

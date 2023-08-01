@@ -3,6 +3,8 @@ package text;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import models.VisualElement;
+
 import org.openjfx.VisualElement;
 import java.util.HashMap;
 
@@ -35,9 +37,7 @@ public class AardText implements VisualElement {
         this.fontFamily = font.getFamily();
         this.fontSize = font.getSize();
         this.color = color;
-        coordinates = new double[2];
-        coordinates[0] = x;
-        coordinates[1] = y;
+        this.coordinates = new double[]{x, y};
     }
 
     /**
@@ -60,8 +60,14 @@ public class AardText implements VisualElement {
      * the AardText object's parameters as the hashmap's value.
      */
     @Override
+    public String toString(){
+        return this.text + ", " + getStringCoordinates() + ", " +
+                this.fontFamily + ", " + this.fontSize + ", " + this.color;
+    }
+
+    @Override
     public HashMap<String, Object> toDict(){
-        HashMap<String, Object> aardTextMap = new HashMap<String, Object>();
+        HashMap<String, Object> aardTextMap = new HashMap<>();
         Object[] textArray = {text, fontFamily, fontSize, color, coordinates};
         aardTextMap.put("AardText", textArray);
         return aardTextMap;
