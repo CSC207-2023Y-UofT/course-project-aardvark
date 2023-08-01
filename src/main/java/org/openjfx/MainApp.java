@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import controllers.EditorController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +15,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("signin.fxml"));
-        
+        EditorController.primaryStage = stage;
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
@@ -32,13 +33,11 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
 
-        // Boiler plate for Tests, delete later
         for (int i = 1; i <= 100; i++) {
             System.out.println(convert(i));
         }
     }
 
-    // Boiler plate for Tests, delete later
     public static String convert(int decide) {
         if (decide % 15 == 0) {
             return "tutorial.HelloWorld";
@@ -51,5 +50,4 @@ public class MainApp extends Application {
         }
         return String.valueOf(decide);
     }
-
 }

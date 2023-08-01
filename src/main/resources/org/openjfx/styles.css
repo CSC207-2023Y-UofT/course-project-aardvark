@@ -37,7 +37,7 @@
 
 
 /* Fab Buttons */
-#info-btn, #home-btn, #rename-btn, #resize-btn, #undo-btn, #redo-btn,
+#info-btn, #home-btn, #rename-btn, #resize-btn, #undo-btn, #redo-btn, #clear-btn,
 #export-btn, #text-increase-btn, #text-decrease-btn {
     -fx-background-repeat: no-repeat;
     -fx-background-size: 24 24;
@@ -60,6 +60,10 @@
 
 #resize-btn {
     -fx-background-image: url("/images/resize.png");
+}
+
+#clear-btn {
+    -fx-background-image: url("/images/clear.png");
 }
 
 #undo-btn {

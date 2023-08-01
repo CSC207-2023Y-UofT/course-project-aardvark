@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.stage.Stage;
-import org.openjfx.VisualElement;
+import models.VisualElement;
 
 
 import java.awt.Point;
