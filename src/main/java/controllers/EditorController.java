@@ -107,7 +107,7 @@ public class EditorController {
         );
         fontComboBox.setValue("Verdana");
 
-        fontComboBox.setOnMouseReleased(event -> {
+        fontComboBox.setOnAction(event -> {
             Font newFont = new Font(fontComboBox.getValue(), sizeLabelProperty.get());
             gc.setFont(newFont);
         });
