@@ -1,4 +1,6 @@
-package org.openjfx;
+package models;
+
+import javafx.scene.control.Alert;
 
 import java.util.*;
 
@@ -31,7 +33,7 @@ public class Project {
     }
 
     public Date getDate() {
-        return updatedAt;
+        return this.updatedAt;
     }
 
     public void setDate(Date date) {
@@ -51,6 +53,9 @@ public class Project {
     }
 
     public void undoVisualElement() {
+        if (elements.isEmpty()) {
+            return;
+        }
         VisualElement v = elements.remove(elements.size() - 1);
         redoStack.add(v);
     }
@@ -61,15 +66,22 @@ public class Project {
      * Otherwise, does nothing.
      */
     public void redoVisualElement() {
-        if (redoStack.empty()) {
-            return;
+        if (canRedo()) {
+            VisualElement v = redoStack.pop();
+            elements.add(v);
         }
-        VisualElement v = redoStack.pop();
-        elements.add(v);
     }
 
     public boolean canRedo() {
         return !redoStack.empty();
+    }
+
+    public void showErrorDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     /**
