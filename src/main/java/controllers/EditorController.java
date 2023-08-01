@@ -198,6 +198,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.lineTo(x, y);
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
@@ -209,6 +211,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.lineTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
