@@ -13,10 +13,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Project;
+import models.VisualElement;
 import org.openjfx.FXMLController;
 import text.AardText;
 
@@ -60,6 +63,7 @@ public class EditorController {
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
     private ArrayList<AardText> textArrayList = new ArrayList<>();
+//    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
     public void initialize() {
@@ -159,6 +163,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.beginPath();
                 gc.moveTo(x, y);
                 gc.setStroke(currentColorDraw);
@@ -174,6 +180,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.beginPath();
                 gc.moveTo(x, y);
                 gc.setStroke(Color.WHITE);
@@ -190,6 +198,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.lineTo(x, y);
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
@@ -201,6 +211,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.lineTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
