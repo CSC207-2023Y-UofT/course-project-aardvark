@@ -1,10 +1,13 @@
 package user_features;
 
+import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -85,6 +88,12 @@ class UserDSGatewayTest {
         User user = new User("Jon", "jon.doe@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
+        HashMap<String, Object> project = new HashMap<>();
+        project.put("ProjectName", "projectName");
+        project.put("UpdateDate", "updatedAt");
+        project.put("Width", "width");
+        project.put("Height", "height");
+        project.put("VisualElements", new ArrayList<HashMap<String, Object>>());
         gateway.addProject(user, project);
 
     }
