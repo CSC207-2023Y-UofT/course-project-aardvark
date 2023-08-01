@@ -25,7 +25,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#switchToSignIn" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0">
+                        <Button mnemonicParsing="false" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0" onAction="#switchToSignIn">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
