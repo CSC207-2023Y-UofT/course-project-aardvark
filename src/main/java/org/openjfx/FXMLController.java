@@ -75,10 +75,6 @@ public class FXMLController implements Initializable {
     };
 
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signup.fxml"));
@@ -108,8 +104,6 @@ public class FXMLController implements Initializable {
             switchToProjects(event);
         }
     }
-
-
 
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {

@@ -91,16 +91,15 @@ public class UserDSGateway {
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
         projectsArray.add(project);
-
-
-
     }
 
     public void deleteProject(User user, HashMap<String, Object> project){
 
-
-
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
+        JSONArray projectsArray = (JSONArray) userDetails.get("projects");
+        projectsArray.remove(project);
     }
+
     public void saveChanges(){
 
     try (FileWriter fw = new FileWriter(this.file)){
