@@ -134,6 +134,11 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
+    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
+        System.out.println("deleted");
+    }
+
+    @FXML
     public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("editor.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
