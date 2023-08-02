@@ -48,6 +48,10 @@ public class UserRegisterUseCase {
 
     }
 
+    public User getUser(){
+        return this.user;
+    }
+
 
     }
 
