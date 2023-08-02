@@ -75,7 +75,7 @@ public class EditorController {
         colorPickerDraw.setOnAction(e -> setCurrentColorDraw(colorPickerDraw.getValue()));
         colorPickerText.setOnAction(e -> setCurrentColorText(colorPickerText.getValue()));
 
-        /*===== Text Features =====*/
+        /*========== Text Features ==========*/
         gc.setFont(defaultFont);
         fontSize.setText("16");
         colorPickerText.setValue(Color.BLACK);
@@ -106,9 +106,8 @@ public class EditorController {
         fontComboBox.setValue("Verdana");
 
         fontComboBox.setOnAction(event -> {
-            ChangeSettingsUseCase changeFont = new ChangeSettingsUseCase(gc,
-                    fontComboBox.getValue(), sizeLabelProperty.get());
-            changeFont.changeFontFamily();
+            ChangeSettingsUseCase changeFont = new ChangeSettingsUseCase(gc);
+            changeFont.changeFontFamily(fontComboBox, sizeLabelProperty);
         });
 
         /* Changing Text Colour */
@@ -119,25 +118,25 @@ public class EditorController {
         colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
 
         /* Changing Font Size */
+        // Currently DOES NOT handle when the entry is not an int
         fontSize.setOnKeyReleased(event -> {
-            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc,
-                    fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
-            changeFontSize.changeFontSize(sizeLabelProperty);
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSize(sizeLabelProperty, fontSize);
         });
 
         /* Increasing Text Size */
         textIncreaseBtn.setOnAction(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
-            changeFontSize.incrementFontSize(sizeLabelProperty, fontSize, "+");
+            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "+");
         });
 
         /* Decreasing Text Size */
         textDecreaseBtn.setOnAction(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
-            changeFontSize.incrementFontSize(sizeLabelProperty, fontSize, "-");
+            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "-");
         });
 
-        /*===== Brush/FreeDraw Features =====*/
+        /*========== Brush/FreeDraw Features ==========*/
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);

@@ -3,65 +3,83 @@ package text;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-
+/**
+ * The ChangeSettingsUseCase class represents the use case for changing any type of setting.
+ * Currently only for text-related settings.
+ */
 public class ChangeSettingsUseCase {
-    private GraphicsContext gc;
-    private String fontFamily;
-    private int fontSize;
-    private Color color;
 
+    /** The GraphicsContext whose properties can be modified, with changes reflected to a Canvas. */
+    private GraphicsContext gc;
+
+    /**
+     * Creates a new ChangeSettingsUseCase object.
+     */
     public ChangeSettingsUseCase(GraphicsContext gc) {
         this.gc = gc;
     }
 
-    public ChangeSettingsUseCase(GraphicsContext gc, String fontFamily, int fontSize) {
-        this.gc = gc;
-        this.fontFamily = fontFamily;
-        this.fontSize = fontSize;
-    }
-
-    public ChangeSettingsUseCase(GraphicsContext gc, Color color) {
-        this.gc = gc;
-        this.color = color;
-    }
-
-    public void changeFontFamily(){
+    /**
+     * Changes the font family linked to the GraphicsContext.
+     * @param fontComboBox The ComboBox from which we can extract the selected font family to change to.
+     * @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
+     */
+    public void changeFontFamily(ComboBox<String> fontComboBox, IntegerProperty sizeLabelProperty){
+        String fontFamily = fontComboBox.getValue();
+        int fontSize = sizeLabelProperty.get();
         Font newFont = new Font(fontFamily, fontSize);
         gc.setFont(newFont);
     }
 
-    public void changeFontSize(IntegerProperty sizeLabelProperty){
-        Font newFont = new Font(fontFamily, fontSize);
+    /**
+     * Changes the font size linked to the GraphicsContext through a text field.
+     * @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
+     * @param sizeField The TextField from which we can extract the new font size.
+     */
+    public void changeFontSize(IntegerProperty sizeLabelProperty, TextField sizeField){
+        Font currentFont = gc.getFont();
+        String currentFamily = currentFont.getFamily();
+        int fontSize = Integer.parseInt(sizeField.getText());
+        Font newFont = new Font(currentFamily, fontSize);
         sizeLabelProperty.set(fontSize);
         gc.setFont(newFont);
     }
 
-    public void incrementFontSize(IntegerProperty sizeLabelProperty, TextField sizeField, String operation){
+    /**
+     * Increases/decrease the font size linked to the GraphicsContext by 1.
+     * Precondition: operation is "+" or "-".
+     * @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
+     * @param sizeField The TextField that will be changed to reflect the new font size.
+     * @param operation A String that indicates whether to increase or decrease the font size:
+     *                  + for increase and - for decrease.
+     */
+    public void changeFontSizeByOne(IntegerProperty sizeLabelProperty, TextField sizeField, String operation){
         Font currentFont = gc.getFont();
-        setFontFamily(currentFont.getFamily());
+        String currentFamily = currentFont.getFamily();
+        int currentSize = (int) currentFont.getSize();
+        int newSize;
         if (operation.equals("+")){
-            setFontSize((int) currentFont.getSize() + 1);
+            newSize = currentSize + 1;
         }
         else {
-            setFontSize((int) currentFont.getSize() - 1);
+            newSize = currentSize - 1;
         }
-        changeFontSize(sizeLabelProperty);
-        sizeField.setText(Integer.toString(fontSize));
+        Font newFont = new Font(currentFamily, newSize);
+        sizeLabelProperty.set(newSize);
+        gc.setFont(newFont);
+        sizeField.setText(Integer.toString(newSize));
     }
 
+    /**
+     * Changes the font colour linked to the GraphicsContext through a ColorPicker.
+     * @param colorPicker The ColorPicker from which we can extract the color that we will change to.
+     */
     public void changeFontColor(ColorPicker colorPicker){
         gc.setFill(colorPicker.getValue());
     }
 
-    private void setFontFamily(String family){
-        this.fontFamily = family;
-    }
-
-    private void setFontSize(int size){
-        this.fontSize = size;
-    }
 }
