@@ -65,7 +65,6 @@ public class EditorController {
 
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
-    private ArrayList<AardText> textArrayList = new ArrayList<>();
 //    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
@@ -86,7 +85,6 @@ public class EditorController {
             if (textBoxBtn.isSelected()) {
                 WriteTextUseCase writeTextUseCase = new WriteTextUseCase(gc, event);
                 AardText newText = writeTextUseCase.writeText(defaultInput[0], currentColorText);
-                textArrayList.add(newText);
             }
         };
 
@@ -113,12 +111,6 @@ public class EditorController {
             changeFont.changeFontFamily();
         });
 
-        fontSize.setOnKeyReleased(event -> {
-            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc,
-                    fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
-            changeFontSize.changeFontSize(sizeLabelProperty);
-        });
-
         /* Changing Text Colour */
         EventHandler<ActionEvent> changeColorHandler = event -> {
             ChangeSettingsUseCase changeFontColor = new ChangeSettingsUseCase(gc);
@@ -126,19 +118,24 @@ public class EditorController {
         };
         colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
 
+        /* Changing Font Size */
+        fontSize.setOnKeyReleased(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc,
+                    fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
+            changeFontSize.changeFontSize(sizeLabelProperty);
+        });
+
         /* Increasing Text Size */
-        EventHandler<ActionEvent> increaseFontHandler = event -> {
+        textIncreaseBtn.setOnAction(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
             changeFontSize.incrementFontSize(sizeLabelProperty, fontSize, "+");
-        };
-        textIncreaseBtn.setOnAction(increaseFontHandler);
+        });
 
         /* Decreasing Text Size */
-        EventHandler<MouseEvent> decreaseFontHandler = event -> {
+        textDecreaseBtn.setOnAction(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
             changeFontSize.incrementFontSize(sizeLabelProperty, fontSize, "-");
-        };
-        textDecreaseBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, decreaseFontHandler);
+        });
 
         /*===== Brush/FreeDraw Features =====*/
         gc.setFill(Color.WHITE);
