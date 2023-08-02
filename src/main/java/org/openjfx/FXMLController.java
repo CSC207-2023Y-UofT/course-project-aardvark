@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Project;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -96,13 +97,34 @@ public class FXMLController implements Initializable {
      * it to the data file.
      */
     {
-        UserRegisterUseCase register = new UserRegisterUseCase(nameText.getText(), emailText.getText(),
-                passwordText.getText());
-        if (passwordText.getText().equals(repeatPasswordText.getText()) && !register.checkExists()){
+
+        String password = passwordText.getText();
+        String repeatPassword = repeatPasswordText.getText();
+        String email = emailText.getText();
+        String name = nameText.getText();
+
+        UserRegisterUseCase register = new UserRegisterUseCase(name, email,
+                password);
+        if (password.equals(repeatPassword) && !register.checkExists()){
 
             register.addUser();
             switchToProjects(event);
         }
+        else if(!password.equals(repeatPassword) && !register.checkExists()){
+            showErrorAlert("Passwords don't match, please try again!");
+        }
+        else if(register.checkExists()){
+            showErrorAlert("User already exists, sign in");
+        }
+    }
+
+    @FXML
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Input");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -121,9 +143,18 @@ public class FXMLController implements Initializable {
     @FXML
     public void signIn(javafx.event.ActionEvent event) throws IOException {
 
-        UserLoginUseCase loginUser = new UserLoginUseCase(textField.getText(), passwordField.getText());
-        if (loginUser.checkExists() && loginUser.checkPassword(passwordField.getText())) {
+        String email = textField.getText();
+        String password = passwordField.getText();
+
+        UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
+        if (loginUser.checkExists() && loginUser.checkPassword(password)){
             switchToProjects(event);
+        }
+        else if(!loginUser.checkExists()){
+            showErrorAlert("User does not exists, please sign up.");
+        }
+        else if (!loginUser.checkPassword(password)){
+            showErrorAlert("Password is incorrect, please try again.");
         }
 
     }
