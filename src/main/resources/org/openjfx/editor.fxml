@@ -29,7 +29,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Label id="name" fx:id="projectName" mnemonicParsing="false" textFill="#222">
+            <Label fx:id="projectName" mnemonicParsing="false" textFill="#222">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
