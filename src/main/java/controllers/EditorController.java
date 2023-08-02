@@ -1,5 +1,6 @@
 package controllers;
 
+import free_draw.FreeDrawLine;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.SwingFXUtils;
@@ -31,15 +32,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class EditorController {
-    public Button renameBtn;
+
+    public final Project project;
+    public Label projectName;
     public Button resizeBtn;
     public Button clearBtn;
     public Button exportBtn;
+    public Button undoBtn;
     public ToggleGroup selectTool;
     public RadioButton freeDrawBtn;
     public RadioButton textBoxBtn;
     public RadioButton eraserBtn;
-    private static Project project = new Project("untitled project");
     @FXML
     public ComboBox<String> fontComboBox;
     @FXML
@@ -68,12 +71,19 @@ public class EditorController {
 //    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
+    public EditorController(Project p) {
+        project = p;
+    }
+
     public void initialize() {
         // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
         gc = canvas.getGraphicsContext2D();
         resizerController = new CanvasResizerController(canvas, project);
         colorPickerDraw.setOnAction(e -> setCurrentColorDraw(colorPickerDraw.getValue()));
         colorPickerText.setOnAction(e -> setCurrentColorText(colorPickerText.getValue()));
+
+        //Set Project Title
+        projectName.setText(project.getName());
 
         /*========== Text Features ==========*/
         gc.setFont(defaultFont);
@@ -85,6 +95,7 @@ public class EditorController {
             if (textBoxBtn.isSelected()) {
                 WriteTextUseCase writeTextUseCase = new WriteTextUseCase(gc, event);
                 AardText newText = writeTextUseCase.writeText(defaultInput[0], currentColorText);
+                project.addVisualElement(newText);
             }
         };
 
@@ -152,6 +163,12 @@ public class EditorController {
                 double size = Double.parseDouble(brushSize.getText());
                 double x = e.getX();
                 double y = e.getY();
+
+                //Adding to the project
+                FreeDrawLine newLine = new FreeDrawLine(currentColorDraw.toString(), size);
+                newLine.addPoint(x, y);
+                project.addVisualElement(newLine);
+
                 gc.setLineWidth(size);
                 gc.setLineCap(StrokeLineCap.ROUND);
                 gc.setLineJoin(StrokeLineJoin.ROUND);
@@ -169,6 +186,12 @@ public class EditorController {
                 double size = Double.parseDouble(brushSize.getText());
                 double x = e.getX();
                 double y = e.getY();
+
+                //Project adding
+                FreeDrawLine eraser = new FreeDrawLine("#ffffff", size);
+                project.addVisualElement(eraser);
+                eraser.addPoint(x, y);
+
                 gc.setLineWidth(size);
                 gc.setLineCap(StrokeLineCap.ROUND);
                 gc.setLineJoin(StrokeLineJoin.ROUND);
@@ -187,6 +210,11 @@ public class EditorController {
                 double size = Double.parseDouble(brushSize.getText());
                 double x = e.getX();
                 double y = e.getY();
+
+                //adding to the project
+                FreeDrawLine line = project.getCurrentLine();
+                line.addPoint(x, y);
+
                 gc.setLineWidth(size);
                 gc.setLineCap(StrokeLineCap.ROUND);
                 gc.setLineJoin(StrokeLineJoin.ROUND);
@@ -200,6 +228,11 @@ public class EditorController {
                 double size = Double.parseDouble(brushSize.getText());
                 double x = e.getX();
                 double y = e.getY();
+
+                //Adding to the project
+                FreeDrawLine eraser = project.getCurrentLine();
+                eraser.addPoint(x, y);
+
                 gc.setLineWidth(size);
                 gc.setLineCap(StrokeLineCap.ROUND);
                 gc.setLineJoin(StrokeLineJoin.ROUND);
@@ -234,9 +267,6 @@ public class EditorController {
         FXMLController switcher = new FXMLController();
         switcher.switchToProjects(event);
     }
-    public static void setProject(Project p) {
-        EditorController.project = p;
-    }
 
     public void resizeCanvas(ActionEvent actionEvent) {
         this.resizerController.resize();
@@ -246,6 +276,17 @@ public class EditorController {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(colorPickerDraw.getValue());
+    }
+    @FXML
+    public void undo(ActionEvent event) {
+        this.clearCanvas(event);
+        project.undoVisualElement();
+        project.draw(gc);
+    }
+
+    @FXML
+    public void redo(ActionEvent event) {
+        project.redoVisualElement(gc);
     }
 
     private void setCurrentColorDraw(Color color) {

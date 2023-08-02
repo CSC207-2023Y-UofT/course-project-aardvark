@@ -92,8 +92,10 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("editor.fxml"));
+    public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
+        fxmlLoader.setController(new EditorController(project));
+        Parent newPage = fxmlLoader.load();
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -113,9 +115,11 @@ public class FXMLController implements Initializable {
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
         Project project = new Project(newProjectName.getText());
-        EditorController.setProject(project);
-        switchToEditor(event);
+        switchToEditor(event, project);
     }
 
-
+    @FXML
+    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
+        System.out.println("deleted");
+    }
 }
