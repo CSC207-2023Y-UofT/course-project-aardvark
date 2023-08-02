@@ -1,6 +1,7 @@
 package models;
 
 import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -45,6 +46,30 @@ public class Project {
 
     public String getName() {
         return projectName;
+    }
+
+    public AardCircle getLastAndRemoveCircle() {
+        AardCircle tmp = new AardCircle(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
+        for (int i = elements.size() - 1; i >= 0; --i) {
+            if (elements.get(i) instanceof AardCircle) {
+                tmp = (AardCircle)elements.get(i);
+                elements.remove(i);
+                break;
+            }
+        }
+        return tmp;
+    }
+
+    public AardSquare getLastAndRemoveSquare() {
+        AardSquare tmp = new AardSquare(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
+        for (int i = elements.size() - 1; i >= 0; --i) {
+            if (elements.get(i) instanceof AardSquare) {
+                tmp = (AardSquare)elements.get(i);
+                elements.remove(i);
+                break;
+            }
+        }
+        return tmp;
     }
 
     public void addVisualElement(VisualElement v) {

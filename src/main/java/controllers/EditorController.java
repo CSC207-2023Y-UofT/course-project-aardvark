@@ -18,6 +18,8 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.AardCircle;
+import models.AardSquare;
 import models.Project;
 import models.VisualElement;
 import org.openjfx.FXMLController;
@@ -177,7 +179,7 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
 
-                AardVisualElement.addCircle(new AardCircle(
+                project.addVisualElement(new AardCircle(
                         x - 1, y - 1, 2,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
@@ -189,7 +191,7 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
 
-                AardVisualElement.addSquare(new AardSquare(
+                project.addVisualElement(new AardSquare(
                         x - 1, y - 1, 2,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
@@ -215,13 +217,10 @@ public class EditorController {
                 gc.moveTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
-
-                AardVisualElement.clear();
             }
 
             gc.setFill(Color.WHITE);
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            AardVisualElement.draw(gc);
         });
 
         canvas.setOnMouseDragged(e -> {
@@ -244,35 +243,31 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
 
-                AardCircle last = AardVisualElement.circles.get(AardVisualElement.circles.size() - 1);
+                AardCircle last = project.getLastAndRemoveCircle();
 
                 double r = Math.sqrt(Math.pow(last.x - x, 2) + Math.pow(last.y - y, 2));
-                AardVisualElement.addCircle(new AardCircle(
+                project.addVisualElement(new AardCircle(
                         last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
                         Integer.parseInt(textFieldShapeStroke.getText())));
-
-                AardVisualElement.circles.remove(AardVisualElement.circles.size() - 2);
             }
             else if (radioButtonSquare.isSelected()) {
                 double x = e.getX();
                 double y = e.getY();
 
-                AardSquare last = AardVisualElement.squares.get(AardVisualElement.squares.size() - 1);
+                AardSquare last = project.getLastAndRemoveSquare();
 
                 double r = Math.sqrt(Math.pow(last.x - x, 2) + Math.pow(last.y - y, 2));
-                AardVisualElement.addSquare(new AardSquare(
+                project.addVisualElement(new AardSquare(
                         last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
                         Integer.parseInt(textFieldShapeStroke.getText())));
-
-                AardVisualElement.squares.remove(AardVisualElement.squares.size() - 2);
             }
             else if (eraserBtn.isSelected()) {
                 canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
@@ -287,13 +282,10 @@ public class EditorController {
                 gc.lineTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
-
-                AardVisualElement.clear();
             }
 
             gc.setFill(Color.WHITE);
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            AardVisualElement.draw(gc);
         });
     }
 

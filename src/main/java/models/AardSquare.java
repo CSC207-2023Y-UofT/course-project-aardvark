@@ -1,9 +1,10 @@
-package text;
+package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.util.HashMap;
 
-public class AardSquare {
+public class AardSquare implements VisualElement {
     public double x, y, r;
     boolean isFill, isStroke;
     Color fill, stroke;
@@ -35,5 +36,13 @@ public class AardSquare {
                 : Color.TRANSPARENT);
 
         gc.strokeRect(x, y, r, r);
+    }
+
+    public HashMap<String, Object> toDict()
+    {
+        HashMap<String, Object> aardMap = new HashMap<>();
+        Object[] arr = { x, y, r, isFill, isStroke, fill, stroke, strokeSize };
+        aardMap.put("AardSquare", arr);
+        return aardMap;
     }
 }
