@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.openjfx.FXMLController">
+<BorderPane style="-fx-background-color: #EFEDF0;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.openjfx.FXMLController">
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #EFEDF0;" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: #EFEDF0;" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="716.0">
                <children>
@@ -25,12 +25,12 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;">
                      <children>
-                        <Button mnemonicParsing="false" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0" onAction="#switchToSignIn">
+                        <Button mnemonicParsing="false" onAction="#switchToSignIn" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
                         </Button>
-                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff" onAction="#switchToNameProject">
+                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#switchToNameProject" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff">
                            <font>
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>

@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Project;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -54,8 +53,9 @@ public class FXMLController implements Initializable {
         }
     }
 
+    //  Temporary code to simulate project list
     private  List<Project> projects() {
-//      Temporary code to simulate project list
+       
         List<models.Project> ls = new ArrayList<>();
 
         for (int i = 0; i < 15; i++) {
@@ -66,24 +66,42 @@ public class FXMLController implements Initializable {
         return ls;
     };
 
+
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signup.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        Parent newPage = FXMLLoader.load(getClass().getResource("signup.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
     }
+
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signin.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        Parent newPage = FXMLLoader.load(getClass().getResource("signin.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
     }
+
+    @FXML
+    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+        Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML
+    public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
+        Parent newPage = FXMLLoader.load(getClass().getResource("new_project.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML
+    public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
+        fxmlLoader.setController(new EditorController(project));
+        Parent newPage = fxmlLoader.load();
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML
+    Label nameError;
+
     @FXML TextField textField;
     @FXML PasswordField passwordField;
     @FXML
@@ -91,29 +109,6 @@ public class FXMLController implements Initializable {
         if (textField.getText().equals("") && passwordField.getText().equals("")) {
             switchToProjects(event);
         }
-    }
-    @FXML
-    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("projects.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setResizable(false); //what is this for?
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    Text nameError;
-
-    @FXML
-    public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("new_project.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML TextField newProjectName;
@@ -126,22 +121,5 @@ public class FXMLController implements Initializable {
     @FXML
     public void deleteProject(javafx.event.ActionEvent event) throws IOException{
         System.out.println("deleted");
-    }
-
-    public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
-        EditorController editorController = new EditorController(project);
-        fxmlLoader.setController(editorController);
-        root = fxmlLoader.load();
-
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setResizable(true);
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setX(0);
-        stage.setY(0);
-        stage.show();
-
     }
 }
