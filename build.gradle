@@ -26,4 +26,3 @@ javafx {
 }
 
 mainClassName = 'org.openjfx.MainApp'
-//mainClassName = 'text.TextMain'

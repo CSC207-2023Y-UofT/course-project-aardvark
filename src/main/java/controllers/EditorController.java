@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -73,9 +75,10 @@ public class EditorController {
     public GraphicsContext gc;
     public static Stage primaryStage;
     private CanvasResizerController resizerController;
+
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
-    private ArrayList<AardText> textArrayList = new ArrayList<>();
+//    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
     public void initialize() {
         // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
@@ -84,26 +87,18 @@ public class EditorController {
         colorPickerDraw.setOnAction(e -> setCurrentColorDraw(colorPickerDraw.getValue()));
         colorPickerText.setOnAction(e -> setCurrentColorText(colorPickerText.getValue()));
 
-        // Default font and font size
+        /*========== Text Features ==========*/
         gc.setFont(defaultFont);
         fontSize.setText("16");
-
-
+        colorPickerText.setValue(Color.BLACK);
         textField.setOnKeyReleased(e -> defaultInput[0] = textField.getText());
 
-        /* Creating Text at a Specified Location */
         EventHandler<MouseEvent> writeTextHandler = event -> {
             if (textBoxBtn.isSelected()) {
-                double xValue = event.getX();
-                double yValue = event.getY();
-                AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
-                        gc.getFont(), xValue, yValue);
-                textArrayList.add(newText);
-                newText.draw(gc);
+                WriteTextUseCase writeTextUseCase = new WriteTextUseCase(gc, event);
+                AardText newText = writeTextUseCase.writeText(defaultInput[0], currentColorText);
             }
         };
-
-        /*===== Changing and Adjusting Text-Related Settings on the Canvas =====*/
 
         /* Changing Font Family */
         // System.out.println(Font.getFamilies());
@@ -123,41 +118,37 @@ public class EditorController {
         fontComboBox.setValue("Verdana");
 
         fontComboBox.setOnAction(event -> {
-            Font newFont = new Font(fontComboBox.getValue(), sizeLabelProperty.get());
-            gc.setFont(newFont);
-        });
-
-        fontSize.setOnKeyReleased(event -> {
-            Font newFont = new Font(fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
-            sizeLabelProperty.set(Integer.parseInt(fontSize.getText()));
-            gc.setFont(newFont);
+            ChangeSettingsUseCase changeFont = new ChangeSettingsUseCase(gc);
+            changeFont.changeFontFamily(fontComboBox, sizeLabelProperty);
         });
 
         /* Changing Text Colour */
-        colorPickerText.setValue(Color.BLACK);
-        EventHandler<ActionEvent> changeColorHandler = event -> gc.setFill(colorPickerText.getValue());
+        EventHandler<ActionEvent> changeColorHandler = event -> {
+            ChangeSettingsUseCase changeFontColor = new ChangeSettingsUseCase(gc);
+            changeFontColor.changeFontColor(colorPickerText);
+        };
         colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
 
+        /* Changing Font Size */
+        // Currently DOES NOT handle when the entry is not an int
+        fontSize.setOnKeyReleased(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSize(sizeLabelProperty, fontSize);
+        });
+
         /* Increasing Text Size */
-        EventHandler<ActionEvent> increaseFontHandler = event -> {
-            Font currentFont = gc.getFont();
-            Font newFont = Font.font(currentFont.getFamily(), currentFont.getSize() + 1);
-            sizeLabelProperty.set(sizeLabelProperty.get() + 1);
-            fontSize.setText(Integer.toString(sizeLabelProperty.get()));
-            gc.setFont(newFont);
-        };
-        textIncreaseBtn.setOnAction(increaseFontHandler);
+        textIncreaseBtn.setOnAction(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "+");
+        });
 
         /* Decreasing Text Size */
-        EventHandler<MouseEvent> decreaseFontHandler = event -> {
-            Font currentFont = gc.getFont();
-            Font newFont = Font.font(currentFont.getFamily(), currentFont.getSize() - 1);
-            sizeLabelProperty.set(sizeLabelProperty.get() - 1);
-            fontSize.setText(Integer.toString(sizeLabelProperty.get()));
-            gc.setFont(newFont);
-        };
-        textDecreaseBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, decreaseFontHandler);
+        textDecreaseBtn.setOnAction(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "-");
+        });
 
+        /*========== Brush/FreeDraw Features ==========*/
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);
@@ -172,6 +163,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.beginPath();
                 gc.moveTo(x, y);
                 gc.setStroke(currentColorDraw);
@@ -216,6 +209,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.beginPath();
                 gc.moveTo(x, y);
                 gc.setStroke(Color.WHITE);
@@ -239,6 +234,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.lineTo(x, y);
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
@@ -285,6 +282,8 @@ public class EditorController {
                 double x = e.getX();
                 double y = e.getY();
                 gc.setLineWidth(size);
+                gc.setLineCap(StrokeLineCap.ROUND);
+                gc.setLineJoin(StrokeLineJoin.ROUND);
                 gc.lineTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
