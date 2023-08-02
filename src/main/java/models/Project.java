@@ -54,7 +54,8 @@ public class Project {
         AardCircle tmp = new AardCircle(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
         for (int i = elements.size() - 1; i >= 0; --i) {
             if (elements.get(i) instanceof AardCircle) {
-                tmp = (AardCircle)elements.get(i);
+                AardCircle t = (AardCircle)elements.get(i);
+                tmp = new AardCircle(t.x, t.y, t.r, t.isFill, t.isStroke, t.fill, t.stroke, t.strokeSize);
                 elements.remove(i);
                 break;
             }
@@ -66,7 +67,8 @@ public class Project {
         AardSquare tmp = new AardSquare(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
         for (int i = elements.size() - 1; i >= 0; --i) {
             if (elements.get(i) instanceof AardSquare) {
-                tmp = (AardSquare)elements.get(i);
+                AardSquare t = (AardSquare)elements.get(i);
+                tmp = new AardSquare(t.x, t.y, t.r, t.isFill, t.isStroke, t.fill, t.stroke, t.strokeSize);
                 elements.remove(i);
                 break;
             }

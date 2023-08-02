@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class AardSquare implements VisualElement {
     public double x, y, r;
-    boolean isFill, isStroke;
-    Color fill, stroke;
-    double strokeSize;
+    public boolean isFill, isStroke;
+    public Color fill, stroke;
+    public double strokeSize;
 
     public AardSquare(double _x, double _y, double _r, boolean _isFill, boolean _isStroke, Color _fill, Color _stroke, double _strokeSize)
     {

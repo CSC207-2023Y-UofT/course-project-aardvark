@@ -191,14 +191,8 @@ public class EditorController {
                 gc.stroke();
             }
             else if (radioButtonCircle.isSelected()) {
-                //canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
-                //colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
-
-                double x = e.getX();
-                double y = e.getY();
-
                 project.addVisualElement(new AardCircle(
-                        x - 1, y - 1, 2,
+                        e.getX() - 1, e.getY() - 1, 2,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
@@ -206,11 +200,8 @@ public class EditorController {
                         Integer.parseInt(textFieldShapeStroke.getText())));
             }
             else if (radioButtonSquare.isSelected()) {
-                double x = e.getX();
-                double y = e.getY();
-
                 project.addVisualElement(new AardSquare(
-                        x - 1, y - 1, 2,
+                        e.getX() - 1, e.getY() - 1, 2,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
@@ -245,6 +236,7 @@ public class EditorController {
 
             gc.setFill(Color.WHITE);
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            project.draw(gc);
         });
 
         canvas.setOnMouseDragged(e -> {
@@ -320,6 +312,7 @@ public class EditorController {
 
             gc.setFill(Color.WHITE);
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            project.draw(gc);
         });
     }
 
