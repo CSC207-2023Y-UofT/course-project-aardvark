@@ -34,7 +34,10 @@ public class EditorController {
     public Button exportBtn;
     public ToggleGroup selectTool;
     public RadioButton freeDrawBtn;
-    public RadioButton circleBtn;
+    @FXML
+    public RadioButton radioButtonCircle;
+    @FXML
+    public RadioButton radioButtonSquare;
     public RadioButton textBoxBtn;
     public RadioButton eraserBtn;
     private static Project project = new Project("untitled project");
@@ -74,8 +77,6 @@ public class EditorController {
     String [] defaultInput = new String[]{""};
     private ArrayList<AardText> textArrayList = new ArrayList<>();
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
-
-    static ArrayList<AardCircle> circles = new ArrayList<>();
     public void initialize() {
         // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
         gc = canvas.getGraphicsContext2D();
@@ -161,9 +162,6 @@ public class EditorController {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.BLACK);
 
-        //freeDrawBtn.setSelected(true);
-        circleBtn.setSelected(true);
-
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
                 canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
@@ -179,15 +177,29 @@ public class EditorController {
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
             }
-            else if (circleBtn.isSelected()) {
+            else if (radioButtonCircle.isSelected()) {
                 //canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
                 //colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
                 double x = e.getX();
                 double y = e.getY();
 
-                circles.add(new AardCircle(
-                        x - 25, y - 25, 50,
+                AardVisualElement.addCircle(new AardCircle(
+                        x - 1, y - 1, 2,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+            }
+            else if (radioButtonSquare.isSelected()) {
+                double x = e.getX();
+                double y = e.getY();
+
+                AardVisualElement.addSquare(new AardSquare(
+                        x - 1, y - 1, 2,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
                         Integer.parseInt(textFieldShapeStroke.getText())));
@@ -208,7 +220,13 @@ public class EditorController {
                 gc.moveTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
+
+                AardVisualElement.clear();
             }
+
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            AardVisualElement.draw(gc);
         });
 
         canvas.setOnMouseDragged(e -> {
@@ -224,7 +242,42 @@ public class EditorController {
                 gc.lineTo(x, y);
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
-            } else if (eraserBtn.isSelected()) {
+            }
+            else if (radioButtonCircle.isSelected()) {
+                double x = e.getX();
+                double y = e.getY();
+
+                AardCircle last = AardVisualElement.circles.get(AardVisualElement.circles.size() - 1);
+
+                double r = Math.sqrt(Math.pow(last.x - x, 2) + Math.pow(last.y - y, 2));
+                AardVisualElement.addCircle(new AardCircle(
+                        last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+
+                AardVisualElement.circles.remove(AardVisualElement.circles.size() - 2);
+            }
+            else if (radioButtonSquare.isSelected()) {
+                double x = e.getX();
+                double y = e.getY();
+
+                AardSquare last = AardVisualElement.squares.get(AardVisualElement.squares.size() - 1);
+
+                double r = Math.sqrt(Math.pow(last.x - x, 2) + Math.pow(last.y - y, 2));
+                AardVisualElement.addSquare(new AardSquare(
+                        last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+
+                AardVisualElement.squares.remove(AardVisualElement.squares.size() - 2);
+            }
+            else if (eraserBtn.isSelected()) {
                 canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
                 colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
@@ -235,7 +288,13 @@ public class EditorController {
                 gc.lineTo(x, y);
                 gc.setStroke(Color.WHITE);
                 gc.stroke();
+
+                AardVisualElement.clear();
             }
+
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            AardVisualElement.draw(gc);
         });
     }
 
@@ -256,10 +315,6 @@ public class EditorController {
             alert.setContentText("Error exporting as PNG. Please try again.");
             alert.showAndWait();
         }
-
-        for (AardCircle circle : circles)
-            circle.draw(gc, checkBoxShapeFill.isSelected(), checkBoxShapeStroke.isSelected());
-
     }
 
     @FXML
