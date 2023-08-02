@@ -105,8 +105,6 @@ public class EditorController {
                 AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
                         gc.getFont(), xValue, yValue);
                 project.addVisualElement(newText);
-                textArrayList.add(newText);
-                newText.draw(gc);
             }
         };
 
