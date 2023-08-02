@@ -100,10 +100,8 @@ public class EditorController {
         /* Creating Text at a Specified Location */
         EventHandler<MouseEvent> writeTextHandler = event -> {
             if (textBoxBtn.isSelected()) {
-                double xValue = event.getX();
-                double yValue = event.getY();
-                AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
-                        gc.getFont(), xValue, yValue);
+                WriteTextUseCase writeTextUseCase = new WriteTextUseCase(gc, event);
+                AardText newText = writeTextUseCase.writeText(defaultInput[0], currentColorText);
                 project.addVisualElement(newText);
             }
         };
