@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditorController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="212.0" />
@@ -29,14 +29,11 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="rename-btn" fx:id="renameBtn" mnemonicParsing="false" text="Untitled Project" textFill="#222">
+            <Label fx:id="projectName" mnemonicParsing="false" textFill="#222">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
-               <tooltip>
-                  <Tooltip text="Rename Project" />
-               </tooltip>
-            </Button>
+            </Label>
             <Button id="resize-btn" fx:id="resizeBtn" mnemonicParsing="false" onAction="#resizeCanvas">
                <tooltip>
                   <Tooltip text="Resize Canvas">
@@ -55,7 +52,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="undo-btn" mnemonicParsing="false">
+            <Button id="undo-btn" fx:id="undoBtn" mnemonicParsing="false" onAction="#undo">
                <tooltip>
                   <Tooltip text="Undo">
                      <font>
@@ -64,7 +61,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="redo-btn" mnemonicParsing="false">
+            <Button id="redo-btn" fx:id="redoBtn" mnemonicParsing="false" onAction="#redo">
                <tooltip>
                   <Tooltip text="Redo">
                      <font>
