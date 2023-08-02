@@ -1,5 +1,7 @@
 package models;
 
+import free_draw.FreeDrawLine;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
@@ -85,20 +87,35 @@ public class Project {
         redoStack.add(v);
     }
 
+    public FreeDrawLine getCurrentLine(){
+        VisualElement v = elements.get(elements.size() - 1);
+        if(v instanceof FreeDrawLine) {
+            return (FreeDrawLine) v;
+        }
+        return null;
+    }
+
     /**
      * If redoStack is not empty, adds the last undone
      * visualElement back to the element list.
      * Otherwise, does nothing.
      */
-    public void redoVisualElement() {
+    public void redoVisualElement(GraphicsContext gc) {
         if (canRedo()) {
             VisualElement v = redoStack.pop();
+            v.draw(gc);
             elements.add(v);
         }
     }
 
     public boolean canRedo() {
         return !redoStack.empty();
+    }
+
+    public void draw(GraphicsContext gc) {
+        for(int i = 0; i < elements.size(); i++) {
+            elements.get(i).draw(gc);
+        }
     }
 
     public void showErrorDialog(String message) {
