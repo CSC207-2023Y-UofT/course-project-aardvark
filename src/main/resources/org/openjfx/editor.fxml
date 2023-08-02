@@ -33,9 +33,6 @@
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
-               <tooltip>
-                  <Tooltip text="Rename Project" />
-               </tooltip>
             </Label>
             <Button id="resize-btn" fx:id="resizeBtn" mnemonicParsing="false" onAction="#resizeCanvas">
                <tooltip>
