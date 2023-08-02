@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
@@ -37,7 +38,7 @@ public class EditorController {
     public RadioButton freeDrawBtn;
     public RadioButton textBoxBtn;
     public RadioButton eraserBtn;
-    private static Project project = new Project("untitled project");
+    private Project project;
     @FXML
     public ComboBox<String> fontComboBox;
     @FXML
@@ -63,67 +64,36 @@ public class EditorController {
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
     private ArrayList<AardText> textArrayList = new ArrayList<>();
-//    private ArrayList<VisualElement>
+    private ArrayList<VisualElement> visualElementArrayList = new ArrayList<>();
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
     public void initialize() {
         // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
         gc = canvas.getGraphicsContext2D();
-        resizerController = new CanvasResizerController(canvas, project);
+        resizerController = new CanvasResizerController(canvas);
         colorPickerDraw.setOnAction(e -> setCurrentColorDraw(colorPickerDraw.getValue()));
         colorPickerText.setOnAction(e -> setCurrentColorText(colorPickerText.getValue()));
 
         // Default font and font size
         gc.setFont(defaultFont);
         fontSize.setText("16");
-
-
         textField.setOnKeyReleased(e -> defaultInput[0] = textField.getText());
 
-        /* Creating Text at a Specified Location */
-        EventHandler<MouseEvent> writeTextHandler = event -> {
-            if (textBoxBtn.isSelected()) {
-                double xValue = event.getX();
-                double yValue = event.getY();
-                AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
-                        gc.getFont(), xValue, yValue);
-                textArrayList.add(newText);
-                newText.draw(gc);
-            }
-        };
-
         /*===== Changing and Adjusting Text-Related Settings on the Canvas =====*/
-
-        /* Changing Font Family */
-        // System.out.println(Font.getFamilies());
-        fontComboBox.getItems().addAll(
-                "Arial",
-                "Arial Narrow",
-                "Calibri",
-                "Cambria",
-                "Courier New",
-                "Algerian",
-                "Comic Sans MS",
-                "Cooper Black",
-                "Century Gothic",
-                "Verdana",
-                "Times New Roman"
-        );
+        /* Changing Font Family
+        * Adding a list of font options
+        * Setting the default font to Verdana */
+        addFonts(fontComboBox);
         fontComboBox.setValue("Verdana");
+        fontComboBox.setOnAction(this::changeFont);
 
-        fontComboBox.setOnAction(event -> {
-            Font newFont = new Font(fontComboBox.getValue(), sizeLabelProperty.get());
-            gc.setFont(newFont);
-        });
+        /* Implementing functionality of fontSize textfield  */
+        fontSize.setOnKeyReleased(this::changeFontSize);
+        /* Setting Default Colours in Color Pickers */
+        colorPickerDraw.setValue(currentColorDraw);
+        colorPickerText.setValue(currentColorText);
 
-        fontSize.setOnKeyReleased(event -> {
-            Font newFont = new Font(fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
-            sizeLabelProperty.set(Integer.parseInt(fontSize.getText()));
-            gc.setFont(newFont);
-        });
-
-        /* Changing Text Colour */
-        colorPickerText.setValue(Color.BLACK);
+        /* Setting Default Colours in Color Pickers */
         EventHandler<ActionEvent> changeColorHandler = event -> gc.setFill(colorPickerText.getValue());
         colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
 
@@ -146,16 +116,11 @@ public class EditorController {
             gc.setFont(newFont);
         };
         textDecreaseBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, decreaseFontHandler);
-
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.BLACK);
-
         freeDrawBtn.setSelected(true);
 
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
+                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
                 colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
                 currentColorDraw = colorPickerDraw.getValue();
@@ -171,9 +136,9 @@ public class EditorController {
                 gc.stroke();
             } else if (textBoxBtn.isSelected()) {
                 colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
-                canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
+                canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
             } else if (eraserBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
+                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
                 colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
                 double size = Double.parseDouble(brushSize.getText());
@@ -190,7 +155,7 @@ public class EditorController {
         });
         canvas.setOnMouseDragged(e -> {
             if (freeDrawBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
+                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
                 colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
                 currentColorDraw = colorPickerDraw.getValue();
@@ -204,7 +169,7 @@ public class EditorController {
                 gc.setStroke(currentColorDraw);
                 gc.stroke();
             } else if (eraserBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, writeTextHandler);
+                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
                 colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
 
                 double size = Double.parseDouble(brushSize.getText());
@@ -244,8 +209,8 @@ public class EditorController {
         FXMLController switcher = new FXMLController();
         switcher.switchToProjects(event);
     }
-    public static void setProject(Project p) {
-        EditorController.project = p;
+    public void setProject(Project p) {
+        this.project = p;
     }
 
     public void resizeCanvas(ActionEvent actionEvent) {
@@ -267,5 +232,42 @@ public class EditorController {
         currentColorText = color;
         gc.setStroke(color);
         gc.setFill(color);
+    }
+
+    /* Creating Text at a Specified Location */
+    private void writeTextHandler(MouseEvent e) {
+        if (textBoxBtn.isSelected()) {
+            double xValue = e.getX();
+            double yValue = e.getY();
+            AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
+                    gc.getFont(), xValue, yValue);
+            textArrayList.add(newText);
+            newText.draw(gc);
+        }
+    }
+    private void addFonts(ComboBox<String> fontComboBox) {
+        fontComboBox.getItems().addAll(
+                "Arial",
+                "Arial Narrow",
+                "Calibri",
+                "Cambria",
+                "Courier New",
+                "Algerian",
+                "Comic Sans MS",
+                "Cooper Black",
+                "Century Gothic",
+                "Verdana",
+                "Times New Roman"
+        );
+    }
+    private void changeFont(ActionEvent e) {
+        Font newFont = new Font(fontComboBox.getValue(), sizeLabelProperty.get());
+        gc.setFont(newFont);
+    }
+
+    private void changeFontSize(KeyEvent e) {
+        Font newFont = new Font(fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
+        sizeLabelProperty.set(Integer.parseInt(fontSize.getText()));
+        gc.setFont(newFont);
     }
 }

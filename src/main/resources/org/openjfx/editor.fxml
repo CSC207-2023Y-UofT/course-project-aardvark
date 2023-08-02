@@ -229,7 +229,7 @@
             <Insets />
          </GridPane.margin>
       </VBox>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 12, 0, 0, 2);" GridPane.rowIndex="2">
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.20), 12, 0, 0, 2);" GridPane.rowIndex="2">
          <content>
             <Canvas id="canvas" fx:id="canvas" height="706" width="1202" />
          </content>

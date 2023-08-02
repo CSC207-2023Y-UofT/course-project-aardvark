@@ -14,21 +14,9 @@ import java.util.Optional;
 
 public class CanvasResizerController {
     private Canvas canvas;
-    private Project project;
-
-    public CanvasResizerController(Canvas canvas, Project project) {
-        this.canvas = canvas;
-        this.project = project;
-    }
 
     public CanvasResizerController(Canvas canvas) {
-        this(canvas, new Project("untitled project"));
-    }
-    public CanvasResizerController(Project project) {
-        this(new Canvas(800, 600), project);
-    }
-    public CanvasResizerController() {
-        this(new Canvas(600, 600), new Project("untitled project"));
+        this.canvas = canvas;
     }
 
     public void resizeCanvas(double newWidth, double newHeight) {
@@ -37,9 +25,6 @@ public class CanvasResizerController {
     }
 
     public void resize() {
-        WritableImage snapshot = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
-        canvas.snapshot(null, snapshot); // Take a snapshot of the current content
-
         // Create a custom dialog to get the new dimensions from the user
         Dialog<Pair<Double, Double>> dialog = new Dialog<>();
         dialog.setTitle("Resize Canvas");
@@ -80,7 +65,11 @@ public class CanvasResizerController {
                     return new Pair<>(newWidth, newHeight);
                 } catch (NumberFormatException ex) {
                     // Handle invalid input (non-numeric values)
-                    project.showErrorDialog("Invalid input. Please enter numeric values for width and height.");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid input. Please enter numeric values for width and height.");
+                    alert.showAndWait();
                 }
             }
             return null;
@@ -93,14 +82,5 @@ public class CanvasResizerController {
         result.ifPresent(dimensions -> {
             this.resizeCanvas(dimensions.getKey(), dimensions.getValue());
         });
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        // Fill the canvas with white
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-        // Draw the preserved content back onto the resized canvas
-        gc.drawImage(snapshot, 0, 0);
     }
 }
