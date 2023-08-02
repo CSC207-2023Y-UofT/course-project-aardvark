@@ -20,10 +20,10 @@ import java.util.HashMap;
 public class FreeDrawLine implements VisualElement{
 
     private final String colour;
-    private final int strokeSize;
+    private final double strokeSize;
     private ArrayList<Point2D.Double> path = new ArrayList<>();
 
-    public FreeDrawLine(String colour, int strokeSize) {
+    public FreeDrawLine(String colour, double strokeSize) {
         this.colour = colour;
         this.strokeSize = strokeSize;
     }

@@ -120,8 +120,7 @@ public class FXMLController implements Initializable {
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
         Project project = new Project(newProjectName.getText());
-        EditorController.setProject(project);
-        switchToEditor(event);
+        switchToEditor(event, project);
     }
 
     @FXML
@@ -129,18 +128,20 @@ public class FXMLController implements Initializable {
         System.out.println("deleted");
     }
 
-    @FXML
-    public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("editor.fxml"));
+    public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
+        EditorController editorController = new EditorController(project);
+        fxmlLoader.setController(editorController);
+        root = fxmlLoader.load();
+
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        // Editor editor = new Editor();
         stage.setResizable(true);
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
         stage.setX(0);
         stage.setY(0);
-        // editor.start(stage);
         stage.show();
+
     }
 }
