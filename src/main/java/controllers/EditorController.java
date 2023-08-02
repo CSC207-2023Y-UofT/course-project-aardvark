@@ -23,6 +23,8 @@ import models.Project;
 import models.VisualElement;
 import org.openjfx.FXMLController;
 import text.AardText;
+import text.ChangeSettingsUseCase;
+import text.WriteTextUseCase;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -63,9 +65,9 @@ public class EditorController {
     public GraphicsContext gc;
     public static Stage primaryStage;
     private CanvasResizerController resizerController;
+
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
-    private ArrayList<AardText> textArrayList = new ArrayList<>();
 //    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
@@ -80,24 +82,15 @@ public class EditorController {
         colorPickerDraw.setOnAction(e -> setCurrentColorDraw(colorPickerDraw.getValue()));
         colorPickerText.setOnAction(e -> setCurrentColorText(colorPickerText.getValue()));
 
-        //Set Title
+        //Set Project Title
         projectName.setText(project.getName());
 
-        // Default font and font size
+        /*========== Text Features ==========*/
         gc.setFont(defaultFont);
         fontSize.setText("16");
-
-        //Default colors and setting
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.BLACK);
-
-        freeDrawBtn.setSelected(true);
-
-
+        colorPickerText.setValue(Color.BLACK);
         textField.setOnKeyReleased(e -> defaultInput[0] = textField.getText());
 
-        /* Creating Text at a Specified Location */
         EventHandler<MouseEvent> writeTextHandler = event -> {
             if (textBoxBtn.isSelected()) {
                 WriteTextUseCase writeTextUseCase = new WriteTextUseCase(gc, event);
@@ -105,8 +98,6 @@ public class EditorController {
                 project.addVisualElement(newText);
             }
         };
-
-        /*===== Changing and Adjusting Text-Related Settings on the Canvas =====*/
 
         /* Changing Font Family */
         // System.out.println(Font.getFamilies());
@@ -126,40 +117,42 @@ public class EditorController {
         fontComboBox.setValue("Verdana");
 
         fontComboBox.setOnAction(event -> {
-            Font newFont = new Font(fontComboBox.getValue(), sizeLabelProperty.get());
-            gc.setFont(newFont);
-        });
-
-        fontSize.setOnKeyReleased(event -> {
-            Font newFont = new Font(fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
-            sizeLabelProperty.set(Integer.parseInt(fontSize.getText()));
-            gc.setFont(newFont);
+            ChangeSettingsUseCase changeFont = new ChangeSettingsUseCase(gc);
+            changeFont.changeFontFamily(fontComboBox, sizeLabelProperty);
         });
 
         /* Changing Text Colour */
-        colorPickerText.setValue(Color.BLACK);
-        EventHandler<ActionEvent> changeColorHandler = event -> gc.setFill(colorPickerText.getValue());
+        EventHandler<ActionEvent> changeColorHandler = event -> {
+            ChangeSettingsUseCase changeFontColor = new ChangeSettingsUseCase(gc);
+            changeFontColor.changeFontColor(colorPickerText);
+        };
         colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
 
+        /* Changing Font Size */
+        // Currently DOES NOT handle when the entry is not an int
+        fontSize.setOnKeyReleased(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSize(sizeLabelProperty, fontSize);
+        });
+
         /* Increasing Text Size */
-        EventHandler<ActionEvent> increaseFontHandler = event -> {
-            Font currentFont = gc.getFont();
-            Font newFont = Font.font(currentFont.getFamily(), currentFont.getSize() + 1);
-            sizeLabelProperty.set(sizeLabelProperty.get() + 1);
-            fontSize.setText(Integer.toString(sizeLabelProperty.get()));
-            gc.setFont(newFont);
-        };
-        textIncreaseBtn.setOnAction(increaseFontHandler);
+        textIncreaseBtn.setOnAction(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "+");
+        });
 
         /* Decreasing Text Size */
-        EventHandler<MouseEvent> decreaseFontHandler = event -> {
-            Font currentFont = gc.getFont();
-            Font newFont = Font.font(currentFont.getFamily(), currentFont.getSize() - 1);
-            sizeLabelProperty.set(sizeLabelProperty.get() - 1);
-            fontSize.setText(Integer.toString(sizeLabelProperty.get()));
-            gc.setFont(newFont);
-        };
-        textDecreaseBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, decreaseFontHandler);
+        textDecreaseBtn.setOnAction(event -> {
+            ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
+            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "-");
+        });
+
+        /*========== Brush/FreeDraw Features ==========*/
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Color.BLACK);
+
+        freeDrawBtn.setSelected(true);
 
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
