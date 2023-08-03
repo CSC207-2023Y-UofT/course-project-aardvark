@@ -91,7 +91,7 @@
 #delete {
     -fx-background-image: url("/images/delete.png");
     -fx-background-repeat: no-repeat;
-    -fx-background-size: 20 20;
+    -fx-background-size: 24 24;
     -fx-background-position: center center;
     -fx-background-color: #fff;
 }

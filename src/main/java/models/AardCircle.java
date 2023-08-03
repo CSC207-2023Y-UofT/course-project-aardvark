@@ -1,13 +1,14 @@
-package text;
+package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.util.HashMap;
 
-public class AardCircle {
+public class AardCircle implements VisualElement  {
     public double x, y, r;
-    boolean isFill, isStroke;
-    Color fill, stroke;
-    double strokeSize;
+    public boolean isFill, isStroke;
+    public Color fill, stroke;
+    public double strokeSize;
 
     public AardCircle(double _x, double _y, double _r, boolean _isFill, boolean _isStroke, Color _fill, Color _stroke, double _strokeSize)
     {
@@ -35,5 +36,13 @@ public class AardCircle {
                 : Color.TRANSPARENT);
 
         gc.strokeOval(x, y, r, r);
+    }
+
+    public HashMap<String, Object> toDict()
+    {
+        HashMap<String, Object> aardMap = new HashMap<>();
+        Object[] arr = { x, y, r, isFill, isStroke, fill, stroke, strokeSize };
+        aardMap.put("AardCircle", arr);
+        return aardMap;
     }
 }
