@@ -1,17 +1,21 @@
 package controllers;
 
+import free_draw.FreeDrawLine;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
@@ -19,170 +23,296 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.AardCircle;
+import models.AardSquare;
 import models.Project;
 import models.VisualElement;
 import org.openjfx.FXMLController;
-import text.AardText;
+import text.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EditorController {
-    public Button renameBtn;
+
+    public final Project project;
+    public Label projectName;
     public Button resizeBtn;
     public Button clearBtn;
     public Button exportBtn;
-    public ToggleGroup selectTool;
+    public Button undoBtn;
     public RadioButton freeDrawBtn;
+    @FXML
+    public RadioButton radioButtonCircle;
+    @FXML
+    public RadioButton radioButtonSquare;
     public RadioButton textBoxBtn;
     public RadioButton eraserBtn;
-    private Project project;
     @FXML
     public ComboBox<String> fontComboBox;
     @FXML
-    public Button textIncreaseBtn;
-    @FXML
-    public Button textDecreaseBtn;
+    public TextField fontSize;
     @FXML
     private Canvas canvas;
     @FXML
     private ColorPicker colorPickerDraw;
     @FXML
     public ColorPicker colorPickerText;
+    @FXML
+    public ColorPicker colourPickerShapeFill;
+    @FXML
+    public ColorPicker colourPickerShapeStroke;
+    @FXML
+    public CheckBox checkBoxShapeFill;
+    @FXML
+    public CheckBox checkBoxShapeStroke;
+    @FXML
+    public TextField textFieldShapeStroke;
+    @FXML
+    public VBox brushDiv;
+    @FXML
+    public VBox textDiv;
+    @FXML
+    public VBox shapesDiv;
+    @FXML
+    public ToggleGroup selectTool;
     private Color currentColorDraw = Color.BLACK;
     private Color currentColorText = Color.BLACK;
     @FXML
     private TextField brushSize;
-    @FXML
-    public TextField fontSize;
     public TextField textField;
     public GraphicsContext gc;
     public static Stage primaryStage;
     private CanvasResizerController resizerController;
+
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
-    private ArrayList<AardText> textArrayList = new ArrayList<>();
-    private ArrayList<VisualElement> visualElementArrayList = new ArrayList<>();
+//    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
-    public void initialize() {
-        // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
-        gc = canvas.getGraphicsContext2D();
-        resizerController = new CanvasResizerController(canvas);
-        colorPickerDraw.setOnAction(e -> setCurrentColorDraw(colorPickerDraw.getValue()));
-        colorPickerText.setOnAction(e -> setCurrentColorText(colorPickerText.getValue()));
+    public EditorController(Project p) {
+        project = p;
+    }
 
-        // Default font and font size
+    public void initialize() {
+        /* INITIALIZE */
+
+        gc = canvas.getGraphicsContext2D();
+        resizerController = new CanvasResizerController(canvas, project);
+
+        projectName.setText(project.getName());
+
+        // default button
+        freeDrawBtn.setSelected(true);
+        checkBoxShapeFill.setSelected(true);
+
+        /* CLEAR */
+
+        clearBtn.setOnMousePressed(e -> {
+            project.addVisualElement(new AardSquare(
+                0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
+                true, true, Color.WHITE, Color.WHITE, 0));
+        });
+
+        /* TEXT */
+
         gc.setFont(defaultFont);
-        fontSize.setText("16");
         textField.setOnKeyReleased(e -> defaultInput[0] = textField.getText());
 
-        /*===== Changing and Adjusting Text-Related Settings on the Canvas =====*/
-        /* Changing Font Family
-        * Adding a list of font options
-        * Setting the default font to Verdana */
-        addFonts(fontComboBox);
+        fontComboBox.getItems().addAll(
+                "Arial",
+                "Arial Narrow",
+                "Calibri",
+                "Cambria",
+                "Courier New",
+                "Algerian",
+                "Comic Sans MS",
+                "Cooper Black",
+                "Century Gothic",
+                "Verdana",
+                "Times New Roman"
+        );
+
         fontComboBox.setValue("Verdana");
-        fontComboBox.setOnAction(this::changeFont);
 
-        /* Implementing functionality of fontSize textfield  */
-        fontSize.setOnKeyReleased(this::changeFontSize);
-        /* Setting Default Colours in Color Pickers */
-        colorPickerDraw.setValue(currentColorDraw);
-        colorPickerText.setValue(currentColorText);
+        /* WHITE CANVAS BACKGROUND */
 
-        /* Setting Default Colours in Color Pickers */
-        EventHandler<ActionEvent> changeColorHandler = event -> gc.setFill(colorPickerText.getValue());
-        colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        /* Increasing Text Size */
-        EventHandler<ActionEvent> increaseFontHandler = event -> {
-            Font currentFont = gc.getFont();
-            Font newFont = Font.font(currentFont.getFamily(), currentFont.getSize() + 1);
-            sizeLabelProperty.set(sizeLabelProperty.get() + 1);
-            fontSize.setText(Integer.toString(sizeLabelProperty.get()));
-            gc.setFont(newFont);
-        };
-        textIncreaseBtn.setOnAction(increaseFontHandler);
+        /* SETTINGS */
 
-        /* Decreasing Text Size */
-        EventHandler<MouseEvent> decreaseFontHandler = event -> {
-            Font currentFont = gc.getFont();
-            Font newFont = Font.font(currentFont.getFamily(), currentFont.getSize() - 1);
-            sizeLabelProperty.set(sizeLabelProperty.get() - 1);
-            fontSize.setText(Integer.toString(sizeLabelProperty.get()));
-            gc.setFont(newFont);
-        };
-        textDecreaseBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, decreaseFontHandler);
-        freeDrawBtn.setSelected(true);
+//      default state of settings boxes
+        brushDiv.setVisible(true);
+        brushDiv.setManaged(true);
+        textDiv.setVisible(false);
+        textDiv.setManaged(false);
+        shapesDiv.setVisible(false);
+        shapesDiv.setManaged(false);
+        selectTool.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                if (freeDrawBtn.isSelected()) {
+                    brushDiv.setVisible(true);
+                    brushDiv.setManaged(true);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(false);
+                    shapesDiv.setManaged(false);
+                }
+                else if (radioButtonCircle.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(true);
+                    shapesDiv.setManaged(true);
+                }
+                else if (radioButtonSquare.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(true);
+                    shapesDiv.setManaged(true);
+                }
+                else if (textBoxBtn.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    textDiv.setVisible(true);
+                    textDiv.setManaged(true);
+                    shapesDiv.setVisible(false);
+                    shapesDiv.setManaged(false);
+                    textField.requestFocus();
+                }
+                else if (eraserBtn.isSelected()) {
+                    brushDiv.setVisible(true);
+                    brushDiv.setManaged(true);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(false);
+                    shapesDiv.setManaged(false);
+                }
+            }
+        });
 
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
-                colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
-
-                currentColorDraw = colorPickerDraw.getValue();
-                double size = Double.parseDouble(brushSize.getText());
-                double x = e.getX();
-                double y = e.getY();
-                gc.setLineWidth(size);
-                gc.setLineCap(StrokeLineCap.ROUND);
-                gc.setLineJoin(StrokeLineJoin.ROUND);
-                gc.beginPath();
-                gc.moveTo(x, y);
-                gc.setStroke(currentColorDraw);
-                gc.stroke();
-            } else if (textBoxBtn.isSelected()) {
-                colorPickerText.addEventFilter(ActionEvent.ACTION, changeColorHandler);
-                canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
-            } else if (eraserBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
-                colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
+                brushDiv.setVisible(true);
+                brushDiv.setManaged(true);
 
                 double size = Double.parseDouble(brushSize.getText());
-                double x = e.getX();
-                double y = e.getY();
-                gc.setLineWidth(size);
-                gc.setLineCap(StrokeLineCap.ROUND);
-                gc.setLineJoin(StrokeLineJoin.ROUND);
-                gc.beginPath();
-                gc.moveTo(x, y);
-                gc.setStroke(Color.WHITE);
-                gc.stroke();
+
+                FreeDrawLine newLine = new FreeDrawLine(colorPickerDraw.getValue(), size);
+                newLine.addPoint(e.getX(), e.getY());
+
+                project.addVisualElement(newLine);
             }
+            else if (radioButtonCircle.isSelected()) {
+                shapesDiv.setVisible(true);
+                shapesDiv.setManaged(true);
+
+                project.addVisualElement(new AardCircle(
+                        e.getX() - 1, e.getY() - 1, 2,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+            }
+            else if (radioButtonSquare.isSelected()) {
+                shapesDiv.setVisible(true);
+                shapesDiv.setManaged(true);
+
+                project.addVisualElement(new AardSquare(
+                        e.getX() - 1, e.getY() - 1, 2,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+            }
+            else if (textBoxBtn.isSelected()) {
+                textDiv.setVisible(true);
+                textDiv.setManaged(true);
+
+                project.addVisualElement(new AardText(
+                        textField.getText(),
+                        colorPickerText.getValue(),
+                        new Font(fontComboBox.getValue(), Double.parseDouble(fontSize.getText())),
+                        e.getX(), e.getY()));
+            }
+            else if (eraserBtn.isSelected()) {
+                brushDiv.setVisible(true);
+                brushDiv.setManaged(true);
+
+                double size = Double.parseDouble(brushSize.getText());
+
+                FreeDrawLine eraser = new FreeDrawLine(Color.WHITE, size);
+                eraser.addPoint(e.getX(), e.getY());
+
+                project.addVisualElement(eraser);
+            }
+
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+            project.draw(gc);
         });
+
         canvas.setOnMouseDragged(e -> {
             if (freeDrawBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
-                colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
-
-                currentColorDraw = colorPickerDraw.getValue();
-                double size = Double.parseDouble(brushSize.getText());
-                double x = e.getX();
-                double y = e.getY();
-                gc.setLineWidth(size);
-                gc.setLineCap(StrokeLineCap.ROUND);
-                gc.setLineJoin(StrokeLineJoin.ROUND);
-                gc.lineTo(x, y);
-                gc.setStroke(currentColorDraw);
-                gc.stroke();
-            } else if (eraserBtn.isSelected()) {
-                canvas.removeEventFilter(MouseEvent.MOUSE_CLICKED, this::writeTextHandler);
-                colorPickerText.removeEventFilter(ActionEvent.ACTION, changeColorHandler);
-
-                double size = Double.parseDouble(brushSize.getText());
-                double x = e.getX();
-                double y = e.getY();
-                gc.setLineWidth(size);
-                gc.setLineCap(StrokeLineCap.ROUND);
-                gc.setLineJoin(StrokeLineJoin.ROUND);
-                gc.lineTo(x, y);
-                gc.setStroke(Color.WHITE);
-                gc.stroke();
+                FreeDrawLine line = project.getCurrentLine();
+                line.addPoint(e.getX(), e.getY());
             }
+            else if (radioButtonCircle.isSelected()) {
+                AardCircle last = project.getLastAndRemoveCircle();
+
+                double r = Math.sqrt(Math.pow(last.x - e.getX(), 2) + Math.pow(last.y - e.getY(), 2));
+                project.addVisualElement(new AardCircle(
+                        last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+            }
+            else if (radioButtonSquare.isSelected()) {
+                AardSquare last = project.getLastAndRemoveSquare();
+
+                double r = Math.sqrt(Math.pow(last.x - e.getX(), 2) + Math.pow(last.y - e.getY(), 2));
+                project.addVisualElement(new AardSquare(
+                        last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
+                        checkBoxShapeFill.isSelected(),
+                        checkBoxShapeStroke.isSelected(),
+                        colourPickerShapeFill.getValue(),
+                        colourPickerShapeStroke.getValue(),
+                        Integer.parseInt(textFieldShapeStroke.getText())));
+            }
+            else if (eraserBtn.isSelected()) {
+                FreeDrawLine eraser = project.getCurrentLine();
+                eraser.addPoint(e.getX(), e.getY());
+            }
+
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+            project.draw(gc);
         });
+    }
+
+    private void setCurrentColorDraw(Color color) {
+        currentColorDraw = color;
+        gc.setStroke(color);
+        gc.setFill(color);
+    }
+    private void setCurrentColorText(Color color) {
+        currentColorText = color;
+        gc.setStroke(color);
+        gc.setFill(color);
     }
 
     public void onSave() {
@@ -209,9 +339,6 @@ public class EditorController {
         FXMLController switcher = new FXMLController();
         switcher.switchToProjects(event);
     }
-    public void setProject(Project p) {
-        this.project = p;
-    }
 
     public void resizeCanvas(ActionEvent actionEvent) {
         this.resizerController.resize();
@@ -222,52 +349,15 @@ public class EditorController {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(colorPickerDraw.getValue());
     }
-
-    private void setCurrentColorDraw(Color color) {
-        currentColorDraw = color;
-        gc.setStroke(color);
-        gc.setFill(color);
-    }
-    private void setCurrentColorText(Color color) {
-        currentColorText = color;
-        gc.setStroke(color);
-        gc.setFill(color);
+    @FXML
+    public void undo(ActionEvent event) {
+        this.clearCanvas(event);
+        project.undoVisualElement();
+        project.draw(gc);
     }
 
-    /* Creating Text at a Specified Location */
-    private void writeTextHandler(MouseEvent e) {
-        if (textBoxBtn.isSelected()) {
-            double xValue = e.getX();
-            double yValue = e.getY();
-            AardText newText = new AardText(defaultInput[0], currentColorText.toString(),
-                    gc.getFont(), xValue, yValue);
-            textArrayList.add(newText);
-            newText.draw(gc);
-        }
-    }
-    private void addFonts(ComboBox<String> fontComboBox) {
-        fontComboBox.getItems().addAll(
-                "Arial",
-                "Arial Narrow",
-                "Calibri",
-                "Cambria",
-                "Courier New",
-                "Algerian",
-                "Comic Sans MS",
-                "Cooper Black",
-                "Century Gothic",
-                "Verdana",
-                "Times New Roman"
-        );
-    }
-    private void changeFont(ActionEvent e) {
-        Font newFont = new Font(fontComboBox.getValue(), sizeLabelProperty.get());
-        gc.setFont(newFont);
-    }
-
-    private void changeFontSize(KeyEvent e) {
-        Font newFont = new Font(fontComboBox.getValue(), Integer.parseInt(fontSize.getText()));
-        sizeLabelProperty.set(Integer.parseInt(fontSize.getText()));
-        gc.setFont(newFont);
+    @FXML
+    public void redo(ActionEvent event) {
+        project.redoVisualElement(gc);
     }
 }

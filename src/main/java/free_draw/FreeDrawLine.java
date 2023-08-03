@@ -19,16 +19,16 @@ import java.util.HashMap;
 
 public class FreeDrawLine implements VisualElement{
 
-    private final String colour;
-    private final int strokeSize;
+    private final Color colour;
+    private final double strokeSize;
     private ArrayList<Point2D.Double> path = new ArrayList<>();
 
-    public FreeDrawLine(String colour, int strokeSize) {
+    public FreeDrawLine(Color colour, double strokeSize) {
         this.colour = colour;
         this.strokeSize = strokeSize;
     }
 
-    public FreeDrawLine(String colour, int strokeSize, ArrayList<Point2D.Double> path) {
+    public FreeDrawLine(Color colour, int strokeSize, ArrayList<Point2D.Double> path) {
         this.colour = colour;
         this.strokeSize = strokeSize;
         this.path = path;
@@ -44,7 +44,7 @@ public class FreeDrawLine implements VisualElement{
      * @param gc
      */
     public void draw(GraphicsContext gc) {
-        gc.setStroke(Color.valueOf(colour));
+        gc.setStroke(colour);
         gc.setLineWidth(strokeSize);
         gc.setLineCap(StrokeLineCap.ROUND);
         gc.setLineJoin(StrokeLineJoin.ROUND);
@@ -59,7 +59,6 @@ public class FreeDrawLine implements VisualElement{
             gc.lineTo(next.x, next.y); //note the use of lineTo to fill in the gaps
             gc.stroke();
         }
-
     }
 
     public HashMap<String, Object> toDict() {
