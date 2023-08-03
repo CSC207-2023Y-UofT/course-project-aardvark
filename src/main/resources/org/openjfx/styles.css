@@ -290,7 +290,7 @@
 }
 
 .check-box:hover .box {
-    -fx-background-color: #EFEDF0;
+    -fx-background-color: #aaa;
 }
 
 .check-box:selected .mark {
