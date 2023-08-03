@@ -146,8 +146,8 @@
 
 /* ScrollPane */
 .scroll-pane {
-    -fx-background-color: #ffffff;
-    -fx-background: #ffffff;
+    -fx-background-color: #EFEDF0;
+    -fx-background: #EFEDF0;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
