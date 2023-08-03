@@ -93,5 +93,14 @@ public class CanvasResizerController {
         result.ifPresent(dimensions -> {
             this.resizeCanvas(dimensions.getKey(), dimensions.getValue());
         });
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Fill the canvas with white
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Draw the preserved content back onto the resized canvas
+        gc.drawImage(snapshot, 0, 0);
     }
 }
