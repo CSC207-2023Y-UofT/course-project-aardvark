@@ -34,7 +34,7 @@ public class UserDSGateway {
                 userDetails.put("Name", "Sample User");
                 userDetails.put("Email", "sample.user@gmail.com");
                 userDetails.put("Password", "12345");
-                userDetails.put("Projects", new ArrayList<>());
+                userDetails.put("Projects", new JSONArray());
                 this.dataDocument.put("sample.user@gmail.com", userDetails);
                 fw.write(this.dataDocument.toJSONString());
                 fw.flush();
@@ -61,7 +61,7 @@ public class UserDSGateway {
         userDetails.put("Name", user.name);
         userDetails.put("Email", user.email);
         userDetails.put("Password", user.password);
-        userDetails.put("Projects", new ArrayList<>());
+        userDetails.put("Projects", new JSONArray());
 
         // using the user email as the key since it is unique to each user
         this.dataDocument.put(user.email, userDetails);
@@ -91,13 +91,15 @@ public class UserDSGateway {
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
         projectsArray.add(project);
+
     }
 
     public void deleteProject(User user, HashMap<String, Object> project){
 
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
-        JSONArray projectsArray = (JSONArray) userDetails.get("projects");
+        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
         projectsArray.remove(project);
+
     }
 
     public void saveChanges(){
