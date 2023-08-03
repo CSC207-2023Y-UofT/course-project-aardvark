@@ -105,7 +105,7 @@ public class EditorController {
         /* INITIALIZE */
 
         gc = canvas.getGraphicsContext2D();
-        resizerController = new CanvasResizerController(canvas);
+        resizerController = new CanvasResizerController(canvas, project);
 
         projectName.setText(project.getName());
 
