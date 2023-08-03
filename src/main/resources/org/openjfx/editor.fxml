@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditorController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="212.0" />
@@ -29,14 +29,11 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="rename-btn" fx:id="renameBtn" mnemonicParsing="false" text="Untitled Project" textFill="#222">
+            <Label fx:id="projectName" mnemonicParsing="false" textFill="#222">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
-               <tooltip>
-                  <Tooltip text="Rename Project" />
-               </tooltip>
-            </Button>
+            </Label>
             <Button id="resize-btn" fx:id="resizeBtn" mnemonicParsing="false" onAction="#resizeCanvas">
                <tooltip>
                   <Tooltip text="Resize Canvas">
@@ -55,7 +52,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="undo-btn" mnemonicParsing="false">
+            <Button id="undo-btn" fx:id="undoBtn" mnemonicParsing="false" onAction="#undo">
                <tooltip>
                   <Tooltip text="Undo">
                      <font>
@@ -64,7 +61,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="redo-btn" mnemonicParsing="false">
+            <Button id="redo-btn" fx:id="redoBtn" mnemonicParsing="false" onAction="#redo">
                <tooltip>
                   <Tooltip text="Redo">
                      <font>
@@ -94,12 +91,12 @@
                   <ToggleGroup fx:id="selectTool" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton id="text-box-btn" fx:id="textBoxBtn" mnemonicParsing="false" text="Text"
+            <RadioButton id ="text-box-btn" fx:id="textBoxBtn" mnemonicParsing="false" text="Text"
                          toggleGroup="$selectTool"/>
-            <RadioButton id="eraser-btn" fx:id="eraserBtn" mnemonicParsing="false" text="Eraser"
+            <RadioButton id ="eraser-btn" fx:id="eraserBtn" mnemonicParsing="false" text="Eraser"
                         toggleGroup="$selectTool"/>
-            <RadioButton mnemonicParsing="false" text="Circle" toggleGroup="$selectTool" />
-            <RadioButton mnemonicParsing="false" text="Rectangle" toggleGroup="$selectTool" />
+            <RadioButton fx:id = "radioButtonCircle" mnemonicParsing="false" text="Circle" toggleGroup="$selectTool" />
+            <RadioButton fx:id = "radioButtonSquare" mnemonicParsing="false" text="Square" toggleGroup="$selectTool" />
          </children>
       </FlowPane>
       <VBox spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -144,7 +141,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="fontComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0" promptText="Font Family" />
+                  <ComboBox fx:id="fontComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0" promptText="Font Family"/>
                   <ColorPicker fx:id="colorPickerText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0">
                      <value>
                         <Color />
@@ -159,7 +156,7 @@
                               <Font name="Segoe UI" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="fontSize" maxHeight="-Infinity" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="30.0" style="-fx-border-radius: 4; -fx-border-color: #ccc;" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="fontSize" text="16" maxHeight="-Infinity" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="20.0" HBox.hgrow="ALWAYS">
                            <padding>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                            </padding>
@@ -202,20 +199,34 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0">
+                  <CheckBox fx:id="checkBoxShapeFill" alignment="TOP_LEFT" mnemonicParsing="false" text="Fill" textFill="#222222">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <ColorPicker fx:id="colourPickerShapeFill" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0">
                      <value>
-                        <Color />
+                        <Color/>
                      </value>
                   </ColorPicker>
-                  <HBox alignment="CENTER" spacing="8.0">
-                     <children>
-                        <CheckBox alignment="TOP_LEFT" mnemonicParsing="false" text="Fill shape" textFill="#222222">
-                           <font>
-                              <Font name="Segoe UI" size="12.0" />
-                           </font>
-                        </CheckBox>
-                     </children>
-                  </HBox>
+                  <CheckBox fx:id="checkBoxShapeStroke" alignment="TOP_LEFT" mnemonicParsing="false" text="Stroke" textFill="#222222">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <TextField fx:id="textFieldShapeStroke" text = "3" maxHeight="-Infinity" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="30.0" style="-fx-border-radius: 4; -fx-border-color: #ccc;" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </padding>
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                  </TextField>
+                  <ColorPicker fx:id="colourPickerShapeStroke" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0">
+                     <value>
+                        <Color/>
+                     </value>
+                  </ColorPicker>
                </children>
                <padding>
                   <Insets bottom="12.0" left="8.0" right="8.0" top="8.0" />
@@ -229,7 +240,7 @@
             <Insets />
          </GridPane.margin>
       </VBox>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 12, 0, 0, 2);" GridPane.rowIndex="2">
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <content>
             <Canvas id="canvas" fx:id="canvas" height="706" width="1202" />
          </content>

@@ -21,9 +21,8 @@ public class MainApp extends Application {
 
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);
-        stage.setResizable(false);
-        stage.setMinWidth(400);
-        stage.setMinHeight(400);
+        stage.setMinWidth(600);
+        stage.setMinHeight(650);
 
         stage.setTitle("Aardvark");
         stage.setScene(scene);

@@ -6,6 +6,7 @@
 .bin
 
 .idea/.name
+.idea/misc.xml
 gradle/
 
 # User-specific stuff
