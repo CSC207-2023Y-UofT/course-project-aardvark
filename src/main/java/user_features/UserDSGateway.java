@@ -79,10 +79,10 @@ public class UserDSGateway {
 
     }
 
-    public boolean checkPassword(User oldUser){
+    public boolean checkPassword(String email, String password){
 
-        JSONObject userDetails = (JSONObject) this.dataDocument.get(oldUser.email);
-        return(oldUser.password == userDetails.get("Password"));
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(email);
+        return(password.equals(userDetails.get("Password")));
     }
 
     @SuppressWarnings("unchecked")

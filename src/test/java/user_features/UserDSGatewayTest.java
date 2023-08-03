@@ -70,7 +70,7 @@ class UserDSGatewayTest {
         gateway.addUser(oldUser);
         gateway.saveChanges();
         User user = new User("Tony Stark", "tony.stark@gmail.com", "ironman4ever");
-        Assertions.assertTrue(gateway.checkPassword(user));
+        Assertions.assertTrue(gateway.checkPassword(oldUser.password, user.email));
     }
 
     @Test
@@ -80,7 +80,7 @@ class UserDSGatewayTest {
         gateway.addUser(oldUser);
         gateway.saveChanges();
         User user = new User("Tony Stark", "tony.stark@gmail.com", "thanos4ever");
-        Assertions.assertFalse(gateway.checkPassword(user));
+        Assertions.assertFalse(gateway.checkPassword(oldUser.password, user.email));
     }
 
     @Test

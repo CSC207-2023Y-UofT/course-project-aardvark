@@ -147,14 +147,14 @@ public class FXMLController implements Initializable {
         String password = passwordField.getText();
 
         UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
-        if (loginUser.checkExists() && loginUser.checkPassword(password)){
+        if (loginUser.checkExists() && loginUser.checkPassword()) {
             switchToProjects(event);
         }
-        else if(!loginUser.checkExists()){
-            showErrorAlert("User does not exists, please sign up.");
+        else if (!loginUser.checkExists()){
+            showErrorAlert("User does not exists, sign up");
         }
-        else if (!loginUser.checkPassword(password)){
-            showErrorAlert("Password is incorrect, please try again.");
+        else if (!loginUser.checkPassword()){
+            showErrorAlert("Password is incorrect, please try again");
         }
 
     }

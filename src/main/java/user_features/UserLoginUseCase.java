@@ -7,8 +7,7 @@ public class UserLoginUseCase {
     public UserLoginUseCase(String email, String password){
 
         UserDSGateway gateway = new UserDSGateway();
-        String name = gateway.getName(email);
-        this.user = new User(name, email, password);
+        this.user = new User("name_holder", email, password);
 
 
     }
@@ -20,10 +19,10 @@ public class UserLoginUseCase {
 
     }
 
-    public boolean checkPassword(String password){
+    public boolean checkPassword(){
 
         UserDSGateway gateway = new UserDSGateway();
-        return(gateway.checkPassword(this.user));
+        return(gateway.checkPassword(user.email, user.password));
 
    }
 }
