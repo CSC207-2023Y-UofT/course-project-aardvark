@@ -3,9 +3,12 @@ package controllers;
 import free_draw.FreeDrawLine;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -41,7 +44,6 @@ public class EditorController {
     public Button clearBtn;
     public Button exportBtn;
     public Button undoBtn;
-    public ToggleGroup selectTool;
     public RadioButton freeDrawBtn;
     @FXML
     public RadioButton radioButtonCircle;
@@ -53,10 +55,6 @@ public class EditorController {
     public ComboBox<String> fontComboBox;
     @FXML
     public TextField fontSize;
-    @FXML
-    public Button textIncreaseBtn;
-    @FXML
-    public Button textDecreaseBtn;
     @FXML
     private Canvas canvas;
     @FXML
@@ -73,6 +71,14 @@ public class EditorController {
     public CheckBox checkBoxShapeStroke;
     @FXML
     public TextField textFieldShapeStroke;
+    @FXML
+    public VBox brushDiv;
+    @FXML
+    public VBox textDiv;
+    @FXML
+    public VBox shapesDiv;
+    @FXML
+    public ToggleGroup selectTool;
     private Color currentColorDraw = Color.BLACK;
     private Color currentColorText = Color.BLACK;
     @FXML
@@ -132,14 +138,6 @@ public class EditorController {
 
         fontComboBox.setValue("Verdana");
 
-        textIncreaseBtn.setOnAction(event -> {
-            fontSize.setText(Integer.parseInt(fontSize.getText()) + 1 + "");
-        });
-
-        textDecreaseBtn.setOnAction(event -> {
-            fontSize.setText(Integer.parseInt(fontSize.getText()) - 1 + "");
-        });
-
         /* WHITE CANVAS BACKGROUND */
 
         gc.setFill(Color.WHITE);
@@ -147,8 +145,65 @@ public class EditorController {
 
         /* SETTINGS */
 
+//      default state of settings boxes
+        brushDiv.setVisible(true);
+        brushDiv.setManaged(true);
+        textDiv.setVisible(false);
+        textDiv.setManaged(false);
+        shapesDiv.setVisible(false);
+        shapesDiv.setManaged(false);
+        selectTool.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                if (freeDrawBtn.isSelected()) {
+                    brushDiv.setVisible(true);
+                    brushDiv.setManaged(true);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(false);
+                    shapesDiv.setManaged(false);
+                }
+                else if (radioButtonCircle.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(true);
+                    shapesDiv.setManaged(true);
+                }
+                else if (radioButtonSquare.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(true);
+                    shapesDiv.setManaged(true);
+                }
+                else if (textBoxBtn.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    textDiv.setVisible(true);
+                    textDiv.setManaged(true);
+                    shapesDiv.setVisible(false);
+                    shapesDiv.setManaged(false);
+                    textField.requestFocus();
+                }
+                else if (eraserBtn.isSelected()) {
+                    brushDiv.setVisible(true);
+                    brushDiv.setManaged(true);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(false);
+                    shapesDiv.setManaged(false);
+                }
+            }
+        });
+
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
+                brushDiv.setVisible(true);
+                brushDiv.setManaged(true);
+
                 double size = Double.parseDouble(brushSize.getText());
 
                 FreeDrawLine newLine = new FreeDrawLine(colorPickerDraw.getValue(), size);
@@ -157,6 +212,9 @@ public class EditorController {
                 project.addVisualElement(newLine);
             }
             else if (radioButtonCircle.isSelected()) {
+                shapesDiv.setVisible(true);
+                shapesDiv.setManaged(true);
+
                 project.addVisualElement(new AardCircle(
                         e.getX() - 1, e.getY() - 1, 2,
                         checkBoxShapeFill.isSelected(),
@@ -166,6 +224,9 @@ public class EditorController {
                         Integer.parseInt(textFieldShapeStroke.getText())));
             }
             else if (radioButtonSquare.isSelected()) {
+                shapesDiv.setVisible(true);
+                shapesDiv.setManaged(true);
+
                 project.addVisualElement(new AardSquare(
                         e.getX() - 1, e.getY() - 1, 2,
                         checkBoxShapeFill.isSelected(),
@@ -175,6 +236,9 @@ public class EditorController {
                         Integer.parseInt(textFieldShapeStroke.getText())));
             }
             else if (textBoxBtn.isSelected()) {
+                textDiv.setVisible(true);
+                textDiv.setManaged(true);
+
                 project.addVisualElement(new AardText(
                         textField.getText(),
                         colorPickerText.getValue(),
@@ -182,6 +246,9 @@ public class EditorController {
                         e.getX(), e.getY()));
             }
             else if (eraserBtn.isSelected()) {
+                brushDiv.setVisible(true);
+                brushDiv.setManaged(true);
+
                 double size = Double.parseDouble(brushSize.getText());
 
                 FreeDrawLine eraser = new FreeDrawLine(Color.WHITE, size);
