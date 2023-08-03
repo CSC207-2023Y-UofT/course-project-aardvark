@@ -188,7 +188,6 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <!-- Add TextField for text input -->
                   <TextField fx:id="textField" prefHeight="30.0" prefWidth="184.0" promptText="Enter text" />
                   <ComboBox fx:id="fontComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0" promptText="Font Family" />
                   <ColorPicker fx:id="colorPickerText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0">

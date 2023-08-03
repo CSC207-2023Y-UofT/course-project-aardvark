@@ -186,6 +186,7 @@ public class EditorController {
                     textDiv.setManaged(true);
                     shapesDiv.setVisible(false);
                     shapesDiv.setManaged(false);
+                    textField.requestFocus();
                 }
                 else if (eraserBtn.isSelected()) {
                     brushDiv.setVisible(true);
