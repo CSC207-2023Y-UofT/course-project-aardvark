@@ -14,6 +14,7 @@ import models.VisualElement;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -62,7 +63,35 @@ public class FreeDrawLine implements VisualElement{
     }
 
     public HashMap<String, Object> toDict() {
-        return null;
+        HashMap<String, Object> dict = new HashMap<>();
+        dict.put("Name", "FreeDrawLine");
+        dict.put("Color", colour.toString());
+        dict.put("StrokeSize", strokeSize);
+        dict.put("PointList", pointMap());
+        return dict;
+    }
+
+    public static FreeDrawLine fromDict(HashMap<String, Object> dict) {
+        //points
+        ArrayList<Point2D.Double> path = new ArrayList<>();
+        for(HashMap<String,Double> i : (ArrayList<HashMap<String, Double>>) dict.get("PointList")) {
+            Point2D.Double p = new Point2D.Double((Double) i.get("x"), i.get("y"));
+            path.add(p);
+        }
+        return new FreeDrawLine(Color.valueOf((String) dict.get("Color")),
+                (Integer) dict.get("StrokeSize"), path);
+
+    }
+
+    public ArrayList<HashMap<String, Double>> pointMap() {
+        ArrayList<HashMap<String, Double>> lst = new ArrayList<>();
+        for(Point2D.Double i : path) {
+            HashMap<String, Double> e = new HashMap<>();
+            e.put("x", i.getX());
+            e.put("y", i.getY());
+            lst.add(e);
+        }
+        return lst;
     }
 
 }
