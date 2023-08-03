@@ -279,7 +279,7 @@
       </VBox>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <content>
-            <Canvas id="canvas" fx:id="canvas" height="706" width="1202" />
+            <Canvas id="canvas" fx:id="canvas" height="800" width="800" />
          </content>
          <GridPane.margin>
             <Insets bottom="12.0" left="12.0" right="12.0" />
