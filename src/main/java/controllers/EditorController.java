@@ -216,7 +216,7 @@ public class EditorController {
             else if (radioButtonSquare.isSelected()) {
                 AardSquare last = project.getLastAndRemoveSquare();
 
-                double r = Math.sqrt(Math.pow(last.x - e.getX(), 2) + Math.pow(last.y - e.getX(), 2));
+                double r = Math.sqrt(Math.pow(last.x - e.getX(), 2) + Math.pow(last.y - e.getY(), 2));
                 project.addVisualElement(new AardSquare(
                         last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
                         checkBoxShapeFill.isSelected(),
