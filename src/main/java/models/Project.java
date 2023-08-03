@@ -1,8 +1,6 @@
 package models;
 
-import free_draw.FreeDrawLine;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
 import java.util.*;
@@ -114,14 +112,6 @@ public class Project {
     public void draw(GraphicsContext gc) {
         for (VisualElement element : elements)
             element.draw(gc);
-    }
-
-    public void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     /**

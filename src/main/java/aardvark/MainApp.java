@@ -1,4 +1,4 @@
-package org.openjfx;
+package aardvark;
 
 import controllers.EditorController;
 import javafx.application.Application;

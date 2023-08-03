@@ -10,8 +10,8 @@ public class UserRegisterUseCase {
     // instance variable
     User user;
 
-    public UserRegisterUseCase(User user) throws IOException, ParseException {
-        this.user = user;
+    public UserRegisterUseCase(String name, String email, String password){
+        this.user = new User(name, email, password);
     }
 
     public String getName(){
@@ -22,6 +22,10 @@ public class UserRegisterUseCase {
         user.name = name;
     }
 
+    public String getEmail() { return user.email; }
+
+    public void setEmail(String email) { user.email = email; }
+
     public String getPassword() {
         return user.password;
     }
@@ -30,21 +34,23 @@ public class UserRegisterUseCase {
         user.password = password;
     }
 
-    public String getRepeatPassword() {
-        return user.repeatPassword;
+    public void addUser() {
+
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(this.user);
+        gateway.saveChanges();
     }
 
-    public void setRepeatPassword(String repeatPassword) {
-        user.repeatPassword = repeatPassword;
+    public boolean checkExists(){
+
+        UserDSGateway gateway = new UserDSGateway();
+        return gateway.checkUserExists(this.user);
+
     }
 
-    // public void addNewUser(){
-
-       // }
-
-    User user1 = new User("ama", "123@gmail.com", "1234", "1234");
-    UserDSGateway g = new UserDSGateway();
-
+    public User getUser(){
+        return this.user;
+    }
 
 
     }
