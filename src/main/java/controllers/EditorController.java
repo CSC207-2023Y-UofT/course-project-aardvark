@@ -101,6 +101,7 @@ public class EditorController {
 
         // default button
         freeDrawBtn.setSelected(true);
+        checkBoxShapeFill.setSelected(true);
 
         /* CLEAR */
 
