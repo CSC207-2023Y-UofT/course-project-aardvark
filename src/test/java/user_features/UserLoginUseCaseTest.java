@@ -18,7 +18,7 @@ public class UserLoginUseCaseTest {
 
     @Test
     void checkExistsTestFalse(){
-        UserLoginUseCase loginUser = new UserLoginUseCase("bob@gmail.com", "12345");
+        UserLoginUseCase loginUser = new UserLoginUseCase("123@gmail.com", "12345");
         Assertions.assertFalse(loginUser.checkExists());
     }
 
