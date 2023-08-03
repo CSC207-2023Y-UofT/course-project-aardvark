@@ -162,8 +162,6 @@ public class EditorController {
 
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        project.addVisualElement(new AardSquare(0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
-                true, true, Color.WHITE, Color.WHITE, 0));
 
         /* SETTINGS */
 
