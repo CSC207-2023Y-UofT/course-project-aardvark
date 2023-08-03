@@ -66,7 +66,6 @@ public class EditorController {
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
 //    private ArrayList<VisualElement>
-    IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
     public void initialize() {
         // Initialize the canvas GraphicsContext, resizerController, colorPickerDraw
@@ -107,7 +106,7 @@ public class EditorController {
 
         fontComboBox.setOnAction(event -> {
             ChangeSettingsUseCase changeFont = new ChangeSettingsUseCase(gc);
-            changeFont.changeFontFamily(fontComboBox, sizeLabelProperty);
+            changeFont.changeFontFamily(fontComboBox, fontSize);
         });
 
         /* Changing Text Colour */
@@ -121,19 +120,19 @@ public class EditorController {
         // Currently DOES NOT handle when the entry is not an int
         fontSize.setOnKeyReleased(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
-            changeFontSize.changeFontSize(sizeLabelProperty, fontSize);
+            changeFontSize.changeFontSize(fontSize);
         });
 
         /* Increasing Text Size */
         textIncreaseBtn.setOnAction(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
-            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "+");
+            changeFontSize.changeFontSizeByOne(fontSize, "+");
         });
 
         /* Decreasing Text Size */
         textDecreaseBtn.setOnAction(event -> {
             ChangeSettingsUseCase changeFontSize = new ChangeSettingsUseCase(gc);
-            changeFontSize.changeFontSizeByOne(sizeLabelProperty, fontSize, "-");
+            changeFontSize.changeFontSizeByOne(fontSize, "-");
         });
 
         /*========== Brush/FreeDraw Features ==========*/

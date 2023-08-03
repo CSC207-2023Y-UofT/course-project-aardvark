@@ -1,6 +1,5 @@
 package text;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -26,38 +25,37 @@ public class ChangeSettingsUseCase {
     /**
      * Changes the font family linked to the GraphicsContext.
      * @param fontComboBox The ComboBox from which we can extract the selected font family to change to.
-     * @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
+     //* @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
      */
-    public void changeFontFamily(ComboBox<String> fontComboBox, IntegerProperty sizeLabelProperty){
+    public void changeFontFamily(ComboBox<String> fontComboBox, TextField sizeField){
         String fontFamily = fontComboBox.getValue();
-        int fontSize = sizeLabelProperty.get();
+        int fontSize = Integer.parseInt(sizeField.getText());
         Font newFont = new Font(fontFamily, fontSize);
         gc.setFont(newFont);
     }
 
     /**
      * Changes the font size linked to the GraphicsContext through a text field.
-     * @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
+     //* @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
      * @param sizeField The TextField from which we can extract the new font size.
      */
-    public void changeFontSize(IntegerProperty sizeLabelProperty, TextField sizeField){
+    public void changeFontSize(TextField sizeField){
         Font currentFont = gc.getFont();
         String currentFamily = currentFont.getFamily();
         int fontSize = Integer.parseInt(sizeField.getText());
         Font newFont = new Font(currentFamily, fontSize);
-        sizeLabelProperty.set(fontSize);
         gc.setFont(newFont);
     }
 
     /**
      * Increases/decrease the font size linked to the GraphicsContext by 1.
      * Precondition: operation is "+" or "-".
-     * @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
+     //* @param sizeLabelProperty The IntegerProperty from which we can extract the current font size.
      * @param sizeField The TextField that will be changed to reflect the new font size.
      * @param operation A String that indicates whether to increase or decrease the font size:
      *                  + for increase and - for decrease.
      */
-    public void changeFontSizeByOne(IntegerProperty sizeLabelProperty, TextField sizeField, String operation){
+    public void changeFontSizeByOne(TextField sizeField, String operation){
         Font currentFont = gc.getFont();
         String currentFamily = currentFont.getFamily();
         int currentSize = (int) currentFont.getSize();
@@ -69,7 +67,6 @@ public class ChangeSettingsUseCase {
             newSize = currentSize - 1;
         }
         Font newFont = new Font(currentFamily, newSize);
-        sizeLabelProperty.set(newSize);
         gc.setFont(newFont);
         sizeField.setText(Integer.toString(newSize));
     }
