@@ -27,6 +27,9 @@ public class CanvasResizerController {
     }
 
     public void resize() {
+        WritableImage snapshot = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+        canvas.snapshot(null, snapshot); // Take a snapshot of the current content
+
         // Create a custom dialog to get the new dimensions from the user
         Dialog<Pair<Double, Double>> dialog = new Dialog<>();
         dialog.setTitle("Resize Canvas");
@@ -86,5 +89,13 @@ public class CanvasResizerController {
         result.ifPresent(dimensions -> {
             this.resizeCanvas(dimensions.getKey(), dimensions.getValue());
         });
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Fill the canvas with white
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Draw the preserved content back onto the resized canvas
+        gc.drawImage(snapshot, 0, 0);
     }
 }
