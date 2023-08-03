@@ -20,7 +20,7 @@ public class AardText implements VisualElement {
     /** The font size of the specified text.*/
     private final double fontSize;
 
-    /** The color of the indicated text, stored as a String representation.*/
+    /** The color of the indicated text.*/
     private final Color color;
 
     /** The coordinates of the specified text, stored as an array of doubles with
