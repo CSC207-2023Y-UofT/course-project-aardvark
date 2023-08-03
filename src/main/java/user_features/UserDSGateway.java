@@ -91,6 +91,7 @@ public class UserDSGateway {
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
         projectsArray.add(project);
+
     }
 
     public void deleteProject(User user, HashMap<String, Object> project){
@@ -98,12 +99,7 @@ public class UserDSGateway {
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
         projectsArray.remove(project);
-    }
 
-    public JSONArray getProjectsList(User user){
-        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
-        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
-        return(projectsArray);
     }
 
     public void saveChanges(){
