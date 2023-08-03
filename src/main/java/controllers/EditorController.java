@@ -8,6 +8,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.fxml.FXML;
@@ -16,7 +18,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
@@ -35,10 +36,12 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class EditorController {
 
     public final Project project;
+    public final Scene scene;
     public Label projectName;
     public Button resizeBtn;
     public Button clearBtn;
@@ -93,8 +96,9 @@ public class EditorController {
 //    private ArrayList<VisualElement>
     IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
-    public EditorController(Project p) {
+    public EditorController(Project p, Scene s) {
         project = p;
+        scene = s;
     }
 
     public void initialize() {
@@ -115,6 +119,22 @@ public class EditorController {
             project.addVisualElement(new AardSquare(
                 0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
                 true, true, Color.WHITE, Color.WHITE, 0));
+        });
+
+        // Event handler for Ctrl+Z (Undo)
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN).match(event)) {
+                undo(null);
+                event.consume();
+            }
+        });
+
+        // Event handler for Ctrl+Shift+Z (Redo)
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN).match(event)) {
+                redo(null);
+                event.consume();
+            }
         });
 
         /* TEXT */
@@ -142,6 +162,8 @@ public class EditorController {
 
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        project.addVisualElement(new AardSquare(0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
+                true, true, Color.WHITE, Color.WHITE, 0));
 
         /* SETTINGS */
 

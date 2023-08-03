@@ -2,12 +2,8 @@ package controllers;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.stage.FileChooser;
-import javafx.util.Pair;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Project;
