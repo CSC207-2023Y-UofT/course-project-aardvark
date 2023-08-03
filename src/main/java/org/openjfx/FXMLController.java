@@ -94,7 +94,7 @@ public class FXMLController implements Initializable {
     @FXML
     public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
-        fxmlLoader.setController(new EditorController(project));
+        fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
         Parent newPage = fxmlLoader.load();
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
