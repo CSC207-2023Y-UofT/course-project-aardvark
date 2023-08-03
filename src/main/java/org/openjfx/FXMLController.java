@@ -2,6 +2,11 @@ package org.openjfx;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,9 +22,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Project;
+import javafx.scene.control.Alert;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import user_features.UserRegisterUseCase;
+import user_features.UserLoginUseCase;
 
 public class FXMLController implements Initializable {
 
@@ -55,7 +65,7 @@ public class FXMLController implements Initializable {
 
     //  Temporary code to simulate project list
     private List<Project> projects() {
-       
+
         List<models.Project> ls = new ArrayList<>();
 
         for (int i = 0; i < 15; i++) {
@@ -71,6 +81,51 @@ public class FXMLController implements Initializable {
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("signup.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML TextField emailText;
+    @FXML TextField nameText;
+    @FXML PasswordField passwordText;
+    @FXML PasswordField repeatPasswordText;
+    @FXML
+    public void signUp(javafx.event.ActionEvent event) throws IOException
+    /*
+     * Handles the signUp button and creates a new user register use case which in turn creates a new user and adds
+     * it to the data file.
+     */
+    {
+
+        String password = passwordText.getText();
+        String repeatPassword = repeatPasswordText.getText();
+        String email = emailText.getText();
+        String name = nameText.getText();
+
+        UserRegisterUseCase register = new UserRegisterUseCase(name, email,
+                password);
+
+        if (!password.equals("") && !email.equals("")) {
+            if (password.equals(repeatPassword) && !register.checkExists()) {
+
+                register.addUser();
+                switchToProjects(event);
+            } else if (!password.equals(repeatPassword) && !register.checkExists()) {
+                showErrorAlert("Passwords don't match, please try again!");
+            } else if (register.checkExists()) {
+                showErrorAlert("User already exists, sign in.");
+            }
+        }
+        else{
+            showErrorAlert("Email and password cannot be left blank, please try again.");
+        }
+    }
+
+    @FXML
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Input");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -106,9 +161,21 @@ public class FXMLController implements Initializable {
     @FXML PasswordField passwordField;
     @FXML
     public void signIn(javafx.event.ActionEvent event) throws IOException {
-        if (textField.getText().equals("") && passwordField.getText().equals("")) {
+
+        String email = textField.getText();
+        String password = passwordField.getText();
+
+        UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
+        if (loginUser.checkExists() && loginUser.checkPassword()) {
             switchToProjects(event);
         }
+        else if (!loginUser.checkExists()){
+            showErrorAlert("User does not exists, sign up.");
+        }
+        else if (!loginUser.checkPassword()){
+            showErrorAlert("Password is incorrect, please try again.");
+        }
+
     }
 
     @FXML TextField newProjectName;
