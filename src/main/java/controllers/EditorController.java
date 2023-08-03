@@ -1,13 +1,13 @@
 package controllers;
 
-import free_draw.FreeDrawLine;
+import aardvark.MainAppRouter;
+import models.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
@@ -19,24 +19,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.AardCircle;
-import models.AardSquare;
-import models.Project;
-import models.VisualElement;
-import org.openjfx.FXMLController;
-import text.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class EditorController {
 
@@ -356,7 +344,7 @@ public class EditorController {
 
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
-        FXMLController switcher = new FXMLController();
+        MainAppRouter switcher = new MainAppRouter();
         switcher.switchToProjects(event);
     }
 
