@@ -1,4 +1,4 @@
-package free_draw;
+package models;
 
 import javafx.application.Application;
 import javafx.scene.Group;
