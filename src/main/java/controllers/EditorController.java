@@ -138,11 +138,6 @@ public class EditorController {
 
         fontComboBox.setValue("Verdana");
 
-        /* WHITE CANVAS BACKGROUND */
-
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
         /* SETTINGS */
 
 //      default state of settings boxes
