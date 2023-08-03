@@ -21,7 +21,7 @@ public class AardText implements VisualElement {
     private final double fontSize;
 
     /** The color of the indicated text, stored as a String representation.*/
-    private final String color;
+    private final Color color;
 
     /** The coordinates of the specified text, stored as an array of doubles with
      * two elements representing x and y respectively.*/
@@ -30,7 +30,7 @@ public class AardText implements VisualElement {
     /**
      * Creates a new AardText object.
      */
-    public AardText(String text, String color, Font font, double x, double y){
+    public AardText(String text, Color color, Font font, double x, double y){
         this.text = text;
         this.fontFamily = font.getFamily();
         this.fontSize = font.getSize();
@@ -46,7 +46,7 @@ public class AardText implements VisualElement {
     @Override
     public void draw(GraphicsContext gc) {
         gc.setFont(Font.font(fontFamily, fontSize));
-        Color newColor = Color.valueOf(color);
+        Color newColor = color;
         gc.setFill(newColor);
         gc.fillText(text, coordinates[0], coordinates[1]);
     }

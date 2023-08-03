@@ -141,7 +141,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="fontComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0" promptText="Font Family" />
+                  <ComboBox fx:id="fontComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0" promptText="Font Family"/>
                   <ColorPicker fx:id="colorPickerText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="184.0">
                      <value>
                         <Color />
@@ -156,7 +156,7 @@
                               <Font name="Segoe UI" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="fontSize" maxHeight="-Infinity" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="20.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="fontSize" text="16" maxHeight="-Infinity" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="20.0" HBox.hgrow="ALWAYS">
                            <padding>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                            </padding>

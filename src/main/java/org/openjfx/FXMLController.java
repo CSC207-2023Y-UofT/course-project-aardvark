@@ -54,7 +54,7 @@ public class FXMLController implements Initializable {
     }
 
     //  Temporary code to simulate project list
-    private  List<Project> projects() {
+    private List<Project> projects() {
        
         List<models.Project> ls = new ArrayList<>();
 
