@@ -68,7 +68,7 @@
             </Button>
             <Button id="undo-btn" fx:id="undoBtn" mnemonicParsing="false" onAction="#undo">
                <tooltip>
-                  <Tooltip text="Undo">
+                  <Tooltip text="Undo (Ctrl+Z)">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -77,7 +77,7 @@
             </Button>
             <Button id="redo-btn" fx:id="redoBtn" mnemonicParsing="false" onAction="#redo">
                <tooltip>
-                  <Tooltip text="Redo">
+                  <Tooltip text="Redo (Ctrl+Shift+Z)">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
