@@ -102,16 +102,20 @@ public class FXMLController implements Initializable {
 
         UserRegisterUseCase register = new UserRegisterUseCase(name, email,
                 password);
-        if (password.equals(repeatPassword) && !register.checkExists()){
 
-            register.addUser();
-            switchToProjects(event);
+        if (!password.equals("") && !email.equals("")) {
+            if (password.equals(repeatPassword) && !register.checkExists()) {
+
+                register.addUser();
+                switchToProjects(event);
+            } else if (!password.equals(repeatPassword) && !register.checkExists()) {
+                showErrorAlert("Passwords don't match, please try again!");
+            } else if (register.checkExists()) {
+                showErrorAlert("User already exists, sign in.");
+            }
         }
-        else if(!password.equals(repeatPassword) && !register.checkExists()){
-            showErrorAlert("Passwords don't match, please try again!");
-        }
-        else if(register.checkExists()){
-            showErrorAlert("User already exists, sign in");
+        else{
+            showErrorAlert("Email and password cannot be left blank, please try again.");
         }
     }
 
@@ -166,10 +170,10 @@ public class FXMLController implements Initializable {
             switchToProjects(event);
         }
         else if (!loginUser.checkExists()){
-            showErrorAlert("User does not exists, sign up");
+            showErrorAlert("User does not exists, sign up.");
         }
         else if (!loginUser.checkPassword()){
-            showErrorAlert("Password is incorrect, please try again");
+            showErrorAlert("Password is incorrect, please try again.");
         }
 
     }
