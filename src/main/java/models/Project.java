@@ -52,7 +52,7 @@ public class Project {
     }
 
     public AardCircle getLastAndRemoveCircle() {
-        AardCircle tmp = new AardCircle(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
+        AardCircle tmp = null;
         for (int i = elements.size() - 1; i >= 0; --i) {
             if (elements.get(i) instanceof AardCircle) {
                 AardCircle t = (AardCircle)elements.get(i);
