@@ -25,4 +25,4 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
 
-mainClassName = 'org.openjfx.MainApp'
+mainClassName = 'aardvark.MainApp'

@@ -1,6 +1,7 @@
 package controllers;
 
-import free_draw.FreeDrawLine;
+import aardvark.MainAppRouter;
+import models.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -20,8 +21,6 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.*;
-import org.openjfx.FXMLController;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -345,7 +344,7 @@ public class EditorController {
 
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
-        FXMLController switcher = new FXMLController();
+        MainAppRouter switcher = new MainAppRouter();
         switcher.switchToProjects(event);
     }
 

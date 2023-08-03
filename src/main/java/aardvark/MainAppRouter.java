@@ -1,12 +1,8 @@
-package org.openjfx;
+package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Project;
 import javafx.scene.control.Alert;
@@ -31,7 +26,7 @@ import java.util.*;
 import user_features.UserRegisterUseCase;
 import user_features.UserLoginUseCase;
 
-public class FXMLController implements Initializable {
+public class MainAppRouter implements Initializable {
 
     @FXML
     private VBox projectsLayout;
@@ -56,9 +51,9 @@ public class FXMLController implements Initializable {
                 pic.setData(projects.get(i));
                 projectsLayout.getChildren().add(hbox);
             } catch (IOException e) {
-                System.out.println("Something went wrong, FXML Load");
+                System.out.println("Something went wrong, FXML Load" + e);
             } catch (NullPointerException e) {
-                System.out.println("Something went wrong, FXML Load");
+                System.out.println("Something went wrong, FXML Load" + e);
             }
         }
     }
