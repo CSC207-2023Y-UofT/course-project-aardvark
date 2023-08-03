@@ -106,7 +106,7 @@ public class EditorController {
 
         clearBtn.setOnMousePressed(e -> {
             project.addVisualElement(new AardSquare(
-                canvas.getWidth() / 2, canvas.getHeight() / 2, Math.max(canvas.getWidth(), canvas.getHeight()),
+                0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
                 true, true, Color.WHITE, Color.WHITE, 0));
         });
 
