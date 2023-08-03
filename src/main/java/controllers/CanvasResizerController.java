@@ -9,6 +9,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import models.Project;
+import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.util.Optional;
 
@@ -43,6 +45,8 @@ public class CanvasResizerController {
         // Create a custom dialog to get the new dimensions from the user
         Dialog<Pair<Double, Double>> dialog = new Dialog<>();
         dialog.setTitle("Resize Canvas");
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(this.getClass().getResource("/images/icon.png").toString()));
 
         // Set the dialog buttons (OK and Cancel)
         ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
