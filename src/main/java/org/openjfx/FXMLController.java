@@ -63,8 +63,9 @@ public class FXMLController implements Initializable {
         }
     }
 
-    private  List<Project> projects() {
-//      Temporary code to simulate project list
+    //  Temporary code to simulate project list
+    private List<Project> projects() {
+
         List<models.Project> ls = new ArrayList<>();
 
         for (int i = 0; i < 15; i++) {
@@ -78,12 +79,8 @@ public class FXMLController implements Initializable {
 
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signup.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        Parent newPage = FXMLLoader.load(getClass().getResource("signup.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
     @FXML TextField emailText;
@@ -129,14 +126,32 @@ public class FXMLController implements Initializable {
 
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signin.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        Parent newPage = FXMLLoader.load(getClass().getResource("signin.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    @FXML
+    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+        Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML
+    public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
+        Parent newPage = FXMLLoader.load(getClass().getResource("new_project.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML
+    public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
+        fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
+        Parent newPage = fxmlLoader.load();
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    @FXML
+    Label nameError;
 
     @FXML TextField textField;
     @FXML PasswordField passwordField;
@@ -158,50 +173,16 @@ public class FXMLController implements Initializable {
         }
 
     }
-    @FXML
-    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("projects.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setResizable(false); //what is this for?
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    Text nameError;
-
-    @FXML
-    public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("new_project.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
 
     @FXML TextField newProjectName;
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
         Project project = new Project(newProjectName.getText());
-        EditorController.setProject(project);
-        switchToEditor(event);
+        switchToEditor(event, project);
     }
 
     @FXML
-    public void switchToEditor(javafx.event.ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("editor.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        // Editor editor = new Editor();
-        stage.setResizable(true);
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setX(0);
-        stage.setY(0);
-        // editor.start(stage);
-        stage.show();
+    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
+        System.out.println("deleted");
     }
 }

@@ -1,6 +1,9 @@
 package models;
 
+import free_draw.FreeDrawLine;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -13,6 +16,7 @@ public class Project {
     public static int DEFAULT_WIDTH = 800;
     private List<VisualElement> elements;
     private Stack<VisualElement> redoStack;
+
 
     public Project(String name) {
         projectName = name;
@@ -47,15 +51,49 @@ public class Project {
         return projectName;
     }
 
+    public AardCircle getLastAndRemoveCircle() {
+        AardCircle tmp = new AardCircle(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
+        for (int i = elements.size() - 1; i >= 0; --i) {
+            if (elements.get(i) instanceof AardCircle) {
+                AardCircle t = (AardCircle)elements.get(i);
+                tmp = new AardCircle(t.x, t.y, t.r, t.isFill, t.isStroke, t.fill, t.stroke, t.strokeSize);
+                elements.remove(i);
+                break;
+            }
+        }
+        return tmp;
+    }
+
+    public AardSquare getLastAndRemoveSquare() {
+        AardSquare tmp = new AardSquare(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
+        for (int i = elements.size() - 1; i >= 0; --i) {
+            if (elements.get(i) instanceof AardSquare) {
+                AardSquare t = (AardSquare)elements.get(i);
+                tmp = new AardSquare(t.x, t.y, t.r, t.isFill, t.isStroke, t.fill, t.stroke, t.strokeSize);
+                elements.remove(i);
+                break;
+            }
+        }
+        return tmp;
+    }
+
     public void addVisualElement(VisualElement v) {
         elements.add(v);
         redoStack.clear();
     }
 
-    public void undoVisualElement() {
-        if (elements.isEmpty()) {
-            return;
+    public FreeDrawLine getCurrentLine(){
+        VisualElement v = elements.get(elements.size() - 1);
+        if(v instanceof FreeDrawLine) {
+            return (FreeDrawLine) v;
         }
+        return null;
+    }
+
+    public void undoVisualElement() {
+        if (elements.isEmpty())
+            return;
+
         VisualElement v = elements.remove(elements.size() - 1);
         redoStack.add(v);
     }
@@ -65,23 +103,17 @@ public class Project {
      * visualElement back to the element list.
      * Otherwise, does nothing.
      */
-    public void redoVisualElement() {
-        if (canRedo()) {
+    public void redoVisualElement(GraphicsContext gc) {
+        if (!redoStack.empty()) {
             VisualElement v = redoStack.pop();
+            v.draw(gc);
             elements.add(v);
         }
     }
 
-    public boolean canRedo() {
-        return !redoStack.empty();
-    }
-
-    public void showErrorDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    public void draw(GraphicsContext gc) {
+        for (VisualElement element : elements)
+            element.draw(gc);
     }
 
     /**

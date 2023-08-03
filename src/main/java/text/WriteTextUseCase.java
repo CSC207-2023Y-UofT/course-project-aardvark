@@ -32,7 +32,7 @@ public class WriteTextUseCase {
     public AardText writeText(String input, Color color){
         double xValue = event.getX();
         double yValue = event.getY();
-        AardText newText = new AardText(input, color.toString(),
+        AardText newText = new AardText(input, color,
                 gc.getFont(), xValue, yValue);
         newText.draw(gc);
         return newText;
