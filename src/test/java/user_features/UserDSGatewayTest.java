@@ -1,6 +1,7 @@
 package user_features;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -83,22 +84,26 @@ class UserDSGatewayTest {
         Assertions.assertFalse(gateway.checkPassword(user.email, user.password));
     }
 
-    /**
     @Test
+    @SuppressWarnings("unchecked")
     void addProjectTest(){
         User user = new User("Jon", "jon.doe@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
+        JSONObject visualElement = new JSONObject();
+        visualElement.put("visualName", new JSONArray());
+
         HashMap<String, Object> project = new HashMap<>();
         project.put("ProjectName", "projectName");
         project.put("UpdateDate", "updatedAt");
         project.put("Width", "width");
         project.put("Height", "height");
-        project.put("VisualElements", new ArrayList<HashMap<String, Object>>());
+        project.put("VisualElements", visualElement);
         gateway.addProject(user, project);
+        gateway.saveChanges();
 
     }
-    **/
+
 
 
 
