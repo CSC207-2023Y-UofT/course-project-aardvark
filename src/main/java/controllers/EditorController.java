@@ -82,7 +82,6 @@ public class EditorController {
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
 //    private ArrayList<VisualElement>
-    IntegerProperty sizeLabelProperty = new SimpleIntegerProperty(16);
 
     public EditorController(Project p, Scene s) {
         project = p;
@@ -105,8 +104,8 @@ public class EditorController {
 
         clearBtn.setOnMousePressed(e -> {
             project.addVisualElement(new AardSquare(
-                0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
-                true, true, Color.WHITE, Color.WHITE, 0));
+                    0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
+                    true, true, Color.WHITE, Color.WHITE, 0));
         });
 
         // Event handler for Ctrl+Z (Undo)
@@ -212,7 +211,7 @@ public class EditorController {
                 brushDiv.setVisible(true);
                 brushDiv.setManaged(true);
 
-                double size = Double.parseDouble(brushSize.getText());
+                double size = checkValidSize(brushSize, 3);
 
                 FreeDrawLine newLine = new FreeDrawLine(colorPickerDraw.getValue(), size);
                 newLine.addPoint(e.getX(), e.getY());
@@ -223,41 +222,43 @@ public class EditorController {
                 shapesDiv.setVisible(true);
                 shapesDiv.setManaged(true);
 
+                double circleSize = checkValidSize(textFieldShapeStroke, 3);
                 project.addVisualElement(new AardCircle(
                         e.getX() - 1, e.getY() - 1, 2,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
-                        Integer.parseInt(textFieldShapeStroke.getText())));
+                        circleSize));
             }
             else if (radioButtonSquare.isSelected()) {
                 shapesDiv.setVisible(true);
                 shapesDiv.setManaged(true);
 
+                double squareSize = checkValidSize(textFieldShapeStroke, 3);
                 project.addVisualElement(new AardSquare(
                         e.getX() - 1, e.getY() - 1, 2,
                         checkBoxShapeFill.isSelected(),
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
-                        Integer.parseInt(textFieldShapeStroke.getText())));
+                        squareSize));
             }
             else if (textBoxBtn.isSelected()) {
                 textDiv.setVisible(true);
                 textDiv.setManaged(true);
 
+                double textCheckedSize = checkValidSize(fontSize, 16);
                 project.addVisualElement(new AardText(
                         textField.getText(),
                         colorPickerText.getValue(),
-                        new Font(fontComboBox.getValue(), Double.parseDouble(fontSize.getText())),
+                        new Font(fontComboBox.getValue(), textCheckedSize),
                         e.getX(), e.getY()));
             }
             else if (eraserBtn.isSelected()) {
                 brushDiv.setVisible(true);
                 brushDiv.setManaged(true);
-
-                double size = Double.parseDouble(brushSize.getText());
+                double size = checkValidSize(brushSize, 3);
 
                 FreeDrawLine eraser = new FreeDrawLine(Color.WHITE, size);
                 eraser.addPoint(e.getX(), e.getY());
@@ -279,6 +280,7 @@ public class EditorController {
             else if (radioButtonCircle.isSelected()) {
                 AardCircle last = project.getLastAndRemoveCircle();
 
+                double circleSize = checkValidSize(textFieldShapeStroke, 3);
                 double r = Math.sqrt(Math.pow(last.x - e.getX(), 2) + Math.pow(last.y - e.getY(), 2));
                 project.addVisualElement(new AardCircle(
                         last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
@@ -286,11 +288,12 @@ public class EditorController {
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
-                        Integer.parseInt(textFieldShapeStroke.getText())));
+                        circleSize));
             }
             else if (radioButtonSquare.isSelected()) {
                 AardSquare last = project.getLastAndRemoveSquare();
 
+                double squareSize = checkValidSize(textFieldShapeStroke, 3);
                 double r = Math.sqrt(Math.pow(last.x - e.getX(), 2) + Math.pow(last.y - e.getY(), 2));
                 project.addVisualElement(new AardSquare(
                         last.x - (r-last.r)/2, last.y-(r-last.r)/2, r,
@@ -298,7 +301,7 @@ public class EditorController {
                         checkBoxShapeStroke.isSelected(),
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
-                        Integer.parseInt(textFieldShapeStroke.getText())));
+                        squareSize));
             }
             else if (eraserBtn.isSelected()) {
                 FreeDrawLine eraser = project.getCurrentLine();
@@ -368,4 +371,23 @@ public class EditorController {
     public void redo(ActionEvent event) {
         project.redoVisualElement(gc);
     }
+
+    public double checkValidSize(TextField generalTextField, double preferredSize) {
+        try {
+            double newDouble = Double.parseDouble(generalTextField.getText());
+            if (newDouble > 0 && newDouble < 1000){
+                return newDouble;
+            }
+            else {
+                generalTextField.setText(Double.toString(preferredSize));
+                return preferredSize;
+            }
+        }
+        catch (NumberFormatException numberFormatException) {
+            generalTextField.setText(Double.toString(preferredSize));
+            return preferredSize;
+        }
+    }
+
+
 }
