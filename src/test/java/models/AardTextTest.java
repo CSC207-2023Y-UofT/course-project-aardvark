@@ -30,4 +30,21 @@ class AardTextTest {
                 () -> assertEquals(40, obtainedCoordinatePair[1])
         );
     }
+
+    @Test
+    void fromDictTest() {
+        HashMap<String, Object> textHashMap = new HashMap<>();
+        double [] coordinateArray = {20, 40};
+        Object [] textArray = {"Arthur", "Arial", 12.0, Color.AQUAMARINE, coordinateArray};
+        textHashMap.put("AardText", textArray);
+        AardText arthurText = AardText.fromDict(textHashMap);
+        Assertions.assertAll(
+                () -> assertEquals("Arthur", arthurText.text),
+                () -> assertEquals("Arial", arthurText.fontFamily),
+                () -> assertEquals(12.0, arthurText.fontSize),
+                () -> assertEquals(Color.AQUAMARINE, arthurText.color),
+                () -> assertEquals(20, arthurText.coordinates[0]),
+                () -> assertEquals(40, arthurText.coordinates[1])
+        );
+    }
 }
