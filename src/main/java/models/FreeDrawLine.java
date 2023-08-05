@@ -4,6 +4,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONArray;
 
 import java.awt.geom.Point2D;
 import java.nio.channels.Pipe;
@@ -21,7 +24,7 @@ public class FreeDrawLine implements VisualElement{
         this.strokeSize = strokeSize;
     }
 
-    public FreeDrawLine(Color colour, int strokeSize, ArrayList<Point2D.Double> path) {
+    public FreeDrawLine(Color colour, double strokeSize, ArrayList<Point2D.Double> path) {
         this.colour = colour;
         this.strokeSize = strokeSize;
         this.path = path;
@@ -63,27 +66,40 @@ public class FreeDrawLine implements VisualElement{
         return dict;
     }
 
+    @SuppressWarnings("unchecked")
     public static FreeDrawLine fromDict(HashMap<String, Object> dict) {
         //points
         ArrayList<Point2D.Double> path = new ArrayList<>();
-        for(HashMap<String,Double> i : (ArrayList<HashMap<String, Double>>) dict.get("PointList")) {
-            Point2D.Double p = new Point2D.Double((Double) i.get("x"), i.get("y"));
+        for(Object i : (ArrayList) dict.get("PointList")) {
+            String j = (String) i;
+            Double x = Double.parseDouble(j.split(",")[0]);
+            Double y = Double.parseDouble(j.split(",")[1]);
+            Point2D.Double p = new Point2D.Double(x, y);
             path.add(p);
         }
-        return new FreeDrawLine(Color.valueOf((String) dict.get("Color")),
-                (Integer) dict.get("StrokeSize"), path);
+        FreeDrawLine ret = new FreeDrawLine(Color.valueOf((String) dict.get("Color")),
+                (Double) dict.get("StrokeSize"), path);
+        return ret;
 
     }
 
-    public ArrayList<HashMap<String, Double>> pointMap() {
-        ArrayList<HashMap<String, Double>> lst = new ArrayList<>();
+    public ArrayList<String> pointMap() {
+        ArrayList<String> lst = new ArrayList<>();
         for(Point2D.Double i : path) {
-            HashMap<String, Double> e = new HashMap<>();
-            e.put("x", i.getX());
-            e.put("y", i.getY());
-            lst.add(e);
+            lst.add(i.getX() + "," + i.getY());
         }
         return lst;
+    }
+
+    public static void main(String[] args) {
+        FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
+        for(int i = 0; i<10; i++) {
+            f.addPoint(i,i+3);
+        }
+        HashMap<String, Object> h = f.toDict();
+        System.out.println(h);
+        f = FreeDrawLine.fromDict(h);
+        System.out.println(f.toDict());
     }
 
 }
