@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import user_features.UserRegisterUseCase;
-import user_features.UserLoginUseCase;
+import user_features.User;
+import user_features.UserDSGateway;
 
 public class MainAppRouter implements Initializable {
 
@@ -95,17 +95,17 @@ public class MainAppRouter implements Initializable {
         String email = emailText.getText();
         String name = nameText.getText();
 
-        UserRegisterUseCase register = new UserRegisterUseCase(name, email,
-                password);
+        UserDSGateway gateway = new UserDSGateway();
+        User UserRegister = gateway.UserRegister(name, email, password);
 
         if (!password.equals("") && !email.equals("")) {
-            if (password.equals(repeatPassword) && !register.checkExists()) {
-
-                register.addUser();
+            if (password.equals(repeatPassword) && !gateway.checkUserExists(UserRegister)) {
+                gateway.addUser(UserRegister);
+                gateway.saveChanges();
                 switchToProjects(event);
-            } else if (!password.equals(repeatPassword) && !register.checkExists()) {
+            } else if (!password.equals(repeatPassword)) {
                 showErrorAlert("Passwords don't match, please try again!");
-            } else if (register.checkExists()) {
+            } else if (gateway.checkUserExists(UserRegister)) {
                 showErrorAlert("User already exists, sign in.");
             }
         }
@@ -160,14 +160,15 @@ public class MainAppRouter implements Initializable {
         String email = textField.getText();
         String password = passwordField.getText();
 
-        UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
+        UserDSGateway gateway = new UserDSGateway();
+        User loginUser = gateway.UserLogin(email, password);
 
         if (!password.equals("") && !email.equals("")) {
-            if (loginUser.checkExists() && loginUser.checkPassword()) {
+            if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
                 switchToProjects(event);
-            } else if (!loginUser.checkExists()) {
+            } else if (!gateway.checkUserExists(loginUser)) {
                 showErrorAlert("User does not exists, sign up.");
-            } else if (!loginUser.checkPassword()) {
+            } else if (!gateway.checkPassword(email, password)) {
                 showErrorAlert("Password is incorrect, please try again.");
             }
         }
