@@ -42,6 +42,15 @@ class UserDSGatewayTest {
     }
 
     @Test
+    void getNameTest() {
+        User user = new User("Kelly", "kelly@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.saveChanges();
+        Assertions.assertEquals("Kelly", gateway.getName("kelly@gmail.com"));
+    }
+
+    @Test
     void checkUserExistsTestTrue(){
         User user = new User("Emma", "emma@gmail.com", "abcdef");
         UserDSGateway gateway = new UserDSGateway();
@@ -124,9 +133,4 @@ class UserDSGatewayTest {
         gateway.saveChanges();
 
     }
-
-
-
-
-
 }

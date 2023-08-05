@@ -4,6 +4,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,4 +52,45 @@ class UserRegisterUseCaseTest {
         Assertions.assertEquals("abcdef", register.getPassword());
     }
 
+    @Test
+    void addUserTest() {
+        User user = new User("Alice", "1234@gmail.com", "12345");
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
+        register.addUser();
+
+        File userFile = new File("src/main/java/user_features/DataModel.json");
+        Assertions.assertTrue(userFile.exists());
+
+        UserDSGateway gateway = new UserDSGateway();
+        Assertions.assertTrue(gateway.checkUserExists(user));
+    }
+
+    @Test
+    void checkExistsTestTrue() {
+        User user = new User("Amy", "amy@gmail.com", "12345");
+        UserRegisterUseCase register = new UserRegisterUseCase("Amy", "amy@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.saveChanges();
+
+        Assertions.assertTrue(register.checkExists());
+
+    }
+
+    @Test
+    void checkExistsTestFalse() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Chris", "chris@gmail.com", "12345");
+        Assertions.assertFalse(register.checkExists());
+    }
+
+    @Test
+    void getUserTest() {
+        UserRegisterUseCase register = new UserRegisterUseCase("Alice", "1234@gmail.com", "12345");
+        User user = register.getUser();
+        Assertions.assertAll(
+                () -> assertEquals("Alice", user.getName()),
+                () -> assertEquals("1234@gmail.com", user.getEmail()),
+                () -> assertEquals("12345", user.getPassword())
+        );
+    }
 }
