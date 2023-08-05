@@ -53,6 +53,10 @@ public class FreeDrawLine implements VisualElement{
         }
     }
 
+    public ArrayList<Point2D.Double> getPath() {
+        return path;
+    }
+
     public HashMap<String, Object> toDict() {
         return null;
     }
