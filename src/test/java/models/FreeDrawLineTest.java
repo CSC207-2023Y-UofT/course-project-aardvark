@@ -43,8 +43,6 @@ class FreeDrawLineTest {
 
     @Test
     void toDictTest() {
-
-    void toDict() {
         FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
         for(int i = 0; i<3; i++) {
             f.addPoint(i,i+3);
@@ -56,7 +54,7 @@ class FreeDrawLineTest {
     }
 
     @Test
-    void fromDict() {
+    void fromDictTest() {
         FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
         for(int i = 0; i<3; i++) {
             f.addPoint(i,i+3);
@@ -66,7 +64,7 @@ class FreeDrawLineTest {
     }
 
     @Test
-    void pointMap() {
+    void pointMapTest() {
         FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
         for(int i = 0; i<10; i++) {
             f.addPoint(i,i+3);

@@ -14,9 +14,11 @@ class UserDSGatewayTest {
     @Test
     void userLoginTest() {
         UserDSGateway gateway = new UserDSGateway();
-        User loginUser = gateway.UserLogin("amy@gmail.com", "12345");
-        Assertions.assertEquals("name_holder", loginUser.getName());
-        Assertions.assertEquals("amy@gmail.com", loginUser.getEmail());
+        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
+        UserDSGateway gateway2 = new UserDSGateway();
+        User loginUser = gateway2.UserLogin("bob@gmail.com", "12345");
+        Assertions.assertEquals("Bob", loginUser.getName());
+        Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
         Assertions.assertEquals("12345", loginUser.getPassword());
     }
 
