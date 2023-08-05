@@ -208,9 +208,6 @@ public class EditorController {
 
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
-                brushDiv.setVisible(true);
-                brushDiv.setManaged(true);
-
                 double size = checkValidSize(brushSize, 3);
 
                 FreeDrawLine newLine = new FreeDrawLine(colorPickerDraw.getValue(), size);
@@ -219,9 +216,6 @@ public class EditorController {
                 project.addVisualElement(newLine);
             }
             else if (radioButtonCircle.isSelected()) {
-                shapesDiv.setVisible(true);
-                shapesDiv.setManaged(true);
-
                 double circleSize = checkValidSize(textFieldShapeStroke, 3);
                 project.addVisualElement(new AardCircle(
                         e.getX() - 1, e.getY() - 1, 2,
@@ -232,9 +226,6 @@ public class EditorController {
                         circleSize));
             }
             else if (radioButtonSquare.isSelected()) {
-                shapesDiv.setVisible(true);
-                shapesDiv.setManaged(true);
-
                 double squareSize = checkValidSize(textFieldShapeStroke, 3);
                 project.addVisualElement(new AardSquare(
                         e.getX() - 1, e.getY() - 1, 2,
@@ -245,9 +236,6 @@ public class EditorController {
                         squareSize));
             }
             else if (textBoxBtn.isSelected()) {
-                textDiv.setVisible(true);
-                textDiv.setManaged(true);
-
                 double textCheckedSize = checkValidSize(fontSize, 16);
                 project.addVisualElement(new AardText(
                         textField.getText(),
@@ -256,8 +244,6 @@ public class EditorController {
                         e.getX(), e.getY()));
             }
             else if (eraserBtn.isSelected()) {
-                brushDiv.setVisible(true);
-                brushDiv.setManaged(true);
                 double size = checkValidSize(brushSize, 3);
 
                 FreeDrawLine eraser = new FreeDrawLine(Color.WHITE, size);
