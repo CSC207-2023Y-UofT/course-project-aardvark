@@ -2,7 +2,6 @@ package user_features;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class User {
 

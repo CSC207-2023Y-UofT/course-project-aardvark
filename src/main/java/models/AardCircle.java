@@ -2,6 +2,7 @@ package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 
 public class AardCircle implements VisualElement  {

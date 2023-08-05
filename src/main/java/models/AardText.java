@@ -1,8 +1,9 @@
 package models;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 import java.util.HashMap;
 
 /**

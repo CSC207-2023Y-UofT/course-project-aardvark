@@ -5,16 +5,19 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
-
-import java.io.*;
+import java.io.IOException;
 import java.util.HashMap;
 
 
 public class UserDSGateway {
     /**
-     * A gateway class that is used to access and edit the data in the data file "user.json".
+     * A gateway class that is used to access and edit the data in the data file "DataModel.json" and interact with
+     * instances of user.
      *
+     * 
      */
 
     // instance variable
@@ -52,6 +55,20 @@ public class UserDSGateway {
         }
 
     }
+
+    public User UserLogin(String email, String password){
+
+        return (new User("name_holder", email, password));
+
+
+    }
+
+    public User UserRegister(String name, String email, String password){
+
+        return (new User(name, email, password));
+
+    }
+
     @SuppressWarnings("unchecked")
     public void addUser(User user) {
 
