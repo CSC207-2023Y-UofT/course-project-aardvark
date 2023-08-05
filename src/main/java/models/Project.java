@@ -1,8 +1,6 @@
 package models;
 
-import free_draw.FreeDrawLine;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
 import java.util.*;

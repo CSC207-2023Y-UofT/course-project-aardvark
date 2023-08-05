@@ -1,9 +1,9 @@
-package text;
+package models;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
-import models.VisualElement;
+import javafx.scene.text.Font;
+
 import java.util.HashMap;
 
 /**
@@ -20,7 +20,7 @@ public class AardText implements VisualElement {
     /** The font size of the specified text.*/
     private final double fontSize;
 
-    /** The color of the indicated text, stored as a String representation.*/
+    /** The color of the indicated text.*/
     private final Color color;
 
     /** The coordinates of the specified text, stored as an array of doubles with
