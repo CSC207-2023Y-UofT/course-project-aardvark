@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="all-user-tests" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="course-project-aardvark [run]" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,9 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":test" />
-          <option value="--tests" />
-          <option value="&quot;user_features.*&quot;" />
+          <option value="run" />
         </list>
       </option>
       <option name="vmOptions" />

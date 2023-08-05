@@ -1,18 +1,11 @@
 package models;
 
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
-import javafx.stage.Stage;
-import models.VisualElement;
 
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +29,10 @@ public class FreeDrawLine implements VisualElement{
 
     public void addPoint(double x, double y) {
         path.add(new Point2D.Double(x, y));
+    }
+
+    public ArrayList<Point2D.Double> getPath() {
+        return path;
     }
 
     /**
