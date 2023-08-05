@@ -1,26 +1,27 @@
 package controllers;
 
 import aardvark.MainAppRouter;
-import models.*;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
-import javafx.scene.input.*;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -90,7 +91,6 @@ public class EditorController {
 
     public void initialize() {
         /* INITIALIZE */
-
         gc = canvas.getGraphicsContext2D();
         resizerController = new CanvasResizerController(canvas, project);
 

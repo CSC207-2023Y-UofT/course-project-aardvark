@@ -2,7 +2,6 @@ package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,20 +10,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Project;
-import javafx.scene.control.Alert;
+import user_features.UserLoginUseCase;
+import user_features.UserRegisterUseCase;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
-import user_features.UserRegisterUseCase;
-import user_features.UserLoginUseCase;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainAppRouter implements Initializable {
 
@@ -43,7 +45,7 @@ public class MainAppRouter implements Initializable {
         List<models.Project> projects = new ArrayList<>(projects());
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
-            fxmlloader.setLocation(getClass().getResource("project_item.fxml"));
+            fxmlloader.setLocation(getClass().getResource("/aardvark/project_item.fxml"));
 
             try {
                 HBox hbox = fxmlloader.load();
@@ -74,7 +76,7 @@ public class MainAppRouter implements Initializable {
 
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("signup.fxml"));
+        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -125,7 +127,7 @@ public class MainAppRouter implements Initializable {
 
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("signin.fxml"));
+        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signin.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
