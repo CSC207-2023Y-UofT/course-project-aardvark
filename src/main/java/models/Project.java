@@ -122,7 +122,7 @@ public class Project {
         HashMap<String, Object> dictionary = new HashMap<>();
 
         dictionary.put("ProjectName", projectName);
-        dictionary.put("UpdateDate", updatedAt);
+        dictionary.put("UpdateDate", updatedAt.toString());
         dictionary.put("Width", width);
         dictionary.put("Height", height);
 

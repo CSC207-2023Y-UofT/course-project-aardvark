@@ -19,6 +19,14 @@ import javafx.stage.Stage;
 import models.Project;
 import javafx.scene.control.Alert;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -38,9 +46,43 @@ public class MainAppRouter implements Initializable {
     private Scene scene;
     private Parent root;
 
+    static private String currEmail = "";
+    static private Project currProj = null;
+    static private UserRegisterUseCase register = null;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<models.Project> projects = new ArrayList<>(projects());
+        if (currEmail.isEmpty())
+            return;
+
+        List<Project> projects = new ArrayList<>();
+
+
+
+        String filePath = "src/main/java/user_features/DataModel.json";
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            // Read the JSON file and parse it
+            Object obj = jsonParser.parse(new FileReader(filePath));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currEmail);
+
+            // Get the "Projects" array
+            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+
+            for (Object jsonElement : projectsArray) {
+                JSONObject JSONProj = (JSONObject) jsonElement;
+                projects.add(new Project((String)JSONProj.get("ProjectName")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
             fxmlloader.setLocation(getClass().getResource("project_item.fxml"));
@@ -57,20 +99,6 @@ public class MainAppRouter implements Initializable {
             }
         }
     }
-
-    //  Temporary code to simulate project list
-    private List<Project> projects() {
-
-        List<models.Project> ls = new ArrayList<>();
-
-        for (int i = 0; i < 15; i++) {
-            models.Project project = new models.Project("Untitled Project");
-            ls.add(project);
-        }
-
-        return ls;
-    };
-
 
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
@@ -95,7 +123,9 @@ public class MainAppRouter implements Initializable {
         String email = emailText.getText();
         String name = nameText.getText();
 
-        UserRegisterUseCase register = new UserRegisterUseCase(name, email,
+        currEmail = email;
+
+        register = new UserRegisterUseCase(name, email,
                 password);
 
         if (!password.equals("") && !email.equals("")) {
@@ -131,6 +161,12 @@ public class MainAppRouter implements Initializable {
 
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+        if (currProj != null) {
+
+
+            currProj = null;
+        }
+
         Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
@@ -160,6 +196,8 @@ public class MainAppRouter implements Initializable {
         String email = textField.getText();
         String password = passwordField.getText();
 
+        currEmail = email;
+
         UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
 
         if (!password.equals("") && !email.equals("")) {
@@ -180,8 +218,31 @@ public class MainAppRouter implements Initializable {
     @FXML TextField newProjectName;
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
-        Project project = new Project(newProjectName.getText());
-        switchToEditor(event, project);
+        currProj = new Project(newProjectName.getText());
+
+        String filePath = "src/main/java/user_features/DataModel.json";
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            // Read the JSON file and parse it
+            Object obj = jsonParser.parse(new FileReader(filePath));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currEmail);
+
+            // Get the "Projects" array
+            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+            projectsArray.add(currProj.toDict());
+
+            // Write the updated data back to the JSON file
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write(jsonObject.toJSONString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        switchToEditor(event, currProj);
     }
 
     @FXML
