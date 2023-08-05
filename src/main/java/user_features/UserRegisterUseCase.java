@@ -1,10 +1,5 @@
 package user_features;
 
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
-import java.util.Objects;
-
 public class UserRegisterUseCase {
 
     // instance variable
