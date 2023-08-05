@@ -12,6 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class FreeDrawLineTest {
 
     @Test
+    void getPathTest() {
+        ArrayList<Point2D.Double> pathSoFar = new ArrayList<>();
+        Point2D.Double point1 = new Point2D.Double(1, 2);
+        pathSoFar.add(point1);
+        FreeDrawLine line = new FreeDrawLine(Color.TOMATO, 4, pathSoFar);
+        Assertions.assertEquals(point1, line.getPath().get(0));
+    }
+
+    @Test
     void addPointTestFromEmpty() {
         FreeDrawLine line = new FreeDrawLine(Color.TOMATO, 4);
         line.addPoint(2, 3);

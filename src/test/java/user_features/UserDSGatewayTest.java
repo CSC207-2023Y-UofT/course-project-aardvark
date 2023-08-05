@@ -11,6 +11,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserDSGatewayTest {
 
+    @Test
+    void userLoginTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User loginUser = gateway.UserLogin("amy@gmail.com", "12345");
+        Assertions.assertEquals("name_holder", loginUser.getName());
+        Assertions.assertEquals("amy@gmail.com", loginUser.getEmail());
+        Assertions.assertEquals("12345", loginUser.getPassword());
+    }
+
+    @Test
+    void userRegisterTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
+        Assertions.assertEquals("Bob", registerUser.getName());
+        Assertions.assertEquals("bob@gmail.com", registerUser.getEmail());
+        Assertions.assertEquals("12345", registerUser.getPassword());
+    }
 
     @Test
     void addUserTest() throws IOException {
@@ -129,21 +146,4 @@ class UserDSGatewayTest {
 
     }
 
-    @Test
-    void userLoginTest() {
-        UserDSGateway gateway = new UserDSGateway();
-        User loginUser = gateway.UserLogin("amy@gmail.com", "12345");
-        Assertions.assertEquals("name_holder", loginUser.getName());
-        Assertions.assertEquals("amy@gmail.com", loginUser.getEmail());
-        Assertions.assertEquals("12345", loginUser.getPassword());
-    }
-
-    @Test
-    void userRegisterTest() {
-        UserDSGateway gateway = new UserDSGateway();
-        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
-        Assertions.assertEquals("Bob", registerUser.getName());
-        Assertions.assertEquals("bob@gmail.com", registerUser.getEmail());
-        Assertions.assertEquals("12345", registerUser.getPassword());
-    }
 }
