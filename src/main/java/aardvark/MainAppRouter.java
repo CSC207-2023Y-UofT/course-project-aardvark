@@ -161,14 +161,18 @@ public class MainAppRouter implements Initializable {
         String password = passwordField.getText();
 
         UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
-        if (loginUser.checkExists() && loginUser.checkPassword()) {
-            switchToProjects(event);
+
+        if (!password.equals("") && !email.equals("")) {
+            if (loginUser.checkExists() && loginUser.checkPassword()) {
+                switchToProjects(event);
+            } else if (!loginUser.checkExists()) {
+                showErrorAlert("User does not exists, sign up.");
+            } else if (!loginUser.checkPassword()) {
+                showErrorAlert("Password is incorrect, please try again.");
+            }
         }
-        else if (!loginUser.checkExists()){
-            showErrorAlert("User does not exists, sign up.");
-        }
-        else if (!loginUser.checkPassword()){
-            showErrorAlert("Password is incorrect, please try again.");
+        else {
+            showErrorAlert("Fields cannot be left blank, please try again.");
         }
 
     }

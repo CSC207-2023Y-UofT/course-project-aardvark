@@ -104,6 +104,27 @@ class UserDSGatewayTest {
 
     }
 
+    @Test
+    @SuppressWarnings("unchecked")
+    void deleteProjectTest(){
+        User user = new User("Jon", "jon.doe@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        JSONObject visualElement = new JSONObject();
+        visualElement.put("visualName", new JSONArray());
+
+        HashMap<String, Object> project = new HashMap<>();
+        project.put("ProjectName", "projectName");
+        project.put("UpdateDate", "updatedAt");
+        project.put("Width", "width");
+        project.put("Height", "height");
+        project.put("VisualElements", visualElement);
+        gateway.addProject(user, project);
+        Assertions.assertTrue(gateway.deleteProject(user, project));
+        gateway.saveChanges();
+
+    }
+
 
 
 

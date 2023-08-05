@@ -8,7 +8,6 @@ import org.json.simple.parser.ParseException;
 import java.io.FileWriter;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -94,11 +93,11 @@ public class UserDSGateway {
 
     }
 
-    public void deleteProject(User user, HashMap<String, Object> project){
+    public boolean deleteProject(User user, HashMap<String, Object> project){
 
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.email);
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
-        projectsArray.remove(project);
+        return(projectsArray.remove(project));
 
     }
 
