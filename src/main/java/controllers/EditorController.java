@@ -70,11 +70,15 @@ public class EditorController {
     @FXML
     public VBox shapesDiv;
     @FXML
+    public VBox eraserDiv;
+    @FXML
     public ToggleGroup selectTool;
     private Color currentColorDraw = Color.BLACK;
     private Color currentColorText = Color.BLACK;
     @FXML
     private TextField brushSize;
+    @FXML
+    private TextField eraserSize;
     public TextField textField;
     public GraphicsContext gc;
     public static Stage primaryStage;
@@ -155,6 +159,8 @@ public class EditorController {
 //      default state of settings boxes
         brushDiv.setVisible(true);
         brushDiv.setManaged(true);
+        eraserDiv.setVisible(false);
+        eraserDiv.setManaged(false);
         textDiv.setVisible(false);
         textDiv.setManaged(false);
         shapesDiv.setVisible(false);
@@ -165,6 +171,8 @@ public class EditorController {
                 if (freeDrawBtn.isSelected()) {
                     brushDiv.setVisible(true);
                     brushDiv.setManaged(true);
+                    eraserDiv.setVisible(false);
+                    eraserDiv.setManaged(false);
                     textDiv.setVisible(false);
                     textDiv.setManaged(false);
                     shapesDiv.setVisible(false);
@@ -173,6 +181,8 @@ public class EditorController {
                 else if (radioButtonCircle.isSelected()) {
                     brushDiv.setVisible(false);
                     brushDiv.setManaged(false);
+                    eraserDiv.setVisible(false);
+                    eraserDiv.setManaged(false);
                     textDiv.setVisible(false);
                     textDiv.setManaged(false);
                     shapesDiv.setVisible(true);
@@ -181,6 +191,8 @@ public class EditorController {
                 else if (radioButtonSquare.isSelected()) {
                     brushDiv.setVisible(false);
                     brushDiv.setManaged(false);
+                    eraserDiv.setVisible(false);
+                    eraserDiv.setManaged(false);
                     textDiv.setVisible(false);
                     textDiv.setManaged(false);
                     shapesDiv.setVisible(true);
@@ -189,6 +201,8 @@ public class EditorController {
                 else if (textBoxBtn.isSelected()) {
                     brushDiv.setVisible(false);
                     brushDiv.setManaged(false);
+                    eraserDiv.setVisible(false);
+                    eraserDiv.setManaged(false);
                     textDiv.setVisible(true);
                     textDiv.setManaged(true);
                     shapesDiv.setVisible(false);
@@ -196,8 +210,10 @@ public class EditorController {
                     textField.requestFocus();
                 }
                 else if (eraserBtn.isSelected()) {
-                    brushDiv.setVisible(true);
-                    brushDiv.setManaged(true);
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    eraserDiv.setVisible(true);
+                    eraserDiv.setManaged(true);
                     textDiv.setVisible(false);
                     textDiv.setManaged(false);
                     shapesDiv.setVisible(false);
@@ -244,7 +260,7 @@ public class EditorController {
                         e.getX(), e.getY()));
             }
             else if (eraserBtn.isSelected()) {
-                double size = checkValidSize(brushSize, 3);
+                double size = checkValidSize(eraserSize, 3);
 
                 FreeDrawLine eraser = new FreeDrawLine(Color.WHITE, size);
                 eraser.addPoint(e.getX(), e.getY());
