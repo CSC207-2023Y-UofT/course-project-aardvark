@@ -1,37 +1,40 @@
 package models;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.junit.jupiter.api.Assertions;
+import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
+class FreeDrawLineTest {
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Scanner;
-
-public class FreeDrawLineTest {
     @Test
     void toDict() {
-        FreeDrawLine freeDrawLine = new FreeDrawLine(Color.YELLOW, 3,
-                new ArrayList<Point2D.Double>());
-        freeDrawLine.addPoint(1, 1);
-        freeDrawLine.addPoint(1, 2);
-        freeDrawLine.addPoint(1, 3);
-        freeDrawLine.addPoint(2, 3);
-        freeDrawLine.addPoint(3, 3);
-        freeDrawLine.addPoint(3, 4);
-        freeDrawLine.addPoint(3, 5);
-        Assertions.assertEquals("{Path=[{1.0, 1.0}, {1.0, 2.0}, {1.0, 3.0}, {2.0, 3.0}, {3.0, 3.0}, {3.0, 4.0}," +
-                " {3.0, 5.0}], Size=3.0, Color=0xffff00ff, Name=FreeDrawLine}", freeDrawLine.toDict().toString());
+        FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
+        for(int i = 0; i<3; i++) {
+            f.addPoint(i,i+3);
+        }
+        System.out.println(f.toDict().toString());
+        assert f.toDict().toString().equals(
+                "{StrokeSize=10.0, PointList=[0.0,3.0, 1.0,4.0, 2.0,5.0], " +
+                        "Color=0x00000000, Name=FreeDrawLine}");
+    }
 
+    @Test
+    void fromDict() {
+        FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
+        for(int i = 0; i<3; i++) {
+            f.addPoint(i,i+3);
+        }
+        FreeDrawLine g = FreeDrawLine.fromDict(f.toDict());
+        assert f.toDict().equals(g.toDict());
+    }
+
+    @Test
+    void pointMap() {
+        FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
+        for(int i = 0; i<10; i++) {
+            f.addPoint(i,i+3);
+        }
+        assert f.pointMap().get(3).equals("3.0,6.0");
     }
 }
