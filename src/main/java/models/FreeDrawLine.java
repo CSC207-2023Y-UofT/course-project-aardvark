@@ -4,8 +4,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONArray;
 
 import java.awt.geom.Point2D;
+import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +24,7 @@ public class FreeDrawLine implements VisualElement{
         this.strokeSize = strokeSize;
     }
 
-    public FreeDrawLine(Color colour, int strokeSize, ArrayList<Point2D.Double> path) {
+    public FreeDrawLine(Color colour, double strokeSize, ArrayList<Point2D.Double> path) {
         this.colour = colour;
         this.strokeSize = strokeSize;
         this.path = path;
@@ -54,7 +58,37 @@ public class FreeDrawLine implements VisualElement{
     }
 
     public HashMap<String, Object> toDict() {
-        return null;
+        HashMap<String, Object> dict = new HashMap<>();
+        dict.put("Name", "FreeDrawLine");
+        dict.put("Color", colour.toString());
+        dict.put("StrokeSize", strokeSize);
+        dict.put("PointList", pointMap());
+        return dict;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static FreeDrawLine fromDict(HashMap<String, Object> dict) {
+        //points
+        ArrayList<Point2D.Double> path = new ArrayList<>();
+        for(Object i : (ArrayList) dict.get("PointList")) {
+            String j = (String) i;
+            Double x = Double.parseDouble(j.split(",")[0]);
+            Double y = Double.parseDouble(j.split(",")[1]);
+            Point2D.Double p = new Point2D.Double(x, y);
+            path.add(p);
+        }
+        FreeDrawLine ret = new FreeDrawLine(Color.valueOf((String) dict.get("Color")),
+                (Double) dict.get("StrokeSize"), path);
+        return ret;
+
+    }
+
+    public ArrayList<String> pointMap() {
+        ArrayList<String> lst = new ArrayList<>();
+        for(Point2D.Double i : path) {
+            lst.add(i.getX() + "," + i.getY());
+        }
+        return lst;
     }
 
 }
