@@ -28,4 +28,4 @@ git clone https://github.com/CSC207-2023Y-UofT/course-project-aardvark.git
 
 ## Coverage Test
 
-![Aardvark Coverage Test Scores](src\main\resources\images\coverage.png)
+![Aardvark Coverage Test Scores](/src/main/resources/images/coverage.png)
