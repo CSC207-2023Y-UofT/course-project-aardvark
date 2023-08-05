@@ -91,15 +91,4 @@ public class FreeDrawLine implements VisualElement{
         return lst;
     }
 
-    public static void main(String[] args) {
-        FreeDrawLine f = new FreeDrawLine(new Color(0,0,0, 0), 10);
-        for(int i = 0; i<10; i++) {
-            f.addPoint(i,i+3);
-        }
-        HashMap<String, Object> h = f.toDict();
-        System.out.println(h);
-        f = FreeDrawLine.fromDict(h);
-        System.out.println(f.toDict());
-    }
-
 }
