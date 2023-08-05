@@ -54,7 +54,11 @@ public class FreeDrawLine implements VisualElement{
     }
 
     public HashMap<String, Object> toDict() {
-        return null;
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("Colour", this.colour.toString());
+        ret.put("Size", String.valueOf(this.strokeSize));
+        ret.put("Path", this.path.toString());
+        return ret;
     }
 
 }
