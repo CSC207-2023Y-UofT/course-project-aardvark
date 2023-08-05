@@ -3,6 +3,7 @@ package aardvark;
 import controllers.EditorController;
 import controllers.ProjectItemController;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,8 +32,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import user_features.User;
+import user_features.UserDSGateway;
 import user_features.UserRegisterUseCase;
 import user_features.UserLoginUseCase;
+
+import javax.swing.*;
 
 public class MainAppRouter implements Initializable {
 
@@ -46,13 +51,17 @@ public class MainAppRouter implements Initializable {
     private Scene scene;
     private Parent root;
 
-    static private String currEmail = "";
+    static public User currUser = null;
     static private Project currProj = null;
-    static private UserRegisterUseCase register = null;
+    static private UserDSGateway userGate = null;
+    @FXML
+    private Label name;
+    @FXML
+    private Button delete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (currEmail.isEmpty())
+        if (currUser == null)
             return;
 
         List<Project> projects = new ArrayList<>();
@@ -67,7 +76,7 @@ public class MainAppRouter implements Initializable {
             Object obj = jsonParser.parse(new FileReader(filePath));
             JSONObject jsonObject = (JSONObject) obj;
 
-            JSONObject jsonUser = (JSONObject)jsonObject.get(currEmail);
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
 
             // Get the "Projects" array
             JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
@@ -123,10 +132,8 @@ public class MainAppRouter implements Initializable {
         String email = emailText.getText();
         String name = nameText.getText();
 
-        currEmail = email;
-
-        register = new UserRegisterUseCase(name, email,
-                password);
+        currUser = new User(name, email, password);
+        UserRegisterUseCase register = new UserRegisterUseCase(name, email, password);
 
         if (!password.equals("") && !email.equals("")) {
             if (password.equals(repeatPassword) && !register.checkExists()) {
@@ -196,7 +203,7 @@ public class MainAppRouter implements Initializable {
         String email = textField.getText();
         String password = passwordField.getText();
 
-        currEmail = email;
+        currUser = new User("", email, password);
 
         UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
 
@@ -228,7 +235,7 @@ public class MainAppRouter implements Initializable {
             Object obj = jsonParser.parse(new FileReader(filePath));
             JSONObject jsonObject = (JSONObject) obj;
 
-            JSONObject jsonUser = (JSONObject)jsonObject.get(currEmail);
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
 
             // Get the "Projects" array
             JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
@@ -245,8 +252,8 @@ public class MainAppRouter implements Initializable {
         switchToEditor(event, currProj);
     }
 
-    @FXML
-    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
-        System.out.println("deleted");
+    static public void deleteButton(javafx.event.ActionEvent event) throws IOException{
+        Parent newPage = FXMLLoader.load(MainAppRouter.class.getResource("projects.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 }

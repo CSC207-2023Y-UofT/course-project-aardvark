@@ -14,7 +14,7 @@
          <graphic>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="name" text="Project Name" textFill="#222222">
+                     <Label fx:id="name" text="Project Name" textFill="#222222">
                      <font>
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
@@ -31,7 +31,7 @@
                </padding>
             </VBox>
          </graphic></Button>
-      <Button fx:id="delete" minHeight="60.0" minWidth="60.0" mnemonicParsing="false">
+      <Button fx:id="delete" onAction="#deleteButton" minHeight="60.0" minWidth="60.0" mnemonicParsing="false">
          <tooltip>
             <Tooltip text="Delete Project">
                <font>
