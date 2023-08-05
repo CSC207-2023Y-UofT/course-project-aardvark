@@ -6,6 +6,7 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 
 import java.awt.geom.Point2D;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,9 +56,14 @@ public class FreeDrawLine implements VisualElement{
 
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> ret = new HashMap<>();
-        ret.put("Colour", this.colour.toString());
-        ret.put("Size", String.valueOf(this.strokeSize));
-        ret.put("Path", this.path.toString());
+        ret.put("Name", "FreeDrawLine");
+        ret.put("Color", this.colour.toString());
+        ret.put("Size", this.strokeSize);
+        ArrayList<String> lst = new ArrayList<>();
+        for (int i = 0; i < path.size(); i++) {
+            lst.add("{" + path.get(i).getX() + ", " + path.get(i).getY() + "}");
+        }
+        ret.put("Path", lst);
         return ret;
     }
 
