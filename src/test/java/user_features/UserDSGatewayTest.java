@@ -20,7 +20,7 @@ class UserDSGatewayTest {
         gateway.addUser(user);
         gateway.addUser(user1);
         gateway.saveChanges();
-        Assertions.assertTrue(gateway.dataDocument.containsKey(user.email));
+        Assertions.assertTrue(gateway.dataDocument.containsKey(user.getEmail()));
 
     }
 
@@ -32,7 +32,7 @@ class UserDSGatewayTest {
         gateway.addUser(user);
         gateway.addUser(user1);
         gateway.saveChanges();
-        Assertions.assertTrue(gateway.dataDocument.containsKey(user.email));
+        Assertions.assertTrue(gateway.dataDocument.containsKey(user.getEmail()));
 
     }
 
@@ -66,7 +66,7 @@ class UserDSGatewayTest {
         gateway.addUser(oldUser);
         gateway.saveChanges();
         User user = new User("Tony Stark", "tony.stark@gmail.com", "ironman4ever");
-        Assertions.assertTrue(gateway.checkPassword(user.email, user.password));
+        Assertions.assertTrue(gateway.checkPassword(user.getEmail(), user.getPassword()));
     }
 
     @Test
@@ -76,7 +76,7 @@ class UserDSGatewayTest {
         gateway.addUser(oldUser);
         gateway.saveChanges();
         User user = new User("Tony Stark", "tony.stark@gmail.com", "thanos4ever");
-        Assertions.assertFalse(gateway.checkPassword(user.email, user.password));
+        Assertions.assertFalse(gateway.checkPassword(user.getEmail(), user.getPassword()));
     }
 
     @Test
