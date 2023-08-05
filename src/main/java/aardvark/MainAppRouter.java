@@ -2,7 +2,6 @@ package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,13 +10,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Project;
-import javafx.scene.control.Alert;
+import user_features.UserLoginUseCase;
+import user_features.UserRegisterUseCase;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +28,9 @@ import java.util.*;
 
 import user_features.User;
 import user_features.UserDSGateway;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainAppRouter implements Initializable {
 
@@ -43,7 +49,7 @@ public class MainAppRouter implements Initializable {
         List<models.Project> projects = new ArrayList<>(projects());
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
-            fxmlloader.setLocation(getClass().getResource("project_item.fxml"));
+            fxmlloader.setLocation(getClass().getResource("/aardvark/project_item.fxml"));
 
             try {
                 HBox hbox = fxmlloader.load();
@@ -74,7 +80,7 @@ public class MainAppRouter implements Initializable {
 
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("signup.fxml"));
+        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -95,17 +101,17 @@ public class MainAppRouter implements Initializable {
         String email = emailText.getText();
         String name = nameText.getText();
 
-        UserDSGateway gateway = new UserDSGateway();
-        User UserRegister = gateway.UserRegister(name, email, password);
+        UserRegisterUseCase register = new UserRegisterUseCase(name, email,
+                password);
 
         if (!password.equals("") && !email.equals("")) {
-            if (password.equals(repeatPassword) && !gateway.checkUserExists(UserRegister)) {
-                gateway.addUser(UserRegister);
-                gateway.saveChanges();
+            if (password.equals(repeatPassword) && !register.checkExists()) {
+
+                register.addUser();
                 switchToProjects(event);
-            } else if (!password.equals(repeatPassword)) {
+            } else if (!password.equals(repeatPassword) && !register.checkExists()) {
                 showErrorAlert("Passwords don't match, please try again!");
-            } else if (gateway.checkUserExists(UserRegister)) {
+            } else if (register.checkExists()) {
                 showErrorAlert("User already exists, sign in.");
             }
         }
@@ -160,15 +166,14 @@ public class MainAppRouter implements Initializable {
         String email = textField.getText();
         String password = passwordField.getText();
 
-        UserDSGateway gateway = new UserDSGateway();
-        User loginUser = gateway.UserLogin(email, password);
+        UserLoginUseCase loginUser = new UserLoginUseCase(email, password);
 
         if (!password.equals("") && !email.equals("")) {
-            if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
+            if (loginUser.checkExists() && loginUser.checkPassword()) {
                 switchToProjects(event);
-            } else if (!gateway.checkUserExists(loginUser)) {
+            } else if (!loginUser.checkExists()) {
                 showErrorAlert("User does not exists, sign up.");
-            } else if (!gateway.checkPassword(email, password)) {
+            } else if (!loginUser.checkPassword()) {
                 showErrorAlert("Password is incorrect, please try again.");
             }
         }
