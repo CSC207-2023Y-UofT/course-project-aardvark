@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class User {
 
     // instance variables
-    String name;
-    String email;
-    String password;
+    private String name;
+    private String email;
+    private String password;
 
     ArrayList<HashMap<String, Object>> projectsList;
 
