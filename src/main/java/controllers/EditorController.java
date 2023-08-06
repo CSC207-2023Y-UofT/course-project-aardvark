@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class EditorController {
+    private AardWritableImage fxImage;
 
     public final Project project;
     public final Scene scene;
@@ -91,6 +92,12 @@ public class EditorController {
     public EditorController(Project p, Scene s) {
         project = p;
         scene = s;
+    }
+
+    public EditorController(Project p, Scene s, AardWritableImage fxImage) {
+        this.project = p;
+        this.scene = s;
+        this.fxImage = fxImage;
     }
 
     public void initialize() {
@@ -315,6 +322,11 @@ public class EditorController {
 
             project.draw(gc);
         });
+        if (fxImage != null) {
+            resizerController.resizeCanvas(fxImage.getWidth(), fxImage.getHeight());
+            gc.drawImage(fxImage, 0, 0);
+            project.addVisualElement(fxImage);
+        }
     }
 
     private void setCurrentColorDraw(Color color) {

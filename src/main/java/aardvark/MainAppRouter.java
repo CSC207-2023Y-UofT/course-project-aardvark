@@ -2,6 +2,7 @@ package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,28 +11,38 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.AardWritableImage;
 import models.Project;
 
+import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
 import user_features.User;
 import user_features.UserDSGateway;
+
+import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainAppRouter implements Initializable {
-
+    @FXML
+    public MenuButton createProjectBtn;
+    @FXML
+    public MenuItem newProjectBtn;
+    @FXML
+    public MenuItem openBtn;
     @FXML
     private VBox projectsLayout;
     private Canvas canvas;
@@ -143,7 +154,7 @@ public class MainAppRouter implements Initializable {
     @FXML
     public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("new_project.fxml"));
-        ((Node) event.getSource()).getScene().setRoot(newPage);
+        ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow().getScene().setRoot(newPage);
     }
 
     @FXML
@@ -152,6 +163,15 @@ public class MainAppRouter implements Initializable {
         fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
         Parent newPage = fxmlLoader.load();
         ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+    @FXML
+    public void switchToEditor(javafx.event.ActionEvent event, Project project,
+                               AardWritableImage fxImage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
+        fxmlLoader.setController(new EditorController(project, ((MenuItem) event.getSource()).getParentPopup().
+                getOwnerWindow().getScene(), fxImage));
+        Parent newPage = fxmlLoader.load();
+        ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow().getScene().setRoot(newPage);
     }
 
     @FXML
@@ -193,5 +213,35 @@ public class MainAppRouter implements Initializable {
     @FXML
     public void deleteProject(javafx.event.ActionEvent event) throws IOException{
         System.out.println("deleted");
+    }
+    @FXML
+    private void onOpenProjectClicked(javafx.event.ActionEvent event) {
+        // This method will be called when "Open" is clicked from the dropdown menu
+        // Implement the logic to open the file explorer and load a PNG file.
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open PNG Image");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(createProjectBtn.getScene().getWindow());
+
+        if (selectedFile != null) {
+            // Load the PNG image and create a WritableImage from it
+            try {
+                BufferedImage bufferedImage = ImageIO.read(selectedFile);
+                WritableImage fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
+                AardWritableImage writableImage = new AardWritableImage((int) Math.ceil(fxImage.getWidth()),
+                        (int) Math.ceil(fxImage.getHeight()));
+                SwingFXUtils.toFXImage(bufferedImage, writableImage);
+
+                switchToEditor(event, new Project(selectedFile.getName()), writableImage);
+
+            } catch (IOException e) {
+                // Handle the exception if the file cannot be read or is not a valid PNG image.
+                e.printStackTrace();
+            }
+        }
     }
 }
