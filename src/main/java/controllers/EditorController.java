@@ -27,6 +27,23 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+
+/**
+ The EditorController class is the controller responsible for handling user interactions and managing the
+ image editing functionality in the Aardvark application.
+
+ It allows users to draw freehand lines, shapes, text, and use the eraser tool on the canvas.
+
+ Users can also resize the canvas, clear the canvas, and export the edited image as a PNG file.
+
+ This class is part of the Aardvark application, which is an image editor and project management tool.
+
+ Users can create, open, and edit projects, as well as perform various image editing operations.
+
+ The EditorController class interacts with the associated editor.fxml file that defines the graphical user interface.
+
+ It also communicates with the Project class to manage the visual elements drawn on the canvas.
+ */
 public class EditorController {
     private AardWritableImage fxImage;
 
@@ -86,19 +103,37 @@ public class EditorController {
 
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
-//    private ArrayList<VisualElement>
 
+    /**
+     * Constructor for EditorController.
+     * Initializes the EditorController with the provided Project and Scene.
+     *
+     * @param p The Project associated with the EditorController.
+     * @param s The Scene associated with the EditorController.
+     */
     public EditorController(Project p, Scene s) {
         project = p;
         scene = s;
     }
 
+    /**
+     * Constructor for EditorController.
+     * Initializes the EditorController with the provided Project, Scene, and AardWritableImage.
+     *
+     * @param p The Project associated with the EditorController.
+     * @param s The Scene associated with the EditorController.
+     * @param fxImage The AardWritableImage associated with the EditorController.
+     */
     public EditorController(Project p, Scene s, AardWritableImage fxImage) {
         this.project = p;
         this.scene = s;
         this.fxImage = fxImage;
     }
 
+    /**
+     * Initializes the EditorController after the FXML elements have been loaded.
+     * Sets up event handlers, default settings, and drawing tools.
+     */
     public void initialize() {
         /* INITIALIZE */
         gc = canvas.getGraphicsContext2D();
@@ -328,17 +363,10 @@ public class EditorController {
         }
     }
 
-    private void setCurrentColorDraw(Color color) {
-        currentColorDraw = color;
-        gc.setStroke(color);
-        gc.setFill(color);
-    }
-    private void setCurrentColorText(Color color) {
-        currentColorText = color;
-        gc.setStroke(color);
-        gc.setFill(color);
-    }
-
+    /**
+     * Saves the canvas content as a PNG image file.
+     * Displays a FileChooser dialog to select the destination file and exports the image.
+     */
     public void onSave() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export as PNG");
@@ -359,21 +387,47 @@ public class EditorController {
         }
     }
 
+    /**
+     * Switches to the Projects view.
+     * Called when the user wants to go back to the Projects view from the Editor view.
+     *
+     * @param event The ActionEvent that triggers the switch.
+     * @throws IOException If there is an error while loading the projects.fxml file.
+     */
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         MainAppRouter switcher = new MainAppRouter();
         switcher.switchToProjects(event);
     }
 
+    /**
+     * Resizes the canvas to the specified dimensions.
+     * Called when the user wants to resize the canvas from the Editor view.
+     *
+     * @param actionEvent The ActionEvent that triggers the resize.
+     */
     public void resizeCanvas(ActionEvent actionEvent) {
         this.resizerController.resize();
     }
 
+    /**
+     * Clears the canvas by filling it with a white color.
+     * Called when the user wants to clear the canvas from the Editor view.
+     *
+     * @param actionEvent The ActionEvent that triggers the clear action.
+     */
     public void clearCanvas(ActionEvent actionEvent) {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(colorPickerDraw.getValue());
     }
+
+    /**
+     * Undoes the last visual element drawn on the canvas.
+     * Called when the user wants to undo the last action from the Editor view.
+     *
+     * @param event The ActionEvent that triggers the undo action.
+     */
     @FXML
     public void undo(ActionEvent event) {
         this.clearCanvas(event);
@@ -381,11 +435,25 @@ public class EditorController {
         project.draw(gc);
     }
 
+    /**
+     * Redoes the last undone visual element on the canvas.
+     * Called when the user wants to redo an undone action from the Editor view.
+     *
+     * @param event The ActionEvent that triggers the redo action.
+     */
     @FXML
     public void redo(ActionEvent event) {
         project.redoVisualElement(gc);
     }
 
+    /**
+     * Validates and returns a double value from the provided TextField.
+     * If the value is not a valid double or is outside the range (0, 1000), it sets the preferredSize and returns it.
+     *
+     * @param generalTextField The TextField from which to retrieve the value.
+     * @param preferredSize The default size to use if the value is invalid or out of range.
+     * @return The validated double value or the preferredSize if the value is invalid or out of range.
+     */
     public double checkValidSize(TextField generalTextField, double preferredSize) {
         try {
             double newDouble = Double.parseDouble(generalTextField.getText());

@@ -249,29 +249,65 @@ public class MainAppRouter implements Initializable {
         }
     }
 
+    /**
+     Switches the current scene to the "projects.fxml" view.
+
+     @param event The ActionEvent that triggers the method, usually a button click.
+
+     @throws IOException If an error occurs while loading the "projects.fxml" view or setting the new scene.
+     */
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    /**
+     Switches the current scene to the "new_project.fxml" view.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+
+     @throws IOException If an error occurs while loading the "new_project.fxml" view or setting the new scene.
+     */
     @FXML
     public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("new_project.fxml"));
         ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow().getScene().setRoot(newPage);
     }
 
+    /**
+     Creates a new project with the name given name from the name project text field,
+     and then switches to the editor view for the newly created project.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+
+     @throws IOException If an error occurs while loading the editor view or setting the new scene.
+     */
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
         Project project = new Project(newProjectName.getText());
         switchToEditor(event, project);
     }
 
+    /**
+     Deletes the selected project.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+
+     @throws IOException If an error occurs while deleting the project or handling the project deletion process.
+     */
     @FXML
     public void deleteProject(javafx.event.ActionEvent event) throws IOException{
         System.out.println("deleted");
     }
 
+    /**
+     Opens the file explorer and loads an image when the "Open" option is clicked from the dropdown menu.
+
+     The selected image is then loaded into the editor for further processing.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+     */
     @FXML
     private void onOpenProjectClicked(javafx.event.ActionEvent event) {
         // This method will be called when "Open" is clicked from the dropdown menu
@@ -302,6 +338,16 @@ public class MainAppRouter implements Initializable {
             }
         }
     }
+
+    /**
+     Switches the scene to the editor view when triggered by a button click.
+
+     @param event The ActionEvent that triggers the method.
+
+     @param project The Project object representing the project to be opened in the editor.
+
+     @throws IOException If there is an error while loading the editor.fxml file.
+     */
     @FXML
     public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
@@ -310,6 +356,17 @@ public class MainAppRouter implements Initializable {
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    /**
+     Switches the scene to the editor view when triggered by the "Open" menu item selection.
+
+     @param event The ActionEvent that triggers the method.
+
+     @param project The Project object representing the project to be opened in the editor.
+
+     @param fxImage The AardWritableImage object representing the image data to be edited in the editor.
+
+     @throws IOException If there is an error while loading the editor.fxml file.
+     */
     @FXML
     public void switchToEditor(javafx.event.ActionEvent event, Project project,
                                AardWritableImage fxImage) throws IOException {
