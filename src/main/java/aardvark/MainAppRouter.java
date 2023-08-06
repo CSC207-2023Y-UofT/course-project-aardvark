@@ -460,6 +460,9 @@ public class MainAppRouter implements Initializable {
                             lst.add(AardSquare.fromDict(jo));
                         else if (type.equals("AardCircle"))
                             lst.add(AardCircle.fromDict(jo));
+                        else if (type.equals("AardLine")) {
+                            lst.add((AardLine.fromDict(jo)));
+                        }
                     }
 
                     Project project = new Project(projName, lst, date, (int)x, (int)y);

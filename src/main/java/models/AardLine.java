@@ -57,10 +57,17 @@ public class AardLine implements VisualElement{
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();
         dict.put("Name", "AardLine");
+        dict.put("X1", getX1());
+        dict.put("Y1", getY1());
+        dict.put("X2", getX2());
+        dict.put("Y2", getY2());
+        dict.put("Color", getColor().toString());
+        dict.put("StrokeSize", getStrokeSize());
         return dict;
     }
 
-//    public static AardLine fromDict(HashMap<String, Object> dict) {
-//        return new AardLine(dict.);
-//    }
+    public static AardLine fromDict(HashMap<String, Object> dict) {
+        return new AardLine((double) dict.get("X1"), (double) dict.get("Y1"), (double) dict.get("X2"), (double) dict.get("Y2"),
+                Color.valueOf((String) dict.get("Color")), (double) dict.get("StrokeSize"));
+    }
 }
