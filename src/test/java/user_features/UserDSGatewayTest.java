@@ -1,5 +1,6 @@
 package user_features;
 
+import models.Project;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -68,7 +69,7 @@ class UserDSGatewayTest {
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
         gateway.saveChanges();
-        Assertions.assertTrue(gateway.checkUserExists(user));
+        Assertions.assertTrue(gateway.checkUserExists(user.getEmail()));
     }
 
 
@@ -76,14 +77,14 @@ class UserDSGatewayTest {
     void checkUserExistsTestFalse(){
         UserDSGateway gateway = new UserDSGateway();
         User loginUser = gateway.userLogin("Ama", "1234");
-        Assertions.assertFalse(gateway.checkUserExists(loginUser));
+        Assertions.assertFalse(gateway.checkUserExists(loginUser.getEmail()));
     }
 
     @Test
     void checkUserExistsTestTrue2(){
         User user = new User("Sample User", "sample.user@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();
-        Assertions.assertTrue(gateway.checkUserExists(user));
+        Assertions.assertTrue(gateway.checkUserExists(user.getEmail()));
     }
 
     @Test
@@ -112,37 +113,22 @@ class UserDSGatewayTest {
         User user = new User("Jon", "jon.doe@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
-        JSONObject visualElement = new JSONObject();
-        visualElement.put("visualName", new JSONArray());
+        Project project = new Project("projectName");
 
-        HashMap<String, Object> project = new HashMap<>();
-        project.put("ProjectName", "projectName");
-        project.put("UpdateDate", "updatedAt");
-        project.put("Width", "width");
-        project.put("Height", "height");
-        project.put("VisualElements", visualElement);
-        gateway.addProject(user, project);
+        gateway.addNewProject(user, project);
         gateway.saveChanges();
 
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void deleteProjectTest(){
         User user = new User("Jon", "jon.doe@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
-        JSONObject visualElement = new JSONObject();
-        visualElement.put("visualName", new JSONArray());
+        Project project = new Project("projectName2");
 
-        HashMap<String, Object> project = new HashMap<>();
-        project.put("ProjectName", "projectName");
-        project.put("UpdateDate", "updatedAt");
-        project.put("Width", "width");
-        project.put("Height", "height");
-        project.put("VisualElements", visualElement);
-        gateway.addProject(user, project);
-        Assertions.assertTrue(gateway.deleteProject(user, project));
+        gateway.addNewProject(user, project);
+        gateway.deleteProject(user, project.getName());
         gateway.saveChanges();
 
     }
