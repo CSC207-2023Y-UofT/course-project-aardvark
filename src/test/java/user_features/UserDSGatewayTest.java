@@ -37,6 +37,16 @@ class UserDSGatewayTest {
     }
 
     @Test
+    void getNameTest() throws IOException {
+        User user = new User("Ama", "ama@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.saveChanges();
+        Assertions.assertEquals("Ama", gateway.getName(user.getEmail()));
+
+    }
+
+    @Test
     void checkUserExistsTestTrue(){
         User user = new User("Emma", "emma@gmail.com", "abcdef");
         UserDSGateway gateway = new UserDSGateway();
@@ -45,11 +55,12 @@ class UserDSGatewayTest {
         Assertions.assertTrue(gateway.checkUserExists(user));
     }
 
+
     @Test
     void checkUserExistsTestFalse(){
-        User user = new User("Harry", "harry@gmail.com", "abcdef");
         UserDSGateway gateway = new UserDSGateway();
-        Assertions.assertFalse(gateway.checkUserExists(user));
+        User loginUser = gateway.userLogin("Ama", "1234");
+        Assertions.assertFalse(gateway.checkUserExists(loginUser));
     }
 
     @Test
