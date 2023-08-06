@@ -14,23 +14,45 @@ import models.Project;
 
 import java.util.Optional;
 
+/**
+ The CanvasResizerController class is a controller class responsible for resizing the Canvas.
+
+ It allows the user to input new dimensions for the canvas and then resizes it accordingly.
+ */
 public class CanvasResizerController {
     private Canvas canvas;
     private Project project;
 
+    /**
+     Constructs a new CanvasResizerController object with the specified Canvas and Project.
+
+     @param canvas The Canvas to be resized.
+     @param project The Project associated with the Canvas.
+     */
     public CanvasResizerController(Canvas canvas, Project p) {
         this.canvas = canvas;
         this.project = p;
     }
 
+    /**
+     Resizes the Canvas to the specified width and height.
+     @param newWidth The new width of the Canvas.
+     @param newHeight The new height of the Canvas.
+     */
     public void resizeCanvas(double newWidth, double newHeight) {
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
     }
 
+    /**
+     Displays a dialog to get new dimensions from the user and resizes the Canvas accordingly.
+
+     The existing content on the Canvas is preserved during the resizing process.
+     */
     public void resize() {
+        // Take a snapshot of the current content on the Canvas
         WritableImage snapshot = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
-        canvas.snapshot(null, snapshot); // Take a snapshot of the current content
+        canvas.snapshot(null, snapshot);
 
         // Create a custom dialog to get the new dimensions from the user
         Dialog<Pair<Double, Double>> dialog = new Dialog<>();
@@ -45,7 +67,6 @@ public class CanvasResizerController {
         // Create labels and text fields for width and height inputs
         Label widthLabel = new Label("Width:");
         Label heightLabel = new Label("Height:");
-
         TextField widthField = new TextField();
         TextField heightField = new TextField();
 
@@ -62,7 +83,6 @@ public class CanvasResizerController {
         // Allow the width and height text fields to grow horizontally
         GridPane.setHgrow(widthField, Priority.ALWAYS);
         GridPane.setHgrow(heightField, Priority.ALWAYS);
-
         dialog.getDialogPane().setContent(grid);
 
         // Convert the result to a pair of width and height when the OK button is clicked
@@ -97,7 +117,7 @@ public class CanvasResizerController {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Draw the preserved content back onto the resized canvas
+        // Draw the preserved snapshot back onto the resized canvas
         gc.drawImage(snapshot, 0, 0);
     }
 }
