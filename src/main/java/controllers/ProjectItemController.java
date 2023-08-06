@@ -44,10 +44,11 @@ public class ProjectItemController implements Initializable {
     }
 
     @FXML
+    public void openProject(ActionEvent event) {
+        MainAppRouter.openEditor(event, name.getText());
+    }
+    @FXML
     public void deleteButton(ActionEvent event) throws IOException{
-        //Button clickedButton = (Button) e.getSource();
-        System.out.println("Button clicked: " + name.getText());
-
         String filePath = "src/main/java/user_features/DataModel.json";
 
         try {

@@ -3,7 +3,9 @@ package aardvark;
 import controllers.EditorController;
 import controllers.ProjectItemController;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import org.json.simple.parser.ParseException;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -15,12 +17,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.awt.geom.Point2D;
+import models.FreeDrawLine;
 import models.Project;
 
+import models.VisualElement;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -175,7 +181,29 @@ public class MainAppRouter implements Initializable {
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         if (currProj != null) {
+            String filePath = "src/main/java/user_features/DataModel.json";
+            JSONParser jsonParser = new JSONParser();
 
+            try {
+                JSONObject rootObject = (JSONObject) jsonParser.parse(new FileReader((filePath)));
+
+                JSONObject userA = (JSONObject) rootObject.get(currUser.getEmail());
+                JSONArray projectsArray = (JSONArray) userA.get("Projects");
+                for (Object e : projectsArray) {
+                    JSONObject o = (JSONObject) e;
+                    if (((String)o.get("ProjectName")).equals(currProj.getName())) {
+                        o.put("VisualElements", currProj.idfk());
+                        break;
+                    }
+                }
+
+                String updatedJsonString = rootObject.toString();
+                try (FileWriter fileWriter = new FileWriter(filePath)) {
+                    fileWriter.write(updatedJsonString);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             currProj = null;
         }
@@ -205,7 +233,6 @@ public class MainAppRouter implements Initializable {
     @FXML PasswordField passwordField;
     @FXML
     public void signIn(javafx.event.ActionEvent event) throws IOException {
-
         String email = textField.getText();
         String password = passwordField.getText();
 
@@ -233,7 +260,6 @@ public class MainAppRouter implements Initializable {
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
         currProj = new Project(newProjectName.getText());
-
         String filePath = "src/main/java/user_features/DataModel.json";
         JSONParser jsonParser = new JSONParser();
 
@@ -257,6 +283,56 @@ public class MainAppRouter implements Initializable {
         }
 
         switchToEditor(event, currProj);
+    }
+
+    static public void openEditor(ActionEvent event, String projName) {
+        String filePath = "src/main/java/user_features/DataModel.json";
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            // Read the JSON file and parse it
+            Object obj = jsonParser.parse(new FileReader(filePath));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
+
+            // Get the "Projects" array
+            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+            for (Object proj : projectsArray)
+            {
+                JSONObject jsonobj = (JSONObject) proj;
+
+                if (jsonobj.get("ProjectName").equals(projName)) {
+                    JSONArray elems = (JSONArray)jsonobj.get("VisualElements");
+                    Date date = new Date((String)jsonobj.get("UpdateDate"));
+                    long x = (Long)jsonobj.get("Width");
+                    long y = (Long)jsonobj.get("Height");
+
+                    List<VisualElement> lst = new ArrayList<>();
+
+                    for (Object o : elems) {
+                        JSONObject jo = (JSONObject) o;
+                        String type = (String) jo.get("Name");
+                        if (type.equals("FreeDrawLine")) {
+                            lst.add(FreeDrawLine.fromDict(jo));
+                        }
+                    }
+
+                    Project project = new Project(projName, lst, date, (int)x, (int)y);
+
+                    currProj = project;
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(MainAppRouter.class.getResource("editor.fxml"));
+                    fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
+                    Parent newPage = fxmlLoader.load();
+                    ((Node) event.getSource()).getScene().setRoot(newPage);
+
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     static public void deleteButton(javafx.event.ActionEvent event) throws IOException{

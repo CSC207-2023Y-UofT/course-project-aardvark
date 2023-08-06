@@ -154,6 +154,8 @@ public class EditorController {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
+        project.draw(gc);
+
         /* SETTINGS */
 
 //      default state of settings boxes

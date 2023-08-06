@@ -142,6 +142,14 @@ public class Project {
 
         return dictionary;
     }
+
+    public List<HashMap<String, Object>> idfk() {
+        List<HashMap<String, Object>> elementList = new ArrayList<>();
+        for(int i = 0; i < elements.size(); i++) {
+            elementList.add(elements.get(i).toDict());
+        }
+        return elementList;
+    }
 }
 
 
