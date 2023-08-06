@@ -87,11 +87,26 @@ public class AardSquare implements VisualElement {
      @return A HashMap containing "AardSquare" as its key, and an array of the
      AardSquare object's parameters as the HashMap's value.
      */
-    public HashMap<String, Object> toDict()
-    {
-        HashMap<String, Object> aardMap = new HashMap<>();
-        Object[] arr = { x, y, r, isFill, isStroke, fill, stroke, strokeSize };
-        aardMap.put("AardSquare", arr);
-        return aardMap;
+    public HashMap<String, Object> toDict() {
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("Name", "AardSquare");
+        m.put("x", x);
+        m.put("y", y);
+        m.put("r", r);
+        m.put("isFill", isFill);
+        m.put("isStroke", isStroke);
+        m.put("fill", fill + "");
+        m.put("stroke", stroke + "");
+        m.put("strokeSize", strokeSize);
+        return m;
+    }
+
+    public static AardSquare fromDict(HashMap<String, Object> m) {
+        return new AardSquare(
+                (double)m.get("x"), (double)m.get("y"), (double)m.get("r"),
+                (boolean)m.get("isFill"), (boolean)m.get("isStroke"),
+                Color.valueOf((String)m.get("fill")),
+                Color.valueOf((String)m.get("stroke")),
+                (double)m.get("strokeSize"));
     }
 }

@@ -17,6 +17,8 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -101,6 +103,8 @@ public class EditorController {
     public GraphicsContext gc;
     private CanvasResizerController resizerController;
 
+    private MediaPlayer mediaPlayer;
+
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
 
@@ -124,8 +128,18 @@ public class EditorController {
         /* INITIALIZE */
         gc = canvas.getGraphicsContext2D();
         resizerController = new CanvasResizerController(canvas, project);
+        resizerController.resizeCanvas(project.getWidth(), project.getHeight());
 
+        //Setting Project Name
         projectName.setText(project.getName());
+
+        //Setting up Arthur theme song
+        try {
+            Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
+            mediaPlayer = new MediaPlayer(arthur);
+        } catch (Exception e) {
+            System.out.println("InvocationTargetException occurred: " + e.getMessage());
+        }
 
         // default button
         freeDrawBtn.setSelected(true);
@@ -180,6 +194,8 @@ public class EditorController {
 
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        project.draw(gc);
 
         /* SETTINGS */
 
@@ -297,6 +313,9 @@ public class EditorController {
                         colorPickerText.getValue(),
                         new Font(fontComboBox.getValue(), textCheckedSize),
                         e.getX(), e.getY()));
+                if(textField.getText().equals("Arthur")) {
+                    mediaPlayer.play();
+                }
             }
             else if (eraserBtn.isSelected()) {
                 double size = checkValidSize(eraserSize, 3);
@@ -433,6 +452,9 @@ public class EditorController {
         this.clearCanvas(event);
         project.undoVisualElement();
         project.draw(gc);
+        if(textField.getText().equals("Arthur")) {
+            mediaPlayer.stop();
+        }
     }
 
     /**
@@ -469,6 +491,10 @@ public class EditorController {
             generalTextField.setText(Double.toString(preferredSize));
             return preferredSize;
         }
+    }
+
+    public void playArthur() {
+        mediaPlayer.play();
     }
 
 

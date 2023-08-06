@@ -304,3 +304,10 @@
 .check-box:selected .box {
     -fx-background-color: #0067C0;
 }
+
+
+/* TOOLTIP */
+
+.tooltip {
+    -fx-show-delay: 30ms;
+}

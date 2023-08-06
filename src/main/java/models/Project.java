@@ -42,8 +42,8 @@ public class Project {
      @param name The name of the project.
      @param elements The list of VisualElements to be included in the project.
      @param updatedAt The date when the project was last updated.
-     @param width The width of the project canvas.
-     @param height The height of the project canvas.
+     @param x The width of the project canvas.
+     @param y The height of the project canvas.
      */
     public Project(String name, List<VisualElement> elements, Date updatedAt, int x, int y) {
         projectName = name;
@@ -84,6 +84,12 @@ public class Project {
     public String getName() {
         return projectName;
     }
+
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+
+    public void setWidth(int _width) { width = _width; }
+    public void setHeight(int _height) { height = _height; }
 
     public ArrayList<VisualElement> getElements(){
         return (ArrayList<VisualElement>) this.elements;
@@ -198,7 +204,7 @@ public class Project {
         HashMap<String, Object> dictionary = new HashMap<>();
 
         dictionary.put("ProjectName", projectName);
-        dictionary.put("UpdateDate", updatedAt);
+        dictionary.put("UpdateDate", updatedAt.toString());
         dictionary.put("Width", width);
         dictionary.put("Height", height);
 
@@ -211,8 +217,20 @@ public class Project {
         return dictionary;
     }
 
+    public List<HashMap<String, Object>> toDictElements() {
+        List<HashMap<String, Object>> elementList = new ArrayList<>();
+        for (int i = 0; i < elements.size(); i++) {
+            elementList.add(elements.get(i).toDict());
+        }
+        return elementList;
+    }
+
     public Stack<VisualElement> getRedoStack() {
         return this.redoStack;
     }
 }
+
+
+
+
 

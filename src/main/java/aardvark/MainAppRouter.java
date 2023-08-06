@@ -2,34 +2,59 @@ package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import models.*;
+import org.json.simple.parser.ParseException;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import java.util.Date;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.awt.geom.Point2D;
+import models.FreeDrawLine;
 import models.Project;
 import user_features.User;
 import user_features.UserDSGateway;
 
+import models.VisualElement;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.*;
+
+import user_features.User;
+import user_features.UserDSGateway;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.*;
+
 /**
  The MainAppRouter class is the controller class responsible for handling the main application flow and navigation.
+>>>>>>> 65654ae89caa38bf91ea988fb6abbb4973bde9e9
 
  It implements the Initializable interface to initialize the JavaFX components defined in the associated FXML file.
  */
@@ -60,6 +85,14 @@ public class MainAppRouter implements Initializable {
     private Scene scene;
     private Parent root;
 
+    static public User currUser = null;
+    static private Project currProj = null;
+    static private UserDSGateway userGate = null;
+    @FXML
+    private Label name;
+    @FXML
+    private Button delete;
+
     /**
      Initializes the MainAppRouter by loading the list of projects and populating the projectsLayout VBox with
 
@@ -70,7 +103,34 @@ public class MainAppRouter implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<models.Project> projects = new ArrayList<>(projects());
+        if (currUser == null)
+            return;
+
+        List<Project> projects = new ArrayList<>();
+
+
+
+        String filePath = "src/main/java/user_features/DataModel.json";
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            // Read the JSON file and parse it
+            Object obj = jsonParser.parse(new FileReader(filePath));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
+
+            // Get the "Projects" array
+            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+
+            for (Object jsonElement : projectsArray) {
+                JSONObject JSONProj = (JSONObject) jsonElement;
+                projects.add(new Project((String)JSONProj.get("ProjectName")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
             fxmlloader.setLocation(getClass().getResource("/aardvark/project_item.fxml"));
@@ -88,18 +148,11 @@ public class MainAppRouter implements Initializable {
         }
     }
 
-    //  Temporary code to simulate project list
-    private List<Project> projects() {
-
-        List<models.Project> ls = new ArrayList<>();
-
-        for (int i = 0; i < 15; i++) {
-            models.Project project = new models.Project("Untitled Project");
-            ls.add(project);
-        }
-
-        return ls;
-    };
+//    @FXML
+//    public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
+//        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
+//        ((Node) event.getSource()).getScene().setRoot(newPage);
+//    }
 
     /**
     Displays an error alert dialog with the specified error message.
@@ -143,6 +196,8 @@ public class MainAppRouter implements Initializable {
         String repeatPassword = repeatPasswordText.getText();
         String email = emailText.getText();
         String name = nameText.getText();
+
+        currUser = new User(name, email, password);
 
         // Create a new instance of the UserDSGateway to interact with the user data store
         UserDSGateway gateway = new UserDSGateway();
@@ -209,6 +264,8 @@ public class MainAppRouter implements Initializable {
         String email = textField.getText();
         String password = passwordField.getText();
 
+        currUser = new User("", email, password);
+
         // Create a UserDSGateway instance to access user data
         UserDSGateway gateway = new UserDSGateway();
 
@@ -244,6 +301,37 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+        if (currProj != null) {
+            String filePath = "src/main/java/user_features/DataModel.json";
+            JSONParser jsonParser = new JSONParser();
+
+            try {
+                JSONObject rootObject = (JSONObject) jsonParser.parse(new FileReader((filePath)));
+
+                JSONObject userA = (JSONObject) rootObject.get(currUser.getEmail());
+                JSONArray projectsArray = (JSONArray) userA.get("Projects");
+                for (Object e : projectsArray) {
+                    JSONObject o = (JSONObject) e;
+                    if (((String)o.get("ProjectName")).equals(currProj.getName())) {
+                        o.put("VisualElements", currProj.toDictElements());
+                        o.put("Width", currProj.getWidth());
+                        o.put("Height", currProj.getHeight());
+                        o.put("UpdateDate", currProj.getDate().toString());
+                        break;
+                    }
+                }
+
+                String updatedJsonString = rootObject.toString();
+                try (FileWriter fileWriter = new FileWriter(filePath)) {
+                    fileWriter.write(updatedJsonString);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            currProj = null;
+        }
+
         Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
@@ -271,8 +359,39 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
-        Project project = new Project(newProjectName.getText());
-        switchToEditor(event, project);
+        String filePath = "src/main/java/user_features/DataModel.json";
+
+        currProj = new Project(newProjectName.getText());
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            // Read the JSON file and parse it
+            Object obj = jsonParser.parse(new FileReader(filePath));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
+
+            // Get the "Projects" array
+            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+            for (Object p : projectsArray) {
+                JSONObject JSONProj = (JSONObject) p;
+                if (((String) JSONProj.get("ProjectName")).equals(newProjectName.getText())) {
+                    showErrorAlert("Project names must be unique!");
+                    return;
+                }
+            }
+
+            projectsArray.add(currProj.toDict());
+
+            // Write the updated data back to the JSON file
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write(jsonObject.toJSONString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        switchToEditor(event, currProj);
     }
 
     /**
@@ -301,6 +420,66 @@ public class MainAppRouter implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
         fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
         Parent newPage = fxmlLoader.load();
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    static public void openEditor(ActionEvent event, String projName) {
+        String filePath = "src/main/java/user_features/DataModel.json";
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            // Read the JSON file and parse it
+            Object obj = jsonParser.parse(new FileReader(filePath));
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
+
+            // Get the "Projects" array
+            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+            for (Object proj : projectsArray)
+            {
+                JSONObject jsonobj = (JSONObject) proj;
+
+                if (jsonobj.get("ProjectName").equals(projName)) {
+                    JSONArray elems = (JSONArray)jsonobj.get("VisualElements");
+                    Date date = new Date();//new Date((String)jsonobj.get("UpdateDate"));
+                    long x = (Long)jsonobj.get("Width");
+                    long y = (Long)jsonobj.get("Height");
+
+                    List<VisualElement> lst = new ArrayList<>();
+
+                    for (Object o : elems) {
+                        JSONObject jo = (JSONObject) o;
+                        String type = (String) jo.get("Name");
+                        if (type.equals("FreeDrawLine"))
+                            lst.add(FreeDrawLine.fromDict(jo));
+                        else if (type.equals("AardText"))
+                            lst.add(AardText.fromDict(jo));
+                        else if (type.equals("AardSquare"))
+                            lst.add(AardSquare.fromDict(jo));
+                        else if (type.equals("AardCircle"))
+                            lst.add(AardCircle.fromDict(jo));
+                    }
+
+                    Project project = new Project(projName, lst, date, (int)x, (int)y);
+
+                    currProj = project;
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(MainAppRouter.class.getResource("editor.fxml"));
+                    fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
+                    Parent newPage = fxmlLoader.load();
+                    ((Node) event.getSource()).getScene().setRoot(newPage);
+
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static public void deleteButton(javafx.event.ActionEvent event) throws IOException{
+        Parent newPage = FXMLLoader.load(MainAppRouter.class.getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 }

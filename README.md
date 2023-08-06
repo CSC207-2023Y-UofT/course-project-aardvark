@@ -1,6 +1,6 @@
 # Aardvark
 
-Group 40: Alex Apostolu, Alex Mirabella, Amaru Izarra, Brian Latchman, Jess Li, Vishnu Sai
+Group 40 (JAABVA): Alex Apostolu, Alex Mirabella, Amaru Izarra, Brian Latchman, Jessica Li, Vishnu Sai, Arthur the Aardvark
 
 This is the repository for the drawing and image creation software called Aardvark. This project is built using Java and JavaFX. Below are some useful links related to the development of the project.
 
@@ -22,7 +22,7 @@ git clone https://github.com/CSC207-2023Y-UofT/course-project-aardvark.git
 >
 >3. Under aardvark/Tasks/build, run the 'build' command
 >
->4. Under aardvark/Tasks/applicaiton, run the 'run' command
+>4. Under aardvark/Tasks/application, run the 'run' command
 >
 >5. Start making changes and drawing!
 

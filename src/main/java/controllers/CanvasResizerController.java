@@ -42,6 +42,8 @@ public class CanvasResizerController {
     public void resizeCanvas(double newWidth, double newHeight) {
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
+        project.setWidth((int)newWidth);
+        project.setHeight((int)newHeight);
     }
 
     /**
@@ -91,6 +93,8 @@ public class CanvasResizerController {
                 try {
                     double newWidth = Double.parseDouble(widthField.getText());
                     double newHeight = Double.parseDouble(heightField.getText());
+                    project.setWidth((int)newWidth);
+                    project.setHeight((int)newHeight);
                     return new Pair<>(newWidth, newHeight);
                 } catch (NumberFormatException ex) {
                     // Handle invalid input (non-numeric values)
