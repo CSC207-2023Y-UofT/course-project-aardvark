@@ -12,6 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -113,6 +116,7 @@ public class MainAppRouter implements Initializable {
         String filePath = "src/main/java/user_features/DataModel.json";
         JSONParser jsonParser = new JSONParser();
 
+        JSONArray projectsArray = new JSONArray();
         try {
             // Read the JSON file and parse it
             Object obj = jsonParser.parse(new FileReader(filePath));
@@ -121,24 +125,21 @@ public class MainAppRouter implements Initializable {
             JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
 
             // Get the "Projects" array
-            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+            projectsArray = (JSONArray) jsonUser.get("Projects");
 
-            for (Object jsonElement : projectsArray) {
-                JSONObject JSONProj = (JSONObject) jsonElement;
-                projects.add(new Project((String)JSONProj.get("ProjectName")));
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        for (int i=0; i<projects.size(); i++) {
+        for (Object jsonElement : projectsArray) {
+            JSONObject JSONProj = (JSONObject) jsonElement;
             FXMLLoader fxmlloader = new FXMLLoader();
             fxmlloader.setLocation(getClass().getResource("/aardvark/project_item.fxml"));
 
             try {
                 HBox hbox = fxmlloader.load();
                 ProjectItemController pic = fxmlloader.getController();
-                pic.setData(projects.get(i));
+                pic.setData((String)JSONProj.get("ProjectName"), (String) JSONProj.get("UpdateDate"));
                 projectsLayout.getChildren().add(hbox);
             } catch (IOException e) {
                 System.out.println("Something went wrong, FXML Load" + e);
