@@ -116,7 +116,7 @@ public class Project {
 
     /**
      *
-     * @return Hashmap containing
+     * @return Hashmap containing a
      */
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dictionary = new HashMap<>();
