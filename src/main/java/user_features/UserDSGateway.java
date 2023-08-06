@@ -264,7 +264,7 @@ public class UserDSGateway {
      * @param projName a String representing the name of the project.
      * @return project object.
      */
-
+    @SuppressWarnings("unchecked")
     public Project projectFromJSON(User user, String projName) {
 
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());

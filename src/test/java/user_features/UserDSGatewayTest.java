@@ -121,7 +121,6 @@ class UserDSGatewayTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void deleteProjectTest(){
         User user = new User("Jon", "jon.doe@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();

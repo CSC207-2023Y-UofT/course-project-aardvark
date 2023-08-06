@@ -2,6 +2,7 @@ package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.json.simple.JSONObject;
 
 import java.util.*;
 
@@ -188,8 +189,9 @@ public class Project {
      Convert the Project properties to a dictionary format.
      @return A HashMap containing the project's properties in dictionary format.
      */
-    public HashMap<String, Object> toDict() {
-        HashMap<String, Object> dictionary = new HashMap<>();
+    @SuppressWarnings("unchecked")
+    public JSONObject toDict() {
+        JSONObject dictionary = new JSONObject();
 
         dictionary.put("ProjectName", projectName);
         dictionary.put("UpdateDate", updatedAt.toString());
