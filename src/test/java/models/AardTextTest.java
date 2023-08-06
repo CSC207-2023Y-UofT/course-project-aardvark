@@ -42,7 +42,7 @@ class AardTextTest {
         // No assertion for fontFamily, since this causes an error with Github autograding
         Assertions.assertAll(
                 () -> assertEquals("Arthur", arthurText.text),
-                () -> assertEquals(12.0, arthurText.fontSize),
+                () -> assertEquals(12.0, arthurText.font.getSize()),
                 () -> assertEquals(Color.AQUAMARINE, arthurText.color),
                 () -> assertEquals(20, arthurText.coordinates[0]),
                 () -> assertEquals(40, arthurText.coordinates[1])
