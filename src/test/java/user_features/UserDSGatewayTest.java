@@ -10,6 +10,24 @@ import java.util.HashMap;
 
 class UserDSGatewayTest {
 
+    @Test
+    void userLoginTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
+        UserDSGateway gateway2 = new UserDSGateway();
+        User loginUser = gateway2.userLogin("bob@gmail.com", "12345");
+        Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
+        Assertions.assertEquals("12345", loginUser.getPassword());
+    }
+
+    @Test
+    void userRegisterTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
+        Assertions.assertEquals("Bob", registerUser.getName());
+        Assertions.assertEquals("bob@gmail.com", registerUser.getEmail());
+        Assertions.assertEquals("12345", registerUser.getPassword());
+    }
 
     @Test
     void addUserTest() throws IOException {
@@ -36,6 +54,15 @@ class UserDSGatewayTest {
     }
 
     @Test
+    void getNameTest() {
+        User user = new User("Kelly", "kelly@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.saveChanges();
+        Assertions.assertEquals("Kelly", gateway.getName("kelly@gmail.com"));
+    }
+
+    @Test
     void checkUserExistsTestTrue(){
         User user = new User("Emma", "emma@gmail.com", "abcdef");
         UserDSGateway gateway = new UserDSGateway();
@@ -44,11 +71,12 @@ class UserDSGatewayTest {
         Assertions.assertTrue(gateway.checkUserExists(user));
     }
 
+
     @Test
     void checkUserExistsTestFalse(){
-        User user = new User("Harry", "harry@gmail.com", "abcdef");
         UserDSGateway gateway = new UserDSGateway();
-        Assertions.assertFalse(gateway.checkUserExists(user));
+        User loginUser = gateway.userLogin("Ama", "1234");
+        Assertions.assertFalse(gateway.checkUserExists(loginUser));
     }
 
     @Test

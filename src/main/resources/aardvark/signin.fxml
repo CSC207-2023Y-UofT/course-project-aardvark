@@ -75,14 +75,14 @@
                         <Font name="Segoe UI Semibold" size="16.0" />
                      </font>
                   </Button>
-                  <Button id="info-btn" mnemonicParsing="false">
-                     <tooltip>
-                        <Tooltip text="About Aardvark">
-                           <font>
-                              <Font name="Segoe UI" size="14.0" />
-                           </font>
-                        </Tooltip>
-                     </tooltip></Button>
+<!--                  <Button id="info-btn" mnemonicParsing="false">-->
+<!--                     <tooltip>-->
+<!--                        <Tooltip text="About Aardvark">-->
+<!--                           <font>-->
+<!--                              <Font name="Segoe UI" size="14.0" />-->
+<!--                           </font>-->
+<!--                        </Tooltip>-->
+<!--                     </tooltip></Button>-->
                </children>
             </HBox>
          </children>

@@ -75,6 +75,10 @@ public class FreeDrawLine implements VisualElement{
         }
     }
 
+    public ArrayList<Point2D.Double> getPath() {
+        return path;
+    }
+
     /**
      Convert the FreeDrawLine properties to a dictionary format.
      @return A HashMap containing the FreeDrawLine's properties in dictionary format.

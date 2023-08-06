@@ -65,9 +65,9 @@ public class UserDSGateway {
      * @return a user object that corresponds to the inputted information
      */
 
-    public User UserLogin(String email, String password){
+    public User userLogin(String email, String password){
 
-        return (new User(getName(email), email, password));
+        return (new User("Name_holder", email, password));
 
 
     }
@@ -81,7 +81,7 @@ public class UserDSGateway {
      * @return a user object that corresponds to the inputted information
      */
 
-    public User UserRegister(String name, String email, String password){
+    public User userRegister(String name, String email, String password){
 
         return (new User(name, email, password));
 

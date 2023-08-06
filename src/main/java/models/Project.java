@@ -85,6 +85,10 @@ public class Project {
         return projectName;
     }
 
+    public ArrayList<VisualElement> getElements(){
+        return (ArrayList<VisualElement>) this.elements;
+    }
+
     /**
      Get the last AardCircle from the elements list and remove it.
      @return The last AardCircle object removed from the elements list.
