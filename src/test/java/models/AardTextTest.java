@@ -17,6 +17,8 @@ class AardTextTest {
         AardText text = new AardText("Arthur", Color.AQUAMARINE, font, 20, 40);
 
         HashMap<String, Object> textHashMap = text.toDict();
+        Assertions.assertTrue(textHashMap.containsKey("Name"));
+        Assertions.assertEquals("AardText", textHashMap.get("Name"));
         Assertions.assertTrue(textHashMap.containsKey("AardText"));
         Object[] obtainedArray = (Object[]) textHashMap.get("AardText");
         double [] obtainedCoordinatePair = (double[]) obtainedArray[4];
