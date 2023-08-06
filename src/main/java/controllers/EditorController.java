@@ -101,6 +101,8 @@ public class EditorController {
     public GraphicsContext gc;
     private CanvasResizerController resizerController;
 
+    private MediaPlayer mediaPlayer;
+
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
 
@@ -125,7 +127,12 @@ public class EditorController {
         gc = canvas.getGraphicsContext2D();
         resizerController = new CanvasResizerController(canvas, project);
 
+        //Setting Project Name
         projectName.setText(project.getName());
+
+        //Setting up Arthur theme song
+        Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
+        mediaPlayer = new MediaPlayer(arthur);
 
         // default button
         freeDrawBtn.setSelected(true);
@@ -286,7 +293,7 @@ public class EditorController {
                         new Font(fontComboBox.getValue(), textCheckedSize),
                         e.getX(), e.getY()));
                 if(textField.getText().equals("Arthur")) {
-                    playArthur();
+                    mediaPlayer.play();
                 }
             }
             else if (eraserBtn.isSelected()) {
@@ -417,6 +424,9 @@ public class EditorController {
         this.clearCanvas(event);
         project.undoVisualElement();
         project.draw(gc);
+        if(textField.getText().equals("Arthur")) {
+            mediaPlayer.stop();
+        }
     }
 
     /**
@@ -455,9 +465,7 @@ public class EditorController {
         }
     }
 
-    public static void playArthur() {
-        Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(arthur);
+    public void playArthur() {
         mediaPlayer.play();
     }
 
