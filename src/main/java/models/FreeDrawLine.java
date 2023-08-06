@@ -68,11 +68,22 @@ public class FreeDrawLine implements VisualElement{
         gc.moveTo(start.x, start.y);
         gc.stroke();
 
-        for(int i = 1; i < path.size(); i++) {
-            Point2D.Double next = path.get(i);
-            gc.lineTo(next.x, next.y); //note the use of lineTo to fill in the gaps
+        int i = 1;
+        while(i <= path.size() - 3) {
+            gc.bezierCurveTo(path.get(i).x, path.get(i).y,
+                    path.get(i+1).x, path.get(i+1).y,
+                    path.get(i+2).x, path.get(i+2).y);
             gc.stroke();
+            i += 3;
         }
+        switch (path.size() - i) {
+            case 2:
+                gc.quadraticCurveTo(path.get(i).x, path.get(i).y,
+                        path.get(i+1).x, path.get(i+1).y);
+            case 1:
+                gc.lineTo(path.get(i).x, path.get(i).y);
+        }
+        gc.stroke();
     }
 
     public ArrayList<Point2D.Double> getPath() {
