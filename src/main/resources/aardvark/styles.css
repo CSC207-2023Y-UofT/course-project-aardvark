@@ -107,6 +107,10 @@
     -fx-background-image: url("/images/square.png");
 }
 
+#line-btn {
+    -fx-background-image: url("/images/square.png");
+}
+
 
 /* Delete Button */
 #delete {

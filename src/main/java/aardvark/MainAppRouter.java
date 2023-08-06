@@ -171,7 +171,7 @@ public class MainAppRouter implements Initializable {
         if (password.equals("") && email.equals("")) {
             showErrorAlert("Fields cannot be left blank, please try again.");
         }
-        if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
+        else if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
                 switchToProjects(event);
         }
         else if (!gateway.checkUserExists(loginUser)) {

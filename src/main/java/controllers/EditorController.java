@@ -41,6 +41,8 @@ public class EditorController {
     public RadioButton radioButtonCircle;
     @FXML
     public RadioButton radioButtonSquare;
+    @FXML
+    public RadioButton radioButtonLine;
     public RadioButton textBoxBtn;
     public RadioButton eraserBtn;
     @FXML
@@ -197,8 +199,16 @@ public class EditorController {
                     textDiv.setManaged(false);
                     shapesDiv.setVisible(true);
                     shapesDiv.setManaged(true);
-                }
-                else if (textBoxBtn.isSelected()) {
+                } else if (radioButtonLine.isSelected()) {
+                    brushDiv.setVisible(false);
+                    brushDiv.setManaged(false);
+                    eraserDiv.setVisible(false);
+                    eraserDiv.setManaged(false);
+                    textDiv.setVisible(false);
+                    textDiv.setManaged(false);
+                    shapesDiv.setVisible(true);
+                    shapesDiv.setManaged(true);
+                } else if (textBoxBtn.isSelected()) {
                     brushDiv.setVisible(false);
                     brushDiv.setManaged(false);
                     eraserDiv.setVisible(false);
@@ -250,8 +260,12 @@ public class EditorController {
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
                         squareSize));
-            }
-            else if (textBoxBtn.isSelected()) {
+            } else if (radioButtonLine.isSelected()) {
+                double lineSize = checkValidSize(textFieldShapeStroke, 3);
+                project.addVisualElement(new AardLine(
+                        e.getX(), e.getY(), e.getX(), e.getY(),
+                        colourPickerShapeStroke.getValue(), lineSize));
+            } else if (textBoxBtn.isSelected()) {
                 double textCheckedSize = checkValidSize(fontSize, 16);
                 project.addVisualElement(new AardText(
                         textField.getText(),
@@ -304,6 +318,13 @@ public class EditorController {
                         colourPickerShapeFill.getValue(),
                         colourPickerShapeStroke.getValue(),
                         squareSize));
+            }
+            else if (radioButtonLine.isSelected()) {
+                AardLine last = project.getLastAndRemoveLine();
+                double lineSize = checkValidSize(textFieldShapeStroke, 3);
+                project.addVisualElement(new AardLine(
+                        last.getX1(), last.getY1(), e.getX(), e.getY(),
+                        colourPickerShapeStroke.getValue(), lineSize));
             }
             else if (eraserBtn.isSelected()) {
                 FreeDrawLine eraser = project.getCurrentLine();

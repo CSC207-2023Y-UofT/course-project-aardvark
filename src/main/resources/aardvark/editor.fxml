@@ -129,6 +129,14 @@
                      </font>
                   </Tooltip>
                </tooltip></RadioButton>
+            <RadioButton id="line-btn" fx:id="radioButtonLine" mnemonicParsing="false" toggleGroup="$selectTool">
+               <tooltip>
+                  <Tooltip text="Line">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip></RadioButton>
          </children>
       </FlowPane>
       <VBox spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2">

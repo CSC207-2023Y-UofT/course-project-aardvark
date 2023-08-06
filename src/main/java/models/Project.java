@@ -79,6 +79,19 @@ public class Project {
         return tmp;
     }
 
+    public AardLine getLastAndRemoveLine() {
+        AardLine tmp = null;
+        for (int i = elements.size() - 1; i >= 0; --i) {
+            if (elements.get(i) instanceof AardLine) {
+                AardLine t = (AardLine)elements.get(i);
+                tmp = new AardLine(t.getX1(), t.getY1(), t.getX2(), t.getY2(), t.getColor(), t.getStrokeSize());
+                elements.remove(i);
+                break;
+            }
+        }
+        return tmp;
+    }
+
     public void addVisualElement(VisualElement v) {
         elements.add(v);
         redoStack.clear();
