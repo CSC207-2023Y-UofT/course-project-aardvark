@@ -110,7 +110,7 @@ public class MainAppRouter implements Initializable {
             return;
 
         UserDSGateway gateway = new UserDSGateway();
-        List<Project> projects = gateway.projectsList(currUser);
+        List<List<String>> projects = gateway.projectsList(currUser);
 
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
@@ -119,7 +119,7 @@ public class MainAppRouter implements Initializable {
             try {
                 HBox hbox = fxmlloader.load();
                 ProjectItemController pic = fxmlloader.getController();
-                pic.setData(projects.get(i).getName(), projects.get(i).getDate().toString());
+                pic.setData(projects.get(i).get(0), projects.get(i).get(1));
                 projectsLayout.getChildren().add(hbox);
             } catch (IOException e) {
                 System.out.println("Something went wrong, FXML Load" + e);

@@ -215,9 +215,9 @@ public class UserDSGateway {
      * @return a list of Projects of the user.
      */
 
-    public List<Project> projectsList(User user){
+    public List<List<String>> projectsList(User user){
 
-        List<Project> projects = new ArrayList<>();
+        List<List<String>> projects = new ArrayList<>();
 
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
 
@@ -225,8 +225,12 @@ public class UserDSGateway {
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
 
         for (Object jsonElement : projectsArray) {
+            List<String> projectInfo = new ArrayList<>();
             JSONObject JSONProj = (JSONObject) jsonElement;
-            projects.add(new Project((String)JSONProj.get("ProjectName")));
+            projectInfo.add((String)JSONProj.get("ProjectName"));
+            projectInfo.add((String) JSONProj.get("UpdateDate"));
+            projects.add(projectInfo);
+
         }
 
         return projects;
