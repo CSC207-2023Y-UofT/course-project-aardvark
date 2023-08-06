@@ -130,9 +130,6 @@ public class MainAppRouter implements Initializable {
             e.printStackTrace();
         }
 
-
-
-
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
             fxmlloader.setLocation(getClass().getResource("/aardvark/project_item.fxml"));
@@ -315,7 +312,10 @@ public class MainAppRouter implements Initializable {
                 for (Object e : projectsArray) {
                     JSONObject o = (JSONObject) e;
                     if (((String)o.get("ProjectName")).equals(currProj.getName())) {
-                        o.put("VisualElements", currProj.idfk());
+                        o.put("VisualElements", currProj.toDictElements());
+                        o.put("Width", currProj.getWidth());
+                        o.put("Height", currProj.getHeight());
+                        o.put("UpdateDate", currProj.getDate().toString());
                         break;
                     }
                 }

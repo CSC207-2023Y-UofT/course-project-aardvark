@@ -85,6 +85,12 @@ public class Project {
         return projectName;
     }
 
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+
+    public void setWidth(int _width) { width = _width; }
+    public void setHeight(int _height) { height = _height; }
+
     public ArrayList<VisualElement> getElements(){
         return (ArrayList<VisualElement>) this.elements;
     }
@@ -197,7 +203,7 @@ public class Project {
         return dictionary;
     }
 
-    public List<HashMap<String, Object>> idfk() {
+    public List<HashMap<String, Object>> toDictElements() {
         List<HashMap<String, Object>> elementList = new ArrayList<>();
         for (int i = 0; i < elements.size(); i++) {
             elementList.add(elements.get(i).toDict());
