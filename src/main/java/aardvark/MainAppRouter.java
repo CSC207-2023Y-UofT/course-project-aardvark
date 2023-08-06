@@ -20,18 +20,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.AardWritableImage;
 import models.Project;
-
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import user_features.User;
 import user_features.UserDSGateway;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;

@@ -1,11 +1,8 @@
 package models;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.PixelBuffer;
-import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 
-import java.nio.Buffer;
 import java.util.HashMap;
 
 /**

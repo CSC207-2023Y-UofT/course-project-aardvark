@@ -4,13 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONArray;
 
 import java.awt.geom.Point2D;
-import java.io.UncheckedIOException;
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.HashMap;
 
