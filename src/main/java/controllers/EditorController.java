@@ -17,6 +17,8 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -258,6 +260,9 @@ public class EditorController {
                         colorPickerText.getValue(),
                         new Font(fontComboBox.getValue(), textCheckedSize),
                         e.getX(), e.getY()));
+                if(textField.getText().equals("Arthur")) {
+                    playArthur();
+                }
             }
             else if (eraserBtn.isSelected()) {
                 double size = checkValidSize(eraserSize, 3);
@@ -389,6 +394,12 @@ public class EditorController {
             generalTextField.setText(Double.toString(preferredSize));
             return preferredSize;
         }
+    }
+
+    public static void playArthur() {
+        Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(arthur);
+        mediaPlayer.play();
     }
 
 
