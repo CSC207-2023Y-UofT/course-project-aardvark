@@ -88,11 +88,26 @@ public class AardCircle implements VisualElement  {
      @return A HashMap containing "AardCircle" as its key, and an array of the
      AardCircle object's parameters as the HashMap's value.
      */
-    public HashMap<String, Object> toDict()
-    {
-        HashMap<String, Object> aardMap = new HashMap<>();
-        Object[] arr = { x, y, r, isFill, isStroke, fill, stroke, strokeSize };
-        aardMap.put("AardCircle", arr);
-        return aardMap;
+    public HashMap<String, Object> toDict() {
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("Name", "AardCircle");
+        m.put("x", x);
+        m.put("y", y);
+        m.put("r", r);
+        m.put("isFill", isFill);
+        m.put("isStroke", isStroke);
+        m.put("fill", fill + "");
+        m.put("stroke", stroke + "");
+        m.put("strokeSize", strokeSize);
+        return m;
+    }
+
+    public static AardCircle fromDict(HashMap<String, Object> m) {
+        return new AardCircle(
+                (double)m.get("x"), (double)m.get("y"), (double)m.get("r"),
+                (boolean)m.get("isFill"), (boolean)m.get("isStroke"),
+                Color.valueOf((String)m.get("fill")),
+                Color.valueOf((String)m.get("stroke")),
+                (double)m.get("strokeSize"));
     }
 }

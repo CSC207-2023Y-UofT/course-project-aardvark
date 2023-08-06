@@ -5,6 +5,7 @@ import controllers.ProjectItemController;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import models.*;
 import org.json.simple.parser.ParseException;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -440,9 +441,14 @@ public class MainAppRouter implements Initializable {
                     for (Object o : elems) {
                         JSONObject jo = (JSONObject) o;
                         String type = (String) jo.get("Name");
-                        if (type.equals("FreeDrawLine")) {
+                        if (type.equals("FreeDrawLine"))
                             lst.add(FreeDrawLine.fromDict(jo));
-                        }
+                        else if (type.equals("AardText"))
+                            lst.add(AardText.fromDict(jo));
+                        else if (type.equals("AardSquare"))
+                            lst.add(AardSquare.fromDict(jo));
+                        else if (type.equals("AardCircle"))
+                            lst.add(AardCircle.fromDict(jo));
                     }
 
                     Project project = new Project(projName, lst, date, (int)x, (int)y);
