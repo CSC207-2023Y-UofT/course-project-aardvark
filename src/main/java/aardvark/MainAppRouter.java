@@ -148,7 +148,7 @@ public class MainAppRouter implements Initializable {
         UserDSGateway gateway = new UserDSGateway();
 
         // Create a new User object using the provided information
-        User newUser = gateway.UserRegister(name, email, password);
+        User newUser = gateway.userRegister(name, email, password);
 
         // Validate the input and proceed accordingly
         if (!password.equals("") && !email.equals("")) {
@@ -213,7 +213,7 @@ public class MainAppRouter implements Initializable {
         UserDSGateway gateway = new UserDSGateway();
 
         // Attempt to log in the user using the provided email and password
-        User loginUser = gateway.UserLogin(email, password);
+        User loginUser = gateway.userLogin(email, password);
 
         // Check if the email and password fields are not empty
         if (!password.equals("") && !email.equals("")) {
