@@ -15,19 +15,19 @@ class AardSquareTest {
         AardSquare square = new AardSquare(50.0, 50.0, 5.0, true, false,
                 Color.GREEN, Color.DARKOLIVEGREEN, 3.0);
 
-        HashMap<String, Object> squareHashMap = square.toDict();
-        Assertions.assertTrue(squareHashMap.containsKey("AardSquare"));
-        Object[] obtainedArray = (Object[]) squareHashMap.get("AardSquare");
+        HashMap<String, Object> m = square.toDict();
+        Assertions.assertTrue(m.containsKey("Name"));
 
         Assertions.assertAll(
-                () -> assertEquals(50.0, obtainedArray[0]),
-                () -> assertEquals(50.0, obtainedArray[1]),
-                () -> assertEquals(5.0, obtainedArray[2]),
-                () -> assertTrue((Boolean) obtainedArray[3]),
-                () -> assertFalse((Boolean) obtainedArray[4]),
-                () -> assertEquals(Color.GREEN, obtainedArray[5]),
-                () -> assertEquals(Color.DARKOLIVEGREEN, obtainedArray[6]),
-                () -> assertEquals(3.0, obtainedArray[7])
+                () -> assertEquals("AardCircle", m.get("Name")),
+                () -> assertEquals(50.0, m.get("x")),
+                () -> assertEquals(50.0, m.get("y")),
+                () -> assertEquals(5.0, m.get("r")),
+                () -> assertTrue((Boolean) m.get("isFill")),
+                () -> assertFalse((Boolean) m.get("isStroke")),
+                () -> assertEquals(Color.GREEN, Color.valueOf((String)m.get("fill"))),
+                () -> assertEquals(Color.DARKOLIVEGREEN, Color.valueOf((String)m.get("stroke"))),
+                () -> assertEquals(3.0, m.get("strokeSize"))
         );
     }
 }

@@ -16,20 +16,17 @@ class AardTextTest {
         Font font = new Font("Arial", 12.0);
         AardText text = new AardText("Arthur", Color.AQUAMARINE, font, 20, 40);
 
-        HashMap<String, Object> textHashMap = text.toDict();
-        Assertions.assertTrue(textHashMap.containsKey("Name"));
-        Assertions.assertEquals("AardText", textHashMap.get("Name"));
-        Assertions.assertTrue(textHashMap.containsKey("AardText"));
-        Object[] obtainedArray = (Object[]) textHashMap.get("AardText");
-        double [] obtainedCoordinatePair = (double[]) obtainedArray[4];
-        // No assertion for fontFamily, since this causes an error with Github autograding
+        HashMap<String, Object> m = text.toDict();
+        Assertions.assertTrue(m.containsKey("Name"));
+
         Assertions.assertAll(
-                () -> assertEquals("Arthur", obtainedArray[0]),
-                () -> assertEquals(12.0, obtainedArray[2]),
-                () -> assertEquals(Color.AQUAMARINE, obtainedArray[3]),
-                () -> assertEquals(20, obtainedCoordinatePair[0]),
-                () -> assertEquals(40, obtainedCoordinatePair[1])
-        );
+                () -> assertEquals("AardText", m.get("Name")),
+                () -> assertEquals("Arthur", m.get("text")),
+                () -> assertEquals(Color.AQUAMARINE, m.get("color")),
+                () -> assertEquals(font.getFamily(), m.get("fontFamily")),
+                () -> assertEquals(font.getSize(), m.get("fontSize")),
+                () -> assertEquals(20, m.get("y")),
+                () -> assertEquals(40, m.get("x"))
     }
 
     @Test

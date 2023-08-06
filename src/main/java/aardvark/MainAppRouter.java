@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import java.util.Date;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -358,8 +359,9 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void createNewProject(javafx.event.ActionEvent event) throws IOException {
-        currProj = new Project(newProjectName.getText());
         String filePath = "src/main/java/user_features/DataModel.json";
+
+        currProj = new Project(newProjectName.getText());
         JSONParser jsonParser = new JSONParser();
 
         try {
@@ -371,6 +373,14 @@ public class MainAppRouter implements Initializable {
 
             // Get the "Projects" array
             JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
+            for (Object p : projectsArray) {
+                JSONObject JSONProj = (JSONObject) p;
+                if (((String) JSONProj.get("ProjectName")).equals(newProjectName.getText())) {
+                    showErrorAlert("Project names must be unique!");
+                    return;
+                }
+            }
+
             projectsArray.add(currProj.toDict());
 
             // Write the updated data back to the JSON file
@@ -432,7 +442,7 @@ public class MainAppRouter implements Initializable {
 
                 if (jsonobj.get("ProjectName").equals(projName)) {
                     JSONArray elems = (JSONArray)jsonobj.get("VisualElements");
-                    Date date = new Date((String)jsonobj.get("UpdateDate"));
+                    Date date = new Date();//new Date((String)jsonobj.get("UpdateDate"));
                     long x = (Long)jsonobj.get("Width");
                     long y = (Long)jsonobj.get("Height");
 
