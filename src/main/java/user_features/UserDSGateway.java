@@ -209,10 +209,10 @@ public class UserDSGateway {
     }
 
     /**
-     * Return a list of Project items belonging to user.
+     * Return a list of Arrays containing project name and date, of project belonging to user.
      *
      * @param user User object of the user.
-     * @return a list of Projects of the user.
+     * @return a list of Arrays containing project name and date, of project belonging to user.
      */
 
     public List<List<String>> projectsList(User user){
