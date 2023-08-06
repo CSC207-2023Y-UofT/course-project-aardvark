@@ -27,6 +27,7 @@ import models.*;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 
 /**
@@ -415,6 +416,7 @@ public class EditorController {
      */
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+        project.setDate(new Date());
         MainAppRouter switcher = new MainAppRouter();
         switcher.switchToProjects(event);
     }
