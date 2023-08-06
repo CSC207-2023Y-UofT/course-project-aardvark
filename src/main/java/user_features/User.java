@@ -13,7 +13,7 @@ public class User {
     private String email;
     private String password;
 
-    ArrayList<HashMap<String, Object>> projectsList;
+    public ArrayList<HashMap<String, Object>> projectsList;
 
     public User(String name, String email, String password){
         this.name = name;

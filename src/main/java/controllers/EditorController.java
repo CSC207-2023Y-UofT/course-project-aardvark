@@ -126,13 +126,18 @@ public class EditorController {
         /* INITIALIZE */
         gc = canvas.getGraphicsContext2D();
         resizerController = new CanvasResizerController(canvas, project);
+        resizerController.resizeCanvas(project.getWidth(), project.getHeight());
 
         //Setting Project Name
         projectName.setText(project.getName());
 
         //Setting up Arthur theme song
-        Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
-        mediaPlayer = new MediaPlayer(arthur);
+        try {
+            Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
+            mediaPlayer = new MediaPlayer(arthur);
+        } catch (Exception e) {
+            System.out.println("InvocationTargetException occurred: " + e.getMessage());
+        }
 
         // default button
         freeDrawBtn.setSelected(true);
@@ -187,6 +192,8 @@ public class EditorController {
 
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        project.draw(gc);
 
         /* SETTINGS */
 

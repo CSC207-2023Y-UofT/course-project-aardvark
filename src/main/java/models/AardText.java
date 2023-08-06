@@ -13,12 +13,7 @@ import java.util.HashMap;
 public class AardText implements VisualElement {
     /** The text to be drawn on the screen. */
     public String text;
-
-    /** The font family of the specified text.*/
-    public String fontFamily;
-
-    /** The font size of the specified text.*/
-    public double fontSize;
+    public Font font;
 
     /** The color of the indicated text.*/
     public Color color;
@@ -32,8 +27,7 @@ public class AardText implements VisualElement {
      */
     public AardText(String text, Color color, Font font, double x, double y){
         this.text = text;
-        this.fontFamily = font.getFamily();
-        this.fontSize = font.getSize();
+        this.font = new Font(font.getFamily(), font.getSize());
         this.color = color;
         this.coordinates = new double[]{x, y};
     }
@@ -45,7 +39,7 @@ public class AardText implements VisualElement {
      */
     @Override
     public void draw(GraphicsContext gc) {
-        gc.setFont(Font.font(fontFamily, fontSize));
+        gc.setFont(font);
         Color newColor = color;
         gc.setFill(newColor);
         gc.fillText(text, coordinates[0], coordinates[1]);
@@ -59,18 +53,22 @@ public class AardText implements VisualElement {
      */
     @Override
     public HashMap<String, Object> toDict(){
-        HashMap<String, Object> aardTextMap = new HashMap<>();
-        Object[] textArray = {text, fontFamily, fontSize, color, coordinates};
-        aardTextMap.put("Name", "AardText");
-        aardTextMap.put("AardText", textArray);
-        return aardTextMap;
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("Name", "AardText");
+        m.put("text", text);
+        m.put("color", color + "");
+        m.put("fontFamily", font.getFamily());
+        m.put("fontSize", font.getSize());
+        m.put("x", coordinates[0]);
+        m.put("y", coordinates[1]);
+        return m;
     }
 
-    public static AardText fromDict(HashMap<String, Object> aardTextMap) {
-        Object[] textArray = (Object[]) aardTextMap.get("AardText");
-        Font newFont = new Font((String) textArray[1], (Double) textArray[2]);
-        double [] coordinatePair = (double[]) textArray[4];
-        return new AardText((String) textArray[0], (Color) textArray[3], newFont, coordinatePair[0], coordinatePair[1]);
+    public static AardText fromDict(HashMap<String, Object> m) {
+        return new AardText(
+                (String)m.get("text"), Color.valueOf((String)m.get("color")),
+                new Font((String)m.get("fontFamily"), (double)m.get("fontSize")),
+                (double)m.get("x"), (double)m.get("y"));
     }
 
 }

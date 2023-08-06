@@ -175,8 +175,7 @@ public class UserDSGateway {
     /**
      * Saves the changes made to the JSON file. Must be called after everytime the JSON file is done being edited.
      */
-    public void saveChanges(){
-
+    public void saveChanges() {
         try (FileWriter fw = new FileWriter(this.file)){
             fw.write(this.dataDocument.toJSONString());
             fw.flush();
