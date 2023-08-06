@@ -57,6 +57,10 @@ public class FreeDrawLine implements VisualElement{
         }
     }
 
+    public ArrayList<Point2D.Double> getPath() {
+        return path;
+    }
+
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();
         dict.put("Name", "FreeDrawLine");

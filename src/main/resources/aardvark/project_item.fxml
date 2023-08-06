@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <HBox spacing="8.0" style="-fx-background-color: #EFEDF0;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ProjectItemController">
    <children>
-      <Button fx:id="project" maxWidth="656.0" mnemonicParsing="false" HBox.hgrow="ALWAYS">
+      <Button fx:id="project" maxHeight="60.0" minHeight="60.0" maxWidth="656.0" mnemonicParsing="false" HBox.hgrow="ALWAYS">
          <graphic>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                <children>
