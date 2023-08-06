@@ -196,5 +196,9 @@ public class Project {
 
         return dictionary;
     }
+
+    public Stack<VisualElement> getRedoStack() {
+        return this.redoStack;
+    }
 }
 
