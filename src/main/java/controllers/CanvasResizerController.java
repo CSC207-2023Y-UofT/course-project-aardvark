@@ -27,7 +27,7 @@ public class CanvasResizerController {
      Constructs a new CanvasResizerController object with the specified Canvas and Project.
 
      @param canvas The Canvas to be resized.
-     @param project The Project associated with the Canvas.
+     @param p The Project associated with the Canvas.
      */
     public CanvasResizerController(Canvas canvas, Project p) {
         this.canvas = canvas;
