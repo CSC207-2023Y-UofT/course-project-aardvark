@@ -131,8 +131,8 @@ public class EditorController {
         projectName.setText(project.getName());
 
         //Setting up Arthur theme song
-        Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
-        mediaPlayer = new MediaPlayer(arthur);
+        //Media arthur = new Media(new File("src/main/resources/sound/arthur.mp3").toURI().toString());
+        //mediaPlayer = new MediaPlayer(arthur);
 
         // default button
         freeDrawBtn.setSelected(true);
