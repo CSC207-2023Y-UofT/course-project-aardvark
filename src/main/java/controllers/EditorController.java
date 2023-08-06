@@ -44,7 +44,6 @@ import java.io.IOException;
  It also communicates with the Project class to manage the visual elements drawn on the canvas.
  */
 public class EditorController {
-    private AardWritableImage fxImage;
 
     public final Project project;
     public final Scene scene;
@@ -113,20 +112,6 @@ public class EditorController {
     public EditorController(Project p, Scene s) {
         project = p;
         scene = s;
-    }
-
-    /**
-     * Constructor for EditorController.
-     * Initializes the EditorController with the provided Project, Scene, and AardWritableImage.
-     *
-     * @param p The Project associated with the EditorController.
-     * @param s The Scene associated with the EditorController.
-     * @param fxImage The AardWritableImage associated with the EditorController.
-     */
-    public EditorController(Project p, Scene s, AardWritableImage fxImage) {
-        this.project = p;
-        this.scene = s;
-        this.fxImage = fxImage;
     }
 
     /**
@@ -355,11 +340,6 @@ public class EditorController {
 
             project.draw(gc);
         });
-        if (fxImage != null) {
-            resizerController.resizeCanvas(fxImage.getWidth(), fxImage.getHeight());
-            gc.drawImage(fxImage, 0, 0);
-            project.addVisualElement(fxImage);
-        }
     }
 
     /**
