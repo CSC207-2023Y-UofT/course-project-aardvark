@@ -6,6 +6,10 @@ import java.util.HashMap;
 
 public interface VisualElement {
 
+    /**
+     Draw the graphical element on the specified GraphicsContext.
+     @param gc The GraphicsContext on which the element should be drawn.
+     */
     void draw(GraphicsContext gc);
 
     /**

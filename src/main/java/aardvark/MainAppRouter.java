@@ -19,24 +19,39 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Project;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import user_features.User;
 import user_features.UserDSGateway;
 
-
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MainAppRouter implements Initializable {
+/**
+ The MainAppRouter class is the controller class responsible for handling the main application flow and navigation.
 
+ It implements the Initializable interface to initialize the JavaFX components defined in the associated FXML file.
+ */
+public class MainAppRouter implements Initializable {
     @FXML
     private VBox projectsLayout;
+    @FXML
+    private TextField emailText;
+    @FXML
+    private TextField nameText;
+    @FXML
+    private PasswordField passwordText;
+    @FXML
+    private PasswordField repeatPasswordText;
+    @FXML
+    private Label nameError;
+    @FXML
+    private TextField textField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField newProjectName;
     private Canvas canvas;
     private GraphicsContext graphicsContext;
     private Color currentColor = Color.BLACK;
@@ -45,6 +60,14 @@ public class MainAppRouter implements Initializable {
     private Scene scene;
     private Parent root;
 
+    /**
+     Initializes the MainAppRouter by loading the list of projects and populating the projectsLayout VBox with
+
+     ProjectItemController instances for each project.
+
+     @param location The URL location of the FXML file.
+     @param resources The ResourceBundle.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<models.Project> projects = new ArrayList<>(projects());
@@ -78,50 +101,10 @@ public class MainAppRouter implements Initializable {
         return ls;
     };
 
-
-    @FXML
-    public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
-        ((Node) event.getSource()).getScene().setRoot(newPage);
-    }
-
-    @FXML TextField emailText;
-    @FXML TextField nameText;
-    @FXML PasswordField passwordText;
-    @FXML PasswordField repeatPasswordText;
-    @FXML
-    public void signUp(javafx.event.ActionEvent event) throws IOException
-    /*
-     * Handles the signUp button and creates a new user register use case which in turn creates a new user and adds
-     * it to the data file.
+    /**
+    Displays an error alert dialog with the specified error message.
+    @param message The error message to display in the alert dialog.
      */
-    {
-
-        String password = passwordText.getText();
-        String repeatPassword = repeatPasswordText.getText();
-        String email = emailText.getText();
-        String name = nameText.getText();
-
-        UserDSGateway gateway = new UserDSGateway();
-        User newUser = gateway.userRegister(name, email, password);
-
-        if (!password.equals("") && !email.equals("")) {
-            if (password.equals(repeatPassword) && !gateway.checkUserExists(newUser)) {
-
-                gateway.addUser(newUser);
-                gateway.saveChanges();
-                switchToProjects(event);
-            } else if (!password.equals(repeatPassword) && !gateway.checkUserExists(newUser)) {
-                showErrorAlert("Passwords don't match, please try again!");
-            } else if (gateway.checkUserExists(newUser)) {
-                showErrorAlert("User already exists, sign in.");
-            }
-        }
-        else{
-            showErrorAlert("Email and password cannot be left blank, please try again.");
-        }
-    }
-
     @FXML
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -131,24 +114,188 @@ public class MainAppRouter implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     Switches the application's current scene to the sign-up page.
+
+     @param event The ActionEvent that triggers the method, a button click.
+
+     @throws IOException If an error occurs while loading the sign-up page FXML file.
+     */
+    @FXML
+    public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
+        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    /**
+     Handles the sign-up process when the sign-up button is clicked.
+
+     Creates a new user based on the provided information and adds it to the data file if the input is valid.
+
+     @param event The ActionEvent that triggers the method, a button click.
+
+     @throws IOException If an error occurs while loading the next page or interacting with the data file.
+     */
+    @FXML
+    public void signUp(javafx.event.ActionEvent event) throws IOException {
+        // Get the user input from the form fields
+        String password = passwordText.getText();
+        String repeatPassword = repeatPasswordText.getText();
+        String email = emailText.getText();
+        String name = nameText.getText();
+
+        // Create a new instance of the UserDSGateway to interact with the user data store
+        UserDSGateway gateway = new UserDSGateway();
+
+        // Create a new User object using the provided information
+        User newUser = gateway.userRegister(name, email, password);
+
+        // Validate the input and proceed accordingly
+        if (!password.equals("") && !email.equals("")) {
+            if (password.equals(repeatPassword) && !gateway.checkUserExists(newUser)) {
+                // If passwords match and the user does not already exist, add the user and save changes
+                gateway.addUser(newUser);
+                gateway.saveChanges();
+                switchToProjects(event); // Switch to the projects page after successful sign-up
+            } else if (!password.equals(repeatPassword) && !gateway.checkUserExists(newUser)) {
+                // If passwords don't match, show an error alert
+                showErrorAlert("Passwords don't match, please try again!");
+            } else if (gateway.checkUserExists(newUser)) {
+                // If user already exists, show an error alert
+                showErrorAlert("User already exists, sign in.");
+            }
+        }
+        else {
+            // If email or password fields are blank, show an error alert
+            showErrorAlert("Email and password cannot be left blank, please try again.");
+        }
+    }
+
+    /**
+     Switches the scene to the sign-in page when the corresponding button is clicked.
+
+     @param event The ActionEvent that triggers the method, a button click.
+
+     @throws IOException If an error occurs while loading the sign-in page.
+     */
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("signin.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    /**
+     Attempts to sign in the user with the provided email and password.
+
+     If the provided email and password are valid and match an existing user,
+     the scene will be switched to the projects page.
+
+     If the email does not correspond to an existing user,
+     an error alert will be displayed prompting the user to sign up.
+
+     If the password is incorrect, an error alert will be displayed
+     asking the user to try again.
+
+     If any of the email or password fields are left blank,
+     an error alert will be displayed asking the user to fill them.
+
+     @param event The ActionEvent that triggers the method, usually a button click.
+
+     @throws IOException If an error occurs while switching to the projects page or loading the error alert.
+     */
+    @FXML
+    public void signIn(javafx.event.ActionEvent event) throws IOException {
+        // Get the email and password from the input fields
+        String email = textField.getText();
+        String password = passwordField.getText();
+
+        // Create a UserDSGateway instance to access user data
+        UserDSGateway gateway = new UserDSGateway();
+
+        // Attempt to log in the user using the provided email and password
+        User loginUser = gateway.userLogin(email, password);
+
+        // Check if the email and password fields are not empty
+        if (!password.equals("") && !email.equals("")) {
+            // Check if the user exists and the password is correct
+            if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
+                // Switch to the projects page
+                switchToProjects(event);
+            } else if (!gateway.checkUserExists(loginUser)) {
+                // Display an error alert if the user does not exist
+                showErrorAlert("User does not exists, sign up.");
+            } else if (!gateway.checkPassword(email, password)) {
+                // Display an error alert if the password is incorrect
+                showErrorAlert("Password is incorrect, please try again.");
+            }
+        }
+        else {
+            // Display an error alert if any of the email or password fields are left blank
+            showErrorAlert("Fields cannot be left blank, please try again.");
+        }
+    }
+
+    /**
+     Switches the current scene to the "projects.fxml" view.
+
+     @param event The ActionEvent that triggers the method, usually a button click.
+
+     @throws IOException If an error occurs while loading the "projects.fxml" view or setting the new scene.
+     */
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    /**
+     Switches the current scene to the "new_project.fxml" view.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+
+     @throws IOException If an error occurs while loading the "new_project.fxml" view or setting the new scene.
+     */
     @FXML
     public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
         Parent newPage = FXMLLoader.load(getClass().getResource("new_project.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    /**
+     Creates a new project with the name given name from the name project text field,
+     and then switches to the editor view for the newly created project.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+
+     @throws IOException If an error occurs while loading the editor view or setting the new scene.
+     */
+    @FXML
+    public void createNewProject(javafx.event.ActionEvent event) throws IOException {
+        Project project = new Project(newProjectName.getText());
+        switchToEditor(event, project);
+    }
+
+    /**
+     Deletes the selected project.
+
+     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
+
+     @throws IOException If an error occurs while deleting the project or handling the project deletion process.
+     */
+    @FXML
+    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
+        System.out.println("deleted");
+    }
+
+    /**
+     Switches the scene to the editor view when triggered by a button click.
+
+     @param event The ActionEvent that triggers the method.
+
+     @param project The Project object representing the project to be opened in the editor.
+
+     @throws IOException If there is an error while loading the editor.fxml file.
+     */
     @FXML
     public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
@@ -156,46 +303,4 @@ public class MainAppRouter implements Initializable {
         Parent newPage = fxmlLoader.load();
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
-
-    @FXML
-    Label nameError;
-
-    @FXML TextField textField;
-    @FXML PasswordField passwordField;
-    @FXML
-    public void signIn(javafx.event.ActionEvent event) throws IOException {
-
-        String email = textField.getText();
-        String password = passwordField.getText();
-
-        UserDSGateway gateway = new UserDSGateway();
-        User loginUser = gateway.userLogin(email, password);
-
-        if (password.equals("") && email.equals("")) {
-            showErrorAlert("Fields cannot be left blank, please try again.");
-        }
-        if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
-                switchToProjects(event);
-        }
-        else if (!gateway.checkUserExists(loginUser)) {
-            showErrorAlert("User does not exists, sign up.");
-        }
-        else if (!gateway.checkPassword(email, password)) {
-            showErrorAlert("Password is incorrect, please try again.");
-        }
-
-    }
-
-    @FXML TextField newProjectName;
-    @FXML
-    public void createNewProject(javafx.event.ActionEvent event) throws IOException {
-        Project project = new Project(newProjectName.getText());
-        switchToEditor(event, project);
-    }
-
-    @FXML
-    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
-        System.out.println("deleted");
-    }
-
 }
