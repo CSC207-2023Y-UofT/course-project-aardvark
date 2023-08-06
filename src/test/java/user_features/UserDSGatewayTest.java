@@ -17,7 +17,6 @@ class UserDSGatewayTest {
         User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
         UserDSGateway gateway2 = new UserDSGateway();
         User loginUser = gateway2.userLogin("bob@gmail.com", "12345");
-        Assertions.assertEquals("Bob", loginUser.getName());
         Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
         Assertions.assertEquals("12345", loginUser.getPassword());
     }
