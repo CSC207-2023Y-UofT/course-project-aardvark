@@ -14,6 +14,7 @@ import java.util.*;
  JavaFX GraphicsContext.
  */
 public class Project {
+    public String name;
     private String projectName;
     private Date updatedAt;
     private int height;

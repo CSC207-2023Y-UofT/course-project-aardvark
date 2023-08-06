@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import user_features.User;
+import user_features.UserDSGateway;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -66,37 +68,11 @@ public class ProjectItemController implements Initializable {
     }
     @FXML
     public void deleteButton(ActionEvent event) throws IOException{
-        String filePath = "src/main/java/user_features/DataModel.json";
 
-        try {
-            JSONParser jsonParser = new JSONParser();
-            Object jsonObject = jsonParser.parse(new FileReader(filePath));
+        UserDSGateway gateway = new UserDSGateway();
 
-            // Cast the parsed object to a JSONObject
-            JSONObject users = (JSONObject) jsonObject;
-
-            // Locate the user's entry by email
-            JSONObject user = (JSONObject) users.get(MainAppRouter.currUser.getEmail());
-            JSONArray projects = (JSONArray) user.get("Projects");
-
-            // Remove the specified project by project name
-            for (int i = 0; i < projects.size(); ++i) {
-                JSONObject project = (JSONObject) projects.get(i);
-                if (name.getText().equals(project.get("ProjectName"))) {
-                    projects.remove(i);
-                    break;
-                }
-            }
-
-            // Write the updated JSON content back to the file
-            try (FileWriter fileWriter = new FileWriter(filePath)) {
-                fileWriter.write(users.toJSONString());
-            }
-
-            System.out.println("Project removed successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        gateway.deleteProject(MainAppRouter.currUser, name.getText());
+        gateway.saveChanges();
 
         MainAppRouter.deleteButton(event);
     }
