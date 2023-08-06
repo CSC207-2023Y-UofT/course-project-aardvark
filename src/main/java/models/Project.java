@@ -56,8 +56,9 @@ public class Project {
     }
 
     /**
-     Get the date when the project was last updated.
-     @return The Date object representing the last update date.
+     * Get the date when the project was last updated.
+     *
+     * @return The Date object representing the last update date.
      */
     public Date getDate() {
         return this.updatedAt;

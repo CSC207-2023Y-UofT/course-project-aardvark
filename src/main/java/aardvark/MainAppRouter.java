@@ -119,7 +119,7 @@ public class MainAppRouter implements Initializable {
             try {
                 HBox hbox = fxmlloader.load();
                 ProjectItemController pic = fxmlloader.getController();
-                pic.setData(projects.get(i).getName(), projects.get(i).getDate());
+                pic.setData(projects.get(i).getName(), projects.get(i).getDate().toString());
                 projectsLayout.getChildren().add(hbox);
             } catch (IOException e) {
                 System.out.println("Something went wrong, FXML Load" + e);
