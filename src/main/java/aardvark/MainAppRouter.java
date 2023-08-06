@@ -100,7 +100,7 @@ public class MainAppRouter implements Initializable {
         String name = nameText.getText();
 
         UserDSGateway gateway = new UserDSGateway();
-        User newUser = gateway.UserRegister(name, email, password);
+        User newUser = gateway.userRegister(name, email, password);
 
         if (!password.equals("") && !email.equals("")) {
             if (password.equals(repeatPassword) && !gateway.checkUserExists(newUser)) {
@@ -166,19 +166,19 @@ public class MainAppRouter implements Initializable {
         String password = passwordField.getText();
 
         UserDSGateway gateway = new UserDSGateway();
-        User loginUser = gateway.UserLogin(email, password);
+        User loginUser = gateway.userLogin(email, password);
 
-        if (!password.equals("") && !email.equals("")) {
-            if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
-                switchToProjects(event);
-            } else if (!gateway.checkUserExists(loginUser)) {
-                showErrorAlert("User does not exists, sign up.");
-            } else if (!gateway.checkPassword(email, password)) {
-                showErrorAlert("Password is incorrect, please try again.");
-            }
-        }
-        else {
+        if (password.equals("") && email.equals("")) {
             showErrorAlert("Fields cannot be left blank, please try again.");
+        }
+        if (gateway.checkUserExists(loginUser) && gateway.checkPassword(email, password)) {
+                switchToProjects(event);
+        }
+        else if (!gateway.checkUserExists(loginUser)) {
+            showErrorAlert("User does not exists, sign up.");
+        }
+        else if (!gateway.checkPassword(email, password)) {
+            showErrorAlert("Password is incorrect, please try again.");
         }
 
     }
