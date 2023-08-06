@@ -14,9 +14,9 @@ class UserDSGatewayTest {
     @Test
     void userLoginTest() {
         UserDSGateway gateway = new UserDSGateway();
-        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
+        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
         UserDSGateway gateway2 = new UserDSGateway();
-        User loginUser = gateway2.UserLogin("bob@gmail.com", "12345");
+        User loginUser = gateway2.userLogin("bob@gmail.com", "12345");
         Assertions.assertEquals("Bob", loginUser.getName());
         Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
         Assertions.assertEquals("12345", loginUser.getPassword());
@@ -25,7 +25,7 @@ class UserDSGatewayTest {
     @Test
     void userRegisterTest() {
         UserDSGateway gateway = new UserDSGateway();
-        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
+        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
         Assertions.assertEquals("Bob", registerUser.getName());
         Assertions.assertEquals("bob@gmail.com", registerUser.getEmail());
         Assertions.assertEquals("12345", registerUser.getPassword());
