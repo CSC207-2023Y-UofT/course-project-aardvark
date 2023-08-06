@@ -2,20 +2,33 @@ package user_features;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserDSGatewayTest {
 
+    @Test
+    void userLoginTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
+        UserDSGateway gateway2 = new UserDSGateway();
+        User loginUser = gateway2.userLogin("bob@gmail.com", "12345");
+        Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
+        Assertions.assertEquals("12345", loginUser.getPassword());
+    }
+
+    @Test
+    void userRegisterTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
+        Assertions.assertEquals("Bob", registerUser.getName());
+        Assertions.assertEquals("bob@gmail.com", registerUser.getEmail());
+        Assertions.assertEquals("12345", registerUser.getPassword());
+    }
 
     @Test
     void addUserTest() throws IOException {
@@ -25,7 +38,7 @@ class UserDSGatewayTest {
         gateway.addUser(user);
         gateway.addUser(user1);
         gateway.saveChanges();
-        Assertions.assertTrue(gateway.dataDocument.containsKey(user.email));
+        Assertions.assertTrue(gateway.dataDocument.containsKey(user.getEmail()));
 
     }
 
@@ -37,8 +50,17 @@ class UserDSGatewayTest {
         gateway.addUser(user);
         gateway.addUser(user1);
         gateway.saveChanges();
-        Assertions.assertTrue(gateway.dataDocument.containsKey(user.email));
+        Assertions.assertTrue(gateway.dataDocument.containsKey(user.getEmail()));
 
+    }
+
+    @Test
+    void getNameTest() {
+        User user = new User("Kelly", "kelly@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.saveChanges();
+        Assertions.assertEquals("Kelly", gateway.getName("kelly@gmail.com"));
     }
 
     @Test
@@ -50,11 +72,12 @@ class UserDSGatewayTest {
         Assertions.assertTrue(gateway.checkUserExists(user));
     }
 
+
     @Test
     void checkUserExistsTestFalse(){
-        User user = new User("Harry", "harry@gmail.com", "abcdef");
         UserDSGateway gateway = new UserDSGateway();
-        Assertions.assertFalse(gateway.checkUserExists(user));
+        User loginUser = gateway.userLogin("Ama", "1234");
+        Assertions.assertFalse(gateway.checkUserExists(loginUser));
     }
 
     @Test
@@ -71,7 +94,7 @@ class UserDSGatewayTest {
         gateway.addUser(oldUser);
         gateway.saveChanges();
         User user = new User("Tony Stark", "tony.stark@gmail.com", "ironman4ever");
-        Assertions.assertTrue(gateway.checkPassword(user.email, user.password));
+        Assertions.assertTrue(gateway.checkPassword(user.getEmail(), user.getPassword()));
     }
 
     @Test
@@ -81,7 +104,7 @@ class UserDSGatewayTest {
         gateway.addUser(oldUser);
         gateway.saveChanges();
         User user = new User("Tony Stark", "tony.stark@gmail.com", "thanos4ever");
-        Assertions.assertFalse(gateway.checkPassword(user.email, user.password));
+        Assertions.assertFalse(gateway.checkPassword(user.getEmail(), user.getPassword()));
     }
 
     @Test

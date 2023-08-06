@@ -3,8 +3,6 @@ package user_features;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class UserTest {
 
 
@@ -23,6 +21,7 @@ class UserTest {
     @Test
     public void getPasswordTest(){
         User user = new User("Alice", "1234@gmail.com", "12345");
+        Assertions.assertEquals("12345", user.getPassword());
     }
 
 }
