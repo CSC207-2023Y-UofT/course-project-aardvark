@@ -5,6 +5,14 @@ import javafx.scene.paint.Color;
 
 import java.util.*;
 
+/**
+
+ The Project class represents a graphical project that contains various VisualElement objects
+
+ and provides methods to manipulate and manage those elements. The project can be drawn on a
+
+ JavaFX GraphicsContext.
+ */
 public class Project {
     private String projectName;
     private Date updatedAt;
@@ -15,7 +23,10 @@ public class Project {
     private List<VisualElement> elements;
     private Stack<VisualElement> redoStack;
 
-
+    /**
+     Constructs a new Project with the given project name.
+     @param name The name of the project.
+     */
     public Project(String name) {
         projectName = name;
         elements = new ArrayList<>();
@@ -25,6 +36,15 @@ public class Project {
         width = DEFAULT_WIDTH;
     }
 
+    /**
+     Constructs a new Project with the given project name, list of VisualElements,
+     update date, width, and height.
+     @param name The name of the project.
+     @param elements The list of VisualElements to be included in the project.
+     @param updatedAt The date when the project was last updated.
+     @param width The width of the project canvas.
+     @param height The height of the project canvas.
+     */
     public Project(String name, List<VisualElement> elements, Date updatedAt, int x, int y) {
         projectName = name;
         this.elements = elements;
@@ -34,21 +54,41 @@ public class Project {
         width = x;
     }
 
+    /**
+     Get the date when the project was last updated.
+     @return The Date object representing the last update date.
+     */
     public Date getDate() {
         return this.updatedAt;
     }
 
+    /**
+     Set the date when the project was last updated.
+     @param date The Date object representing the new update date.
+     */
     public void setDate(Date date) {
         this.updatedAt = date;}
 
+    /**
+     Set the project name.
+     @param name The new name for the project.
+     */
     public void setProjectName(String name) {
         projectName = name;
     }
 
+    /**
+     Get the project name.
+     @return The name of the project.
+     */
     public String getName() {
         return projectName;
     }
 
+    /**
+     Get the last AardCircle from the elements list and remove it.
+     @return The last AardCircle object removed from the elements list.
+     */
     public AardCircle getLastAndRemoveCircle() {
         AardCircle tmp = new AardCircle(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
         for (int i = elements.size() - 1; i >= 0; --i) {
@@ -62,6 +102,10 @@ public class Project {
         return tmp;
     }
 
+    /**
+     Get the last AardSquare from the elements list and remove it.
+     @return The last AardSquare object removed from the elements list.
+     */
     public AardSquare getLastAndRemoveSquare() {
         AardSquare tmp = new AardSquare(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
         for (int i = elements.size() - 1; i >= 0; --i) {
@@ -75,11 +119,19 @@ public class Project {
         return tmp;
     }
 
+    /**
+     Add a VisualElement to the project canvas state.
+     @param v The VisualElement to be added to the project's.
+     */
     public void addVisualElement(VisualElement v) {
         elements.add(v);
         redoStack.clear();
     }
 
+    /**
+     Get the current FreeDrawLine element in the project.
+     @return The current FreeDrawLine element, or null if not found.
+     */
     public FreeDrawLine getCurrentLine(){
         VisualElement v = elements.get(elements.size() - 1);
         if(v instanceof FreeDrawLine) {
@@ -88,6 +140,9 @@ public class Project {
         return null;
     }
 
+    /**
+     Undo the last VisualElement added to the project (if any).
+     */
     public void undoVisualElement() {
         if (elements.isEmpty())
             return;
@@ -97,9 +152,8 @@ public class Project {
     }
 
     /**
-     * If redoStack is not empty, adds the last undone
-     * visualElement back to the element list.
-     * Otherwise, does nothing.
+     Redo the last undone VisualElement and add it back to the project (if any).
+     @param gc The GraphicsContext on which the VisualElement should be drawn.
      */
     public void redoVisualElement(GraphicsContext gc) {
         if (!redoStack.empty()) {
@@ -109,14 +163,18 @@ public class Project {
         }
     }
 
+    /**
+     Draw all VisualElements in the project onto the specified GraphicsContext.
+     @param gc The GraphicsContext on which the VisualElements should be drawn.
+     */
     public void draw(GraphicsContext gc) {
         for (VisualElement element : elements)
             element.draw(gc);
     }
 
     /**
-     *
-     * @return Hashmap containing
+     Convert the Project properties to a dictionary format.
+     @return A HashMap containing the project's properties in dictionary format.
      */
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dictionary = new HashMap<>();

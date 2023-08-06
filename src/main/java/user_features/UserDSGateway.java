@@ -177,16 +177,12 @@ public class UserDSGateway {
      */
     public void saveChanges(){
 
-    try (FileWriter fw = new FileWriter(this.file)){
-        fw.write(this.dataDocument.toJSONString());
-        fw.flush();
-    }
-    catch (IOException e){
-        e.printStackTrace();
-    }
+        try (FileWriter fw = new FileWriter(this.file)){
+            fw.write(this.dataDocument.toJSONString());
+            fw.flush();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
-
-
-
-

@@ -82,7 +82,6 @@ public class EditorController {
     private TextField eraserSize;
     public TextField textField;
     public GraphicsContext gc;
-    public static Stage primaryStage;
     private CanvasResizerController resizerController;
 
     Font defaultFont = Font.font("Verdana", 16);
@@ -343,8 +342,9 @@ public class EditorController {
     public void onSave() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export as PNG");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Image (*.png)", "*.png"));
-        File file = fileChooser.showSaveDialog(primaryStage);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files",
+                        "*.png", "*.jpeg", "*.jpg"));
+        File file = fileChooser.showSaveDialog(canvas.getScene().getWindow());
         try {
             WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
             Image snapshot = canvas.snapshot(null, writableImage);
