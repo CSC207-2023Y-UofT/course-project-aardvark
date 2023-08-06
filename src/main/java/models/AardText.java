@@ -61,6 +61,7 @@ public class AardText implements VisualElement {
     public HashMap<String, Object> toDict(){
         HashMap<String, Object> aardTextMap = new HashMap<>();
         Object[] textArray = {text, fontFamily, fontSize, color, coordinates};
+        aardTextMap.put("Name", "AardText");
         aardTextMap.put("AardText", textArray);
         return aardTextMap;
     }
