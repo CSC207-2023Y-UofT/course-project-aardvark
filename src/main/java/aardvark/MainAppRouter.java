@@ -12,6 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -116,7 +119,7 @@ public class MainAppRouter implements Initializable {
             try {
                 HBox hbox = fxmlloader.load();
                 ProjectItemController pic = fxmlloader.getController();
-                pic.setData(projects.get(i));
+                pic.setData(projects.get(i).getName(), projects.get(i).getDate());
                 projectsLayout.getChildren().add(hbox);
             } catch (IOException e) {
                 System.out.println("Something went wrong, FXML Load" + e);

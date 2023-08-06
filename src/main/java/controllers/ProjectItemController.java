@@ -44,11 +44,12 @@ public class ProjectItemController implements Initializable {
     /**
      Set the data for the project item.
 
-     @param project The Project object representing the project to be displayed in the item.
+     @param n The name of the project
+     @param d the updated date of the project
      */
-    public void setData(Project project) {
-        name.setText(project.getName());
-        date.setText(project.getDate().toString());
+    public void setData(String n, String d) {
+        name.setText(n);
+        date.setText(d);
     }
 
     /**
