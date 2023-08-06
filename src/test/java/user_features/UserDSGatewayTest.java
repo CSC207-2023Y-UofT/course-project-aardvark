@@ -11,6 +11,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserDSGatewayTest {
 
+    @Test
+    void userLoginTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
+        UserDSGateway gateway2 = new UserDSGateway();
+        User loginUser = gateway2.UserLogin("bob@gmail.com", "12345");
+        Assertions.assertEquals("Bob", loginUser.getName());
+        Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
+        Assertions.assertEquals("12345", loginUser.getPassword());
+    }
+
+    @Test
+    void userRegisterTest() {
+        UserDSGateway gateway = new UserDSGateway();
+        User registerUser = gateway.UserRegister("Bob", "bob@gmail.com", "12345");
+        Assertions.assertEquals("Bob", registerUser.getName());
+        Assertions.assertEquals("bob@gmail.com", registerUser.getEmail());
+        Assertions.assertEquals("12345", registerUser.getPassword());
+    }
 
     @Test
     void addUserTest() throws IOException {
@@ -34,6 +53,15 @@ class UserDSGatewayTest {
         gateway.saveChanges();
         Assertions.assertTrue(gateway.dataDocument.containsKey(user.getEmail()));
 
+    }
+
+    @Test
+    void getNameTest() {
+        User user = new User("Kelly", "kelly@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        gateway.saveChanges();
+        Assertions.assertEquals("Kelly", gateway.getName("kelly@gmail.com"));
     }
 
     @Test
@@ -119,9 +147,5 @@ class UserDSGatewayTest {
         gateway.saveChanges();
 
     }
-
-
-
-
 
 }

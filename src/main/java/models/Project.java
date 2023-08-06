@@ -49,6 +49,10 @@ public class Project {
         return projectName;
     }
 
+    public ArrayList<VisualElement> getElements(){
+        return (ArrayList<VisualElement>) this.elements;
+    }
+
     public AardCircle getLastAndRemoveCircle() {
         AardCircle tmp = new AardCircle(0, 0, 0, true, true, Color.AQUA, Color.AQUA, 0);
         for (int i = elements.size() - 1; i >= 0; --i) {
@@ -87,6 +91,10 @@ public class Project {
         }
         return null;
     }
+
+    public Stack<VisualElement> getRedoStack(){
+        return redoStack;
+    };
 
     public void undoVisualElement() {
         if (elements.isEmpty())

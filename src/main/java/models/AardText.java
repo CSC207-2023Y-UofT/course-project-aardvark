@@ -12,20 +12,20 @@ import java.util.HashMap;
  */
 public class AardText implements VisualElement {
     /** The text to be drawn on the screen. */
-    private final String text;
+    public String text;
 
     /** The font family of the specified text.*/
-    private final String fontFamily;
+    public String fontFamily;
 
     /** The font size of the specified text.*/
-    private final double fontSize;
+    public double fontSize;
 
     /** The color of the indicated text.*/
-    private final Color color;
+    public Color color;
 
     /** The coordinates of the specified text, stored as an array of doubles with
      * two elements representing x and y respectively.*/
-    private final double[] coordinates;
+    public double[] coordinates;
 
     /**
      * Creates a new AardText object.
@@ -63,6 +63,13 @@ public class AardText implements VisualElement {
         Object[] textArray = {text, fontFamily, fontSize, color, coordinates};
         aardTextMap.put("AardText", textArray);
         return aardTextMap;
+    }
+
+    public static AardText fromDict(HashMap<String, Object> aardTextMap) {
+        Object[] textArray = (Object[]) aardTextMap.get("AardText");
+        Font newFont = new Font((String) textArray[1], (Double) textArray[2]);
+        double [] coordinatePair = (double[]) textArray[4];
+        return new AardText((String) textArray[0], (Color) textArray[3], newFont, coordinatePair[0], coordinatePair[1]);
     }
 
 }
