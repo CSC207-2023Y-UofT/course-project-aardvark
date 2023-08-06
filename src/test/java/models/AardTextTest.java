@@ -22,27 +22,30 @@ class AardTextTest {
         Assertions.assertAll(
                 () -> assertEquals("AardText", m.get("Name")),
                 () -> assertEquals("Arthur", m.get("text")),
-                () -> assertEquals(Color.AQUAMARINE, m.get("color")),
+                () -> assertEquals(Color.AQUAMARINE, Color.valueOf((String)m.get("color"))),
                 () -> assertEquals(font.getFamily(), m.get("fontFamily")),
                 () -> assertEquals(font.getSize(), m.get("fontSize")),
-                () -> assertEquals(20, m.get("y")),
-                () -> assertEquals(40, m.get("x"))
+                () -> assertEquals(20.0, m.get("x")),
+                () -> assertEquals(40.0, m.get("y")));
     }
 
     @Test
     void fromDictTest() {
-        HashMap<String, Object> textHashMap = new HashMap<>();
-        double [] coordinateArray = {20, 40};
-        Object [] textArray = {"Arthur", "Arial", 12.0, Color.AQUAMARINE, coordinateArray};
-        textHashMap.put("AardText", textArray);
-        AardText arthurText = AardText.fromDict(textHashMap);
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("Name", "AardText");
+        m.put("text", "Arthur");
+        m.put("x", 20.0);
+        m.put("y", 40.0);
+        m.put("color", Color.AQUAMARINE.toString());
+        m.put("fontSize", 12.0);
+        AardText arthurText = AardText.fromDict(m);
         // No assertion for fontFamily, since this causes an error with Github autograding
         Assertions.assertAll(
                 () -> assertEquals("Arthur", arthurText.text),
                 () -> assertEquals(12.0, arthurText.font.getSize()),
                 () -> assertEquals(Color.AQUAMARINE, arthurText.color),
-                () -> assertEquals(20, arthurText.coordinates[0]),
-                () -> assertEquals(40, arthurText.coordinates[1])
+                () -> assertEquals(20.0, arthurText.coordinates[0]),
+                () -> assertEquals(40.0, arthurText.coordinates[1])
         );
     }
 }

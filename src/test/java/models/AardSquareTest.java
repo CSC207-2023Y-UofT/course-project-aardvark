@@ -19,7 +19,7 @@ class AardSquareTest {
         Assertions.assertTrue(m.containsKey("Name"));
 
         Assertions.assertAll(
-                () -> assertEquals("AardCircle", m.get("Name")),
+                () -> assertEquals("AardSquare", m.get("Name")),
                 () -> assertEquals(50.0, m.get("x")),
                 () -> assertEquals(50.0, m.get("y")),
                 () -> assertEquals(5.0, m.get("r")),

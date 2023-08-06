@@ -60,8 +60,7 @@ class ProjectTest {
 
         // Checking if the element is an AardText with correct text
         VisualElement firstElement = projectElements.get(0);
-        Object[] obtainedArray = (Object[]) firstElement.toDict().get("AardText");
-        Assertions.assertEquals("National Aardvark Day", obtainedArray[0]);
+        Assertions.assertEquals("National Aardvark Day", firstElement.toDict().get("text"));
     }
 
     @Test
@@ -82,7 +81,7 @@ class ProjectTest {
         // Checking if the most recent element is an AardCircle
         VisualElement recentElement = projectElements.get(1);
         // Using containsKey is valid, since the toDict() produces only one key-value pair
-        Assertions.assertTrue(recentElement.toDict().containsKey("AardCircle"));
+        Assertions.assertTrue(recentElement.toDict().containsKey("Name"));
 
         // Checking if the redo stack is empty
     }
@@ -189,9 +188,7 @@ class ProjectTest {
 
         // Getting the hashmap of the first element and checking its values
         HashMap<String, Object> firstElementDict = elementList.get(0);
-        Assertions.assertTrue(firstElementDict.containsKey("AardText"));
-        Assertions.assertFalse(firstElementDict.containsKey("AardCircle"));
-        Object[] obtainedArray = (Object[]) firstElementDict.get("AardText");
-        Assertions.assertEquals("National Aardvark Day", obtainedArray[0]);
+        Assertions.assertTrue(firstElementDict.containsKey("Name"));
+        Assertions.assertEquals("National Aardvark Day", firstElementDict.get("text"));
     }
 }
