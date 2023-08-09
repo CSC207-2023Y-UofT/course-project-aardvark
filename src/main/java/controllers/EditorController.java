@@ -473,6 +473,4 @@ public class EditorController {
             return preferredSize;
         }
     }
-
-
 }
