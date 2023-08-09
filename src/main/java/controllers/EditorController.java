@@ -474,9 +474,5 @@ public class EditorController {
         }
     }
 
-    public void playArthur() {
-        mediaPlayer.play();
-    }
-
 
 }

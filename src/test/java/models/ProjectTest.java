@@ -191,4 +191,15 @@ class ProjectTest {
         Assertions.assertTrue(firstElementDict.containsKey("Name"));
         Assertions.assertEquals("National Aardvark Day", firstElementDict.get("text"));
     }
+
+    @Test
+    void toDictElementsTest() {
+        List<HashMap<String, Object>> elementList = project.toDictElements();
+        Assertions.assertEquals(1, elementList.size());
+
+        // Getting the hashmap of the first element and checking its values
+        HashMap<String, Object> firstElementDict = elementList.get(0);
+        Assertions.assertTrue(firstElementDict.containsKey("Name"));
+        Assertions.assertEquals("National Aardvark Day", firstElementDict.get("text"));
+    }
 }
