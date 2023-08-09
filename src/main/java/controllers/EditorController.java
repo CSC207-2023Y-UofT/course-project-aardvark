@@ -103,6 +103,7 @@ public class EditorController {
     private CanvasResizerController resizerController;
 
     private MediaPlayer mediaPlayer;
+    private WritableImage fxImage;
 
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
@@ -117,6 +118,12 @@ public class EditorController {
     public EditorController(Project p, Scene s) {
         project = p;
         scene = s;
+    }
+
+    public EditorController(Project p, Scene s, WritableImage w) {
+        project = p;
+        scene = s;
+        fxImage = w;
     }
 
     /**
@@ -163,6 +170,14 @@ public class EditorController {
         // Event handler for Ctrl+Shift+Z (Redo)
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN).match(event)) {
+                redo(null);
+                event.consume();
+            }
+        });
+
+        // Event handler for Ctrl+Y (Redo)
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN).match(event)) {
                 redo(null);
                 event.consume();
             }
@@ -263,7 +278,11 @@ public class EditorController {
                 }
             }
         });
-
+        if (fxImage != null) {
+            resizerController.resizeCanvas(fxImage.getWidth(), fxImage.getHeight());
+            gc.drawImage(fxImage, 0, 0);
+            project.addVisualElement((VisualElement) fxImage);
+        }
         canvas.setOnMousePressed(e -> {
             if (freeDrawBtn.isSelected()) {
                 double size = checkValidSize(brushSize, 3);

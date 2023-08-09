@@ -129,6 +129,19 @@ public class Project {
         return tmp;
     }
 
+    public AardWritableImage getAndRemoveImage() {
+        AardWritableImage tmp = null;
+        for (int i = elements.size() - 1; i >= 0; --i) {
+            if (elements.get(i) instanceof AardWritableImage) {
+                AardWritableImage t = (AardWritableImage) elements.get(i);
+                tmp = new AardWritableImage((int) t.getWidth(), (int) t.getHeight(), t.getBufferedImage());
+                elements.remove(i);
+                break;
+            }
+        }
+        return tmp;
+    }
+
     /**
      Add a VisualElement to the project canvas state.
      @param v The VisualElement to be added to the project's.
