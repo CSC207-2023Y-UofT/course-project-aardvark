@@ -70,7 +70,9 @@ public class CanvasResizerController {
         Label widthLabel = new Label("Width:");
         Label heightLabel = new Label("Height:");
         TextField widthField = new TextField();
+        widthField.setText(""+project.getWidth());
         TextField heightField = new TextField();
+        heightField.setText(""+project.getHeight());
 
         // Add the labels and text fields to the dialog
         GridPane grid = new GridPane();
