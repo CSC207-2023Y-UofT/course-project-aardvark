@@ -2,6 +2,7 @@ package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.json.simple.JSONObject;
 
 import java.util.*;
 
@@ -14,6 +15,7 @@ import java.util.*;
  JavaFX GraphicsContext.
  */
 public class Project {
+    public String name;
     private String projectName;
     private Date updatedAt;
     private int height;
@@ -55,8 +57,9 @@ public class Project {
     }
 
     /**
-     Get the date when the project was last updated.
-     @return The Date object representing the last update date.
+     * Get the date when the project was last updated.
+     *
+     * @return The Date object representing the last update date.
      */
     public Date getDate() {
         return this.updatedAt;
@@ -199,8 +202,9 @@ public class Project {
      Convert the Project properties to a dictionary format.
      @return A HashMap containing the project's properties in dictionary format.
      */
-    public HashMap<String, Object> toDict() {
-        HashMap<String, Object> dictionary = new HashMap<>();
+    @SuppressWarnings("unchecked")
+    public JSONObject toDict() {
+        JSONObject dictionary = new JSONObject();
 
         dictionary.put("ProjectName", projectName);
         dictionary.put("UpdateDate", updatedAt.toString());

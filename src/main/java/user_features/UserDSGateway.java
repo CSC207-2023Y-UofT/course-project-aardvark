@@ -1,5 +1,6 @@
 package user_features;
 
+import models.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,7 +10,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -121,12 +125,12 @@ public class UserDSGateway {
     /**
      * Checks if a given user exists in the JSON file.
      *
-     * @param user user object of the user which you want to check exists.
+     * @param email email of the user which you want to check exists.
      * @return True iff the user exists in the JSON file.
      */
-    public boolean checkUserExists(User user){
+    public boolean checkUserExists(String email){
 
-        return(this.dataDocument.containsKey(user.getEmail()));
+        return(this.dataDocument.containsKey(email));
 
     }
 
@@ -150,11 +154,36 @@ public class UserDSGateway {
      * @param project the project HashMap.
      */
     @SuppressWarnings("unchecked")
-    public void addProject(User user, HashMap<String, Object> project){
+    public void updateProject(User user, Project project){
+
 
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
-        projectsArray.add(project);
+
+        for (Object e : projectsArray) {
+            JSONObject o = (JSONObject) e;
+            if (((String)o.get("ProjectName")).equals(project.getName())) {
+                o.put("VisualElements", project.toDictElements());
+                o.put("Width", project.getWidth());
+                o.put("Height", project.getHeight());
+                o.put("UpdateDate", project.getDate().toString());
+                break;
+            }
+        }
+
+    }
+
+    /**
+     * Adds a newly created project to the JSON file for the given user.
+     * @param user user object of user who the project belongs to.
+     * @param project project object of the project.
+     */
+    @SuppressWarnings("unchecked")
+    public void addNewProject(User user, Project project){
+
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
+        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
+        projectsArray.add(project.toDict());
 
     }
 
@@ -162,13 +191,120 @@ public class UserDSGateway {
      * Deletes a given project HashMap to the given user in the JSON file.
      *
      * @param user the User object representing the user which the project is to be deleted.
-     * @param project the project HashMap.
+     * @param projectName  the name of the project to be deleted.
      */
-    public boolean deleteProject(User user, HashMap<String, Object> project){
+    public void deleteProject(User user, String projectName) {
 
         JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
-        return(projectsArray.remove(project));
+        // Remove the specified project by project name
+        for (int i = 0; i < projectsArray.size(); ++i) {
+            JSONObject project = (JSONObject) projectsArray.get(i);
+            if (projectName.equals(project.get("ProjectName"))) {
+                projectsArray.remove(i);
+                break;
+            }
+        }
+
+    }
+
+    /**
+     * Return a list of Arrays containing project name and date, of project belonging to user.
+     *
+     * @param user User object of the user.
+     * @return a list of Arrays containing project name and date, of project belonging to user.
+     */
+
+    public List<List<String>> projectsList(User user){
+
+        List<List<String>> projects = new ArrayList<>();
+
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
+
+        // Get the "Projects" array
+        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
+
+        for (Object jsonElement : projectsArray) {
+            List<String> projectInfo = new ArrayList<>();
+            JSONObject JSONProj = (JSONObject) jsonElement;
+            projectInfo.add((String)JSONProj.get("ProjectName"));
+            projectInfo.add((String) JSONProj.get("UpdateDate"));
+            projects.add(projectInfo);
+
+        }
+
+        return projects;
+    }
+
+    /**
+     * Checks if the newProjectName is already a project name for user.
+     *
+     * @param user User object of the user.
+     * @param newProjectName project name.
+     * @return
+     */
+
+    public boolean checkUniqueProject (User user, String newProjectName){
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
+
+        // Get the "Projects" array
+        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
+
+        for (Object p : projectsArray) {
+            JSONObject JSONProj = (JSONObject) p;
+            if (((String) JSONProj.get("ProjectName")).equals(newProjectName)) {
+                return Boolean.FALSE;
+            }
+        }
+
+        return Boolean.TRUE;
+
+    }
+
+    /**
+     * Returns a project object from the JSON file for the User.
+     *
+     * @param user User object of the user.
+     * @param projName a String representing the name of the project.
+     * @return project object.
+     */
+    @SuppressWarnings("unchecked")
+    public Project projectFromJSON(User user, String projName) {
+
+        JSONObject userDetails = (JSONObject) this.dataDocument.get(user.getEmail());
+
+        // Get the "Projects" array
+        JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
+        for (Object proj : projectsArray) {
+            JSONObject jsonobj = (JSONObject) proj;
+
+            if (jsonobj.get("ProjectName").equals(projName)) {
+                JSONArray elems = (JSONArray) jsonobj.get("VisualElements");
+                Date date = new Date();//new Date((String)jsonobj.get("UpdateDate"));
+                long x = (Long) jsonobj.get("Width");
+                long y = (Long) jsonobj.get("Height");
+
+                List<VisualElement> lst = new ArrayList<>();
+
+                for (Object o : elems) {
+                    JSONObject jo = (JSONObject) o;
+                    String type = (String) jo.get("Name");
+                    if (type.equals("FreeDrawLine"))
+                        lst.add(FreeDrawLine.fromDict(jo));
+                    else if (type.equals("AardText"))
+                        lst.add(AardText.fromDict(jo));
+                    else if (type.equals("AardSquare"))
+                        lst.add(AardSquare.fromDict(jo));
+                    else if (type.equals("AardCircle"))
+                        lst.add(AardCircle.fromDict(jo));
+                }
+                return (new Project(projName, lst, date, (int) x, (int) y));
+
+            }
+
+
+        }
+        return (new Project(""));
 
     }
 
