@@ -1,6 +1,8 @@
 package models;
 
 import java.awt.geom.Point2D;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
@@ -8,6 +10,7 @@ import javafx.util.Pair;
 
 
 import javax.imageio.ImageIO;
+import javax.lang.model.type.UnionType;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +47,10 @@ public class AardWritableImage extends WritableImage implements VisualElement{
         this.bufferedImage = b;
     }
 
+    public AardWritableImage(int width, int height) {
+        super(width, height);
+    }
+
     /**
      Draw the AardWritableImage on the specified GraphicsContext.
      @param gc The GraphicsContext on which the AardWritableImage should be drawn.
@@ -61,7 +68,8 @@ public class AardWritableImage extends WritableImage implements VisualElement{
     @Override
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> dict = new HashMap<>();
-        dict.put("AardWritableImage", this.toPoint2D());
+        dict.put("Name", "AardWritableImage");
+        dict.put("Points", this.toPoint2D());
         return dict;
     }
 
@@ -89,35 +97,42 @@ public class AardWritableImage extends WritableImage implements VisualElement{
 
     public ArrayList<ArrayList<Object>> toPoint2D() {
         ArrayList<ArrayList<Object>> ret = new ArrayList<>();
-        BufferedImage image = bufferedImage;
+        BufferedImage image = new BufferedImage((int) this.getWidth(), (int) this.getHeight(), BufferedImage.TYPE_INT_RGB);
+        SwingFXUtils.fromFXImage(this, image);
         Color colorAdd;
         for (int x = 0; x < image.getWidth(); x++) {
             ArrayList<Object> temp = new ArrayList<>();
             for (int y = 0; y < image.getHeight(); y++) {
                 int color = image.getRGB(x, y);
+                ArrayList<Object> info = new ArrayList<>();
                 colorAdd = convertRGBToColor(color);
                 // Create a Point2D.Double object with grayscale value as the y-coordinate
-                ArrayList<Integer> xy = new ArrayList<>();
-                xy.add(x);
-                xy.add(y);
-                temp.add(xy);
-                temp.add(colorAdd.toString());
+                info.add(x);
+                info.add(y);
+                info.add(colorAdd.toString());
+                temp.add(info);
             } ret.add(temp);
         } return ret;
     }
 
-    public static AardWritableImage fromDict(HashMap<String, ArrayList<ArrayList<Object>>> curr) {
-        ArrayList<ArrayList<Object>> points = curr.get("AardWritableImage");
+    public static AardWritableImage fromDict(HashMap<String, Object> curr) {
+        ArrayList<ArrayList<Object>> points = (ArrayList<ArrayList<Object>>) curr.get("Points");
         BufferedImage image = new BufferedImage(points.size(), points.get(0).size(), BufferedImage.TYPE_INT_RGB);
-        for (ArrayList<Object> arr : points) {
-            ArrayList<Integer> xy = (ArrayList<Integer>) arr.get(0);
-            int x = xy.get(0);
-            int y = xy.get(1);
-            String colorStr = (String) arr.get(1);
-            Color color = Color.valueOf(colorStr);
-            int rgb = convertColorToRGB(color);
-            image.setRGB(x, y, rgb);
-        } return new AardWritableImage(points.size(), points.get(0).size(), image);
+        for (int i = 0; i < points.size(); i++) {
+            ArrayList<Object> temp = points.get(i);
+            for (int j = 0; j < points.get(i).size(); j++) {
+                ArrayList<Object> info = (ArrayList<Object>) temp.get(j);
+                long x = (long) info.get(0);
+                long y = (long) info.get(1);
+                String colorStr = (String) info.get(2);
+                Color color = Color.valueOf(colorStr);
+                int rgb = convertColorToRGB(color);
+                image.setRGB((int) x, (int) y, rgb);
+            }
+        }
+        AardWritableImage fxImage = new AardWritableImage(image.getWidth(), image.getHeight());
+        SwingFXUtils.toFXImage(image, fxImage);
+        return fxImage;
     }
 
     public BufferedImage getBufferedImage() {

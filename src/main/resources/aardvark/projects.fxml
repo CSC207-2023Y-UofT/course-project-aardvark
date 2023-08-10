@@ -31,8 +31,8 @@
                               <Font name="Segoe UI Semibold" size="16.0" />
                            </font>
                            <items>
-                              <MenuItem id="new-project" fx:id="newProjectBtn" onAction="#switchToNameProject" text="New Project" mnemonicParsing="false"/>
-                              <MenuItem id="open" fx:id="openBtn" onAction="#onOpenProjectClicked" text="Open" />
+                              <MenuItem id="new-project" onAction="#switchToNameProject" text="New Project" mnemonicParsing="false"/>
+                              <MenuItem id="open" onAction="#onOpenProjectClicked" text="Open" />
                            </items>
                         </MenuButton>
                      </children>

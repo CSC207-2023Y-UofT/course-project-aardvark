@@ -2,70 +2,45 @@ package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.WritableImage;
-import javafx.stage.FileChooser;
-import models.*;
-import org.json.simple.parser.ParseException;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.awt.geom.Point2D;
-import models.FreeDrawLine;
+import models.AardWritableImage;
 import models.Project;
 import user_features.User;
 import user_features.UserDSGateway;
 
-import models.VisualElement;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
-import user_features.User;
-import user_features.UserDSGateway;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
 /**
  The MainAppRouter class is the controller class responsible for handling the main application flow and navigation.
->>>>>>> 65654ae89caa38bf91ea988fb6abbb4973bde9e9
+ >>>>>>> 65654ae89caa38bf91ea988fb6abbb4973bde9e9
 
  It implements the Initializable interface to initialize the JavaFX components defined in the associated FXML file.
  */
 public class MainAppRouter implements Initializable {
     @FXML
     public MenuButton createProjectBtn;
-    @FXML
-    public MenuItem newProjectBtn;
-    @FXML
-    public MenuItem openBtn;
     @FXML
     private VBox projectsLayout;
     @FXML
@@ -113,12 +88,8 @@ public class MainAppRouter implements Initializable {
         if (currUser == null)
             return;
 
-        List<Project> projects = new ArrayList<>();
-
-
-
-        String filePath = "src/main/java/user_features/DataModel.json";
-        JSONParser jsonParser = new JSONParser();
+        UserDSGateway gateway = new UserDSGateway();
+        List<List<String>> projects = gateway.projectsList(currUser);
 
         for (int i=0; i<projects.size(); i++) {
             FXMLLoader fxmlloader = new FXMLLoader();
@@ -137,15 +108,10 @@ public class MainAppRouter implements Initializable {
         }
     }
 
-//    @FXML
-//    public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-//        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
-//        ((Node) event.getSource()).getScene().setRoot(newPage);
-//    }
 
     /**
-    Displays an error alert dialog with the specified error message.
-    @param message The error message to display in the alert dialog.
+     Displays an error alert dialog with the specified error message.
+     @param message The error message to display in the alert dialog.
      */
     @FXML
     private void showErrorAlert(String message) {
@@ -199,7 +165,7 @@ public class MainAppRouter implements Initializable {
                 // If passwords match and the user does not already exist, add the user and save changes
                 gateway.addUser(currUser);
                 gateway.saveChanges();
-                switchToProjects(event); // Switch to the projects page after successful sign-up
+                switchToProjects(event, null); // Switch to the projects page after successful sign-up
             } else if (!password.equals(repeatPassword) && !gateway.checkUserExists(email)) {
                 // If passwords don't match, show an error alert
                 showErrorAlert("Passwords don't match, please try again!");
@@ -264,7 +230,7 @@ public class MainAppRouter implements Initializable {
                 // log in the user using the provided email and password
                 currUser = gateway.userLogin(email, password);
                 // Switch to the projects page
-                switchToProjects(event);
+                switchToProjects(event, null);
             } else if (!gateway.checkUserExists(email)) {
                 // Display an error alert if the user does not exist
                 showErrorAlert("User does not exists, sign up.");
@@ -287,19 +253,14 @@ public class MainAppRouter implements Initializable {
      @throws IOException If an error occurs while loading the "projects.fxml" view or setting the new scene.
      */
     @FXML
-    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
-        if (currProj != null) {
-
+    public void switchToProjects(javafx.event.ActionEvent event, Project project)
+            throws IOException {
+        if (project != null) {
             UserDSGateway gateway = new UserDSGateway();
 
-            gateway.updateProject(currUser, currProj);
+            gateway.updateProject(currUser, project);
             gateway.saveChanges();
-
-
-            currProj = null;
-
         }
-
         Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
@@ -356,45 +317,6 @@ public class MainAppRouter implements Initializable {
     }
 
     /**
-     Opens the file explorer and loads an image when the "Open" option is clicked from the dropdown menu.
-
-     The selected image is then loaded into the editor for further processing.
-
-     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
-     */
-    @FXML
-    private void onOpenProjectClicked(javafx.event.ActionEvent event) {
-        // This method will be called when "Open" is clicked from the dropdown menu
-        // Implement the logic to open the file explorer and load a PNG file.
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open PNG Image");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
-        );
-
-        File selectedFile = fileChooser.showOpenDialog(createProjectBtn.getScene().getWindow());
-
-        if (selectedFile != null) {
-            // Load the PNG image and create a WritableImage from it
-            try {
-                BufferedImage bufferedImage = ImageIO.read(selectedFile);
-                WritableImage fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
-                AardWritableImage writableImage = new AardWritableImage((int) Math.ceil(fxImage.getWidth()),
-                        (int) Math.ceil(fxImage.getHeight()), bufferedImage);
-                SwingFXUtils.toFXImage(bufferedImage, writableImage);
-
-                switchToEditor(event, new Project(selectedFile.getName()), writableImage);
-
-            } catch (IOException e) {
-                // Handle the exception if the file cannot be read or is not a valid PNG image.
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
      Switches the scene to the editor view when triggered by a button click.
 
      @param event The ActionEvent that triggers the method.
@@ -411,66 +333,73 @@ public class MainAppRouter implements Initializable {
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
+    @FXML
+    public void switchToEditor(javafx.event.ActionEvent event, Project project,
+                               AardWritableImage fxImage) throws IOException {
+        UserDSGateway gateway = new UserDSGateway();
+        currProj = project;
+
+        if (!gateway.checkUniqueProject(currUser, project.getName())) {
+            showErrorAlert("File already exists!");
+            return;
+        }
+
+        gateway.addNewProject(currUser, currProj);
+        gateway.saveChanges();
+
+        currProj = null;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
+        fxmlLoader.setController(new EditorController(project,
+                ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow().getScene(), fxImage));
+        Parent newPage = fxmlLoader.load();
+        ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow().getScene().setRoot(newPage);
+    }
+
+
     static public void openEditor(ActionEvent event, String projName) {
 
         UserDSGateway gateway = new UserDSGateway();
         currProj= gateway.projectFromJSON(currUser, projName);
 
         try {
-            // Read the JSON file and parse it
-            Object obj = jsonParser.parse(new FileReader(filePath));
-            JSONObject jsonObject = (JSONObject) obj;
-
-            JSONObject jsonUser = (JSONObject)jsonObject.get(currUser.getEmail());
-
-            // Get the "Projects" array
-            JSONArray projectsArray = (JSONArray) jsonUser.get("Projects");
-            for (Object proj : projectsArray)
-            {
-                JSONObject jsonobj = (JSONObject) proj;
-
-                if (jsonobj.get("ProjectName").equals(projName)) {
-                    JSONArray elems = (JSONArray)jsonobj.get("VisualElements");
-                    Date date = new Date();//new Date((String)jsonobj.get("UpdateDate"));
-                    long x = (Long)jsonobj.get("Width");
-                    long y = (Long)jsonobj.get("Height");
-
-                    List<VisualElement> lst = new ArrayList<>();
-
-                    for (Object o : elems) {
-                        JSONObject jo = (JSONObject) o;
-                        String type = (String) jo.get("Name");
-                        if (type.equals("FreeDrawLine"))
-                            lst.add(FreeDrawLine.fromDict(jo));
-                        else if (type.equals("AardText"))
-                            lst.add(AardText.fromDict(jo));
-                        else if (type.equals("AardSquare"))
-                            lst.add(AardSquare.fromDict(jo));
-                        else if (type.equals("AardCircle"))
-                            lst.add(AardCircle.fromDict(jo));
-                    }
-
-                    Project project = new Project(projName, lst, date, (int)x, (int)y);
-
-                    currProj = project;
-
-                    FXMLLoader fxmlLoader = new FXMLLoader(MainAppRouter.class.getResource("editor.fxml"));
-                    fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
-                    Parent newPage = fxmlLoader.load();
-                    ((Node) event.getSource()).getScene().setRoot(newPage);
-
-                    return;
-                }
-            }
-        } catch (Exception e) {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainAppRouter.class.getResource("editor.fxml"));
+            fxmlLoader.setController(new EditorController(currProj, ((Node) event.getSource()).getScene()));
+            Parent newPage = fxmlLoader.load();
+            ((Node) event.getSource()).getScene().setRoot(newPage);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     static public void deleteButton(javafx.event.ActionEvent event) throws IOException{
         Parent newPage = FXMLLoader.load(MainAppRouter.class.getResource("projects.fxml"));
         ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    public void onOpenProjectClicked(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Image");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(createProjectBtn.getScene().getWindow());
+
+        if (selectedFile != null) {
+            // Load the PNG image and create a WritableImage from it
+            try {
+                BufferedImage b = ImageIO.read(selectedFile);
+                AardWritableImage fxImage = new AardWritableImage(b.getWidth(), b.getHeight());
+                SwingFXUtils.toFXImage(b, fxImage);
+                // You can use fxImage as a WritableImage in your application
+                switchToEditor(actionEvent, new Project(selectedFile.getName()), fxImage);
+                // For example, you can display it in an ImageView or save it to a file.
+            } catch (IOException e) {
+                // Handle the exception if the file cannot be read or is not a valid PNG image.
+                e.printStackTrace();
+            }
+        }
     }
 }
