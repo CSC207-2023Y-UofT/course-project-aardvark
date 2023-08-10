@@ -266,6 +266,26 @@ public class MainAppRouter implements Initializable {
     }
 
     /**
+     Switches the current scene to the "projects.fxml" view.
+
+     @param event The ActionEvent that triggers the method, usually a button click.
+
+     @throws IOException If an error occurs while loading the "projects.fxml" view or setting the new scene.
+     */
+    @FXML
+    public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
+        if (currProj != null) {
+            UserDSGateway gateway = new UserDSGateway();
+
+            gateway.updateProject(currUser, currProj);
+            gateway.saveChanges();
+            currProj = null;
+        }
+        Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
+        ((Node) event.getSource()).getScene().setRoot(newPage);
+    }
+
+    /**
      Switches the current scene to the "new_project.fxml" view.
 
      @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
