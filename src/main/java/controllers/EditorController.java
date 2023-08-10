@@ -493,10 +493,4 @@ public class EditorController {
             return preferredSize;
         }
     }
-
-    public void playArthur() {
-        mediaPlayer.play();
-    }
-
-
 }

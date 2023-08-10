@@ -30,4 +30,29 @@ class AardSquareTest {
                 () -> assertEquals(3.0, m.get("strokeSize"))
         );
     }
+
+    @Test
+    void fromDict() {
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("Name", "AardSquare");
+        m.put("x", 51.0);
+        m.put("y", 51.0);
+        m.put("r", 5.0);
+        m.put("isFill", true);
+        m.put("isStroke", false);
+        m.put("fill", Color.LEMONCHIFFON.toString());
+        m.put("stroke", Color.LIGHTYELLOW.toString());
+        m.put("strokeSize", 5.0);
+        AardSquare lemonSquare = AardSquare.fromDict(m);
+        Assertions.assertAll(
+                () -> assertEquals(51.0, lemonSquare.x),
+                () -> assertEquals(51.0, lemonSquare.y),
+                () -> assertEquals(5.0, lemonSquare.r),
+                () -> assertTrue(lemonSquare.isFill),
+                () -> assertFalse(lemonSquare.isStroke),
+                () -> assertEquals(Color.LEMONCHIFFON, lemonSquare.fill),
+                () -> assertEquals(Color.LIGHTYELLOW, lemonSquare.stroke),
+                () -> assertEquals(5.0, lemonSquare.strokeSize)
+        );
+    }
 }
