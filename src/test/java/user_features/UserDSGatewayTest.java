@@ -1,12 +1,16 @@
 package user_features;
 
 import models.Project;
+import models.VisualElement;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 class UserDSGatewayTest {
@@ -108,21 +112,8 @@ class UserDSGatewayTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    void addProjectTest(){
-        User user = new User("Jon", "jon.doe@gmail.com", "12345");
-        UserDSGateway gateway = new UserDSGateway();
-        gateway.addUser(user);
-        Project project = new Project("projectName");
-
-        gateway.addNewProject(user, project);
-        gateway.saveChanges();
-
-    }
-
-    @Test
     void deleteProjectTest(){
-        User user = new User("Jon", "jon.doe@gmail.com", "12345");
+        User user = new User("Jon", "jon2.doe@gmail.com", "12345");
         UserDSGateway gateway = new UserDSGateway();
         gateway.addUser(user);
         Project project = new Project("projectName2");
@@ -130,8 +121,62 @@ class UserDSGatewayTest {
         gateway.addNewProject(user, project);
         gateway.deleteProject(user, project.getName());
         gateway.saveChanges();
+        Assertions.assertTrue(gateway.projectsList(user).isEmpty());
 
     }
+
+    @Test
+    void updateProjectTest(){
+        User user = new User("Jon", "jon3.doe@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        Project project = new Project("projectName2");
+        ArrayList<VisualElement> visualElements = new ArrayList<>();
+        Project project2 = new Project("projectName2", visualElements, new Date(), 600, 800);
+        gateway.addNewProject(user, project);
+        gateway.updateProject(user, project2);
+        gateway.saveChanges();
+        Assertions.assertEquals(gateway.projectsList(user).get(0).get(1), project2.getDate().toString());
+    }
+
+    @Test
+    void addNewProjectTest(){
+        User user = new User("Jon", "jon4.doe@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        Project project = new Project("projectName2");
+        gateway.addNewProject(user, project);
+        gateway.saveChanges();
+        Assertions.assertEquals(gateway.projectsList(user).get(0).get(0), project.getName());
+    }
+
+    @Test
+    void projectsListTest(){
+        User user = new User("Jon", "jon5.doe@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        Project project = new Project("projectName2");
+        gateway.addNewProject(user, project);
+        gateway.saveChanges();
+        Assertions.assertEquals(gateway.projectsList(user).get(0).get(0), project.getName());
+    }
+
+    @Test
+    void checkUniqueProjectTest(){
+        User user = new User("Jon", "jon6.doe@gmail.com", "12345");
+        UserDSGateway gateway = new UserDSGateway();
+        gateway.addUser(user);
+        Project project = new Project("projectName2");
+        gateway.addNewProject(user, project);
+        gateway.saveChanges();
+        Assertions.assertTrue(gateway.checkUniqueProject(user, "projectName1"));
+    }
+
+
+
+
+
+
 
 
 

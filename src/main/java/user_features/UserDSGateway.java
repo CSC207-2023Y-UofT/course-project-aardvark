@@ -148,10 +148,10 @@ public class UserDSGateway {
     }
 
     /**
-     * Adds a given project HashMap to the given user in the JSON file.
+     * Updates a given Project object to the given user in the JSON file.
      *
      * @param user the User object representing the user which the project is to be added.
-     * @param project the project HashMap.
+     * @param project the project object.
      */
     @SuppressWarnings("unchecked")
     public void updateProject(User user, Project project){
@@ -241,7 +241,7 @@ public class UserDSGateway {
      *
      * @param user User object of the user.
      * @param newProjectName project name.
-     * @return
+     * @return true iff newProjectName not is already a project name for user.
      */
 
     public boolean checkUniqueProject (User user, String newProjectName){
