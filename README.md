@@ -28,4 +28,6 @@ git clone https://github.com/CSC207-2023Y-UofT/course-project-aardvark.git
 
 ## Coverage Test
 
+Several methods could not be covered by automated unit tests due to their output being visual. Hence, they were manually tested.
+
 ![Aardvark Coverage Test Scores](/src/main/resources/images/coverage.png)
