@@ -277,7 +277,6 @@ public class UserDSGateway {
         JSONArray projectsArray = (JSONArray) userDetails.get("Projects");
         for (Object proj : projectsArray) {
             JSONObject jsonobj = (JSONObject) proj;
-
             if (jsonobj.get("ProjectName").equals(projName)) {
                 JSONArray elems = (JSONArray) jsonobj.get("VisualElements");
                 Date date = new Date();//new Date((String)jsonobj.get("UpdateDate"));
@@ -297,12 +296,12 @@ public class UserDSGateway {
                         lst.add(AardSquare.fromDict(jo));
                     else if (type.equals("AardCircle"))
                         lst.add(AardCircle.fromDict(jo));
+                    else if (type.equals("AardWritableImage")) {
+                        lst.add(AardWritableImage.fromDict(jo));
+                    }
                 }
                 return (new Project(projName, lst, date, (int) x, (int) y));
-
             }
-
-
         }
         return (new Project(""));
 

@@ -103,6 +103,7 @@ public class EditorController {
     private CanvasResizerController resizerController;
 
     private MediaPlayer mediaPlayer;
+    private AardWritableImage fxImage;
 
     Font defaultFont = Font.font("Verdana", 16);
     String [] defaultInput = new String[]{""};
@@ -117,6 +118,12 @@ public class EditorController {
     public EditorController(Project p, Scene s) {
         project = p;
         scene = s;
+    }
+
+    public EditorController(Project p, Scene s, AardWritableImage w) {
+        project = p;
+        scene = s;
+        fxImage = w;
     }
 
     /**
@@ -168,6 +175,14 @@ public class EditorController {
             }
         });
 
+        // Event handler for Ctrl+Y (Redo)
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN).match(event)) {
+                redo(null);
+                event.consume();
+            }
+        });
+
         /* TEXT */
 
         gc.setFont(defaultFont);
@@ -189,16 +204,21 @@ public class EditorController {
 
         fontComboBox.setValue("Verdana");
 
-        /* WHITE CANVAS BACKGROUND */
+        /* WHITE CANVAS BACKGROUND OR IMAGE BACKGROUND*/
+        if (fxImage != null) {
+            resizerController.resizeCanvas(fxImage.getWidth(), fxImage.getHeight());
+            gc.drawImage(fxImage, 0, 0);
+            project.addVisualElement(fxImage);
+            project.draw(gc);
+        } else {
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-        project.draw(gc);
+            project.draw(gc);
+        }
 
         /* SETTINGS */
 
-//      default state of settings boxes
         brushDiv.setVisible(true);
         brushDiv.setManaged(true);
         eraserDiv.setVisible(false);
@@ -368,7 +388,7 @@ public class EditorController {
      */
     public void onSave() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Export as PNG");
+        fileChooser.setTitle("Export Image");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files",
                         "*.png", "*.jpeg", "*.jpg"));
         File file = fileChooser.showSaveDialog(canvas.getScene().getWindow());
@@ -397,7 +417,7 @@ public class EditorController {
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         project.setDate(new Date());
         MainAppRouter switcher = new MainAppRouter();
-        switcher.switchToProjects(event);
+        switcher.switchToProjects(event, project);
     }
 
     /**

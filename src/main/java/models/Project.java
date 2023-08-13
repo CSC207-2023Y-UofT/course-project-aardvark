@@ -197,12 +197,7 @@ public class Project {
         dictionary.put("UpdateDate", updatedAt.toString());
         dictionary.put("Width", width);
         dictionary.put("Height", height);
-
-        List<HashMap<String, Object>> elementList = new ArrayList<>();
-        for(int i = 0; i < elements.size(); i++) {
-            elementList.add(elements.get(i).toDict());
-        }
-        dictionary.put("VisualElements", elementList);
+        dictionary.put("VisualElements", this.toDictElements());
 
         return dictionary;
     }
