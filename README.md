@@ -2,6 +2,8 @@
 
 Group 40 (JAABVA): Alex Apostolu, Alex Mirabella, Amaru Izarra, Brian Latchman, Jessica Li, Vishnu Sai and Arthur the Aardvark
 
+![Aardvark App Banner](/src/main/resources/images/banner.png)
+
 This is the repository for the drawing and image creation software called Aardvark. This project is built using Java 11 and JavaFX. Below are some useful links related to the development of the project.
 
 * [Figma Designs](https://www.figma.com/file/TGjtdbXueRo7Ui4jmofLry/Aardvark?type=design&node-id=41%3A2&mode=design&t=Hhz1FIdWzme6Wmlt-1)
