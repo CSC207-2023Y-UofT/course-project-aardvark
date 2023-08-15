@@ -5,11 +5,14 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 
+import static models.AardCircle.getStringObjectHashMap;
+
 /**
  The AardSquare class represents a square shape to be drawn on a JavaFX GraphicsContext.
 
  It implements the interface VisualElement by providing its draw and toDict methods.
  */
+@SuppressWarnings("CanBeFinal")
 public class AardSquare implements VisualElement {
     /*
     The x-coordinate of the square's top-left corner, y-coordinate of the square's top-left corner,
@@ -90,15 +93,7 @@ public class AardSquare implements VisualElement {
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> m = new HashMap<>();
         m.put("Name", "AardSquare");
-        m.put("x", x);
-        m.put("y", y);
-        m.put("r", r);
-        m.put("isFill", isFill);
-        m.put("isStroke", isStroke);
-        m.put("fill", fill + "");
-        m.put("stroke", stroke + "");
-        m.put("strokeSize", strokeSize);
-        return m;
+        return getStringObjectHashMap(m, x, y, r, isFill, isStroke, fill, stroke, strokeSize);
     }
 
     public static AardSquare fromDict(HashMap<String, Object> m) {

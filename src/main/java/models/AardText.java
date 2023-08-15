@@ -10,6 +10,7 @@ import java.util.HashMap;
  * The AardText class represents a text object to be drawn on a JavaFX Canvas.
  * It implements the interface VisualElement by implementing its draw and toDict methods.
  */
+@SuppressWarnings("CanBeFinal")
 public class AardText implements VisualElement {
     /** The text to be drawn on the screen. */
     public String text;
@@ -56,7 +57,7 @@ public class AardText implements VisualElement {
         HashMap<String, Object> m = new HashMap<>();
         m.put("Name", "AardText");
         m.put("text", text);
-        m.put("color", color + "");
+        m.put("color", String.valueOf(color));
         m.put("fontFamily", font.getFamily());
         m.put("fontSize", font.getSize());
         m.put("x", coordinates[0]);

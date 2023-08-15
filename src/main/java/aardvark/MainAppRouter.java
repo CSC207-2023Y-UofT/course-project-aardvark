@@ -2,58 +2,24 @@ package aardvark;
 
 import controllers.EditorController;
 import controllers.ProjectItemController;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import models.*;
-import org.json.simple.parser.ParseException;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import java.awt.geom.Point2D;
-import models.FreeDrawLine;
 import models.Project;
 import user_features.User;
 import user_features.UserDSGateway;
 
-import models.VisualElement;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
-import user_features.User;
-import user_features.UserDSGateway;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
-
-import javax.swing.*;
 
 /**
  The MainAppRouter class is the controller class responsible for handling the main application flow and navigation.
@@ -80,21 +46,8 @@ public class MainAppRouter implements Initializable {
     private PasswordField passwordField;
     @FXML
     private TextField newProjectName;
-    private Canvas canvas;
-    private GraphicsContext graphicsContext;
-    private Color currentColor = Color.BLACK;
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
     static public User currUser = null;
     static private Project currProj = null;
-
-    @FXML
-    private Label name;
-    @FXML
-    private Button delete;
 
     /**
      Initializes the MainAppRouter by loading the list of projects and populating the projectsLayout VBox with
@@ -112,18 +65,16 @@ public class MainAppRouter implements Initializable {
         UserDSGateway gateway = new UserDSGateway();
         List<List<String>> projects = gateway.projectsList(currUser);
 
-        for (int i=0; i<projects.size(); i++) {
+        for (List<String> project : projects) {
             FXMLLoader fxmlloader = new FXMLLoader();
             fxmlloader.setLocation(getClass().getResource("/aardvark/project_item.fxml"));
 
             try {
                 HBox hbox = fxmlloader.load();
                 ProjectItemController pic = fxmlloader.getController();
-                pic.setData(projects.get(i).get(0), projects.get(i).get(1));
+                pic.setData(project.get(0), project.get(1));
                 projectsLayout.getChildren().add(hbox);
-            } catch (IOException e) {
-                System.out.println("Something went wrong, FXML Load" + e);
-            } catch (NullPointerException e) {
+            } catch (IOException | NullPointerException e) {
                 System.out.println("Something went wrong, FXML Load" + e);
             }
         }
@@ -152,7 +103,7 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void switchToSignUp(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("/aardvark/signup.fxml"));
+        Parent newPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/aardvark/signup.fxml")));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -210,7 +161,7 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void switchToSignIn(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("signin.fxml"));
+        Parent newPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("signin.fxml")));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -287,7 +238,7 @@ public class MainAppRouter implements Initializable {
 
         }
 
-        Parent newPage = FXMLLoader.load(getClass().getResource("projects.fxml"));
+        Parent newPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("projects.fxml")));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -300,7 +251,7 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void switchToNameProject(javafx.event.ActionEvent event) throws IOException {
-        Parent newPage = FXMLLoader.load(getClass().getResource("new_project.fxml"));
+        Parent newPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("new_project.fxml")));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
@@ -331,18 +282,6 @@ public class MainAppRouter implements Initializable {
     }
 
     /**
-     Deletes the selected project.
-
-     @param event The ActionEvent that triggers the method, usually a button click or a menu item selection.
-
-     @throws IOException If an error occurs while deleting the project or handling the project deletion process.
-     */
-    @FXML
-    public void deleteProject(javafx.event.ActionEvent event) throws IOException{
-        System.out.println("deleted");
-    }
-
-    /**
      Switches the scene to the editor view when triggered by a button click.
 
      @param event The ActionEvent that triggers the method.
@@ -353,8 +292,9 @@ public class MainAppRouter implements Initializable {
      */
     @FXML
     public void switchToEditor(javafx.event.ActionEvent event, Project project) throws IOException {
+        EditorController.setProject(project);
+        EditorController.setScene(((Node) event.getSource()).getScene());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editor.fxml"));
-        fxmlLoader.setController(new EditorController(project, ((Node) event.getSource()).getScene()));
         Parent newPage = fxmlLoader.load();
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
@@ -366,20 +306,19 @@ public class MainAppRouter implements Initializable {
         currProj= gateway.projectFromJSON(currUser, projName);
 
         try {
+            EditorController.setProject(currProj);
+            EditorController.setScene(((Node) event.getSource()).getScene());
             FXMLLoader fxmlLoader = new FXMLLoader(MainAppRouter.class.getResource("editor.fxml"));
-            fxmlLoader.setController(new EditorController(currProj, ((Node) event.getSource()).getScene()));
             Parent newPage = fxmlLoader.load();
             ((Node) event.getSource()).getScene().setRoot(newPage);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     static public void deleteButton(javafx.event.ActionEvent event) throws IOException{
-        Parent newPage = FXMLLoader.load(MainAppRouter.class.getResource("projects.fxml"));
+        Parent newPage = FXMLLoader.load(Objects.requireNonNull(MainAppRouter.class.getResource("projects.fxml")));
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 }

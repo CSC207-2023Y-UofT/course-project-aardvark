@@ -12,14 +12,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 
 /**
  * A gateway class that is used to access and edit the data in the data file "DataModel.json" and interact with
  * instances of user.
- *
+ * <p>
  * Instance variables: dataDocument a JSONObject for editing, representing the JSON file created from parsing the document.
  *                     file a File object for the JSON file.
  */
@@ -27,6 +26,7 @@ public class UserDSGateway {
 
     // instance variable
     JSONObject dataDocument;
+    @SuppressWarnings("CanBeFinal")
     File file;
 
     @SuppressWarnings("unchecked")
@@ -43,7 +43,9 @@ public class UserDSGateway {
                 userDetails.put("Password", "12345");
                 userDetails.put("Projects", new JSONArray());
                 this.dataDocument.put("sample.user@gmail.com", userDetails);
+                //noinspection BlockingMethodInNonBlockingContext
                 fw.write(this.dataDocument.toJSONString());
+                //noinspection BlockingMethodInNonBlockingContext
                 fw.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -162,7 +164,7 @@ public class UserDSGateway {
 
         for (Object e : projectsArray) {
             JSONObject o = (JSONObject) e;
-            if (((String)o.get("ProjectName")).equals(project.getName())) {
+            if (o.get("ProjectName").equals(project.getName())) {
                 o.put("VisualElements", project.toDictElements());
                 o.put("Width", project.getWidth());
                 o.put("Height", project.getHeight());
@@ -252,7 +254,7 @@ public class UserDSGateway {
 
         for (Object p : projectsArray) {
             JSONObject JSONProj = (JSONObject) p;
-            if (((String) JSONProj.get("ProjectName")).equals(newProjectName)) {
+            if (JSONProj.get("ProjectName").equals(newProjectName)) {
                 return Boolean.FALSE;
             }
         }
@@ -289,14 +291,20 @@ public class UserDSGateway {
                 for (Object o : elems) {
                     JSONObject jo = (JSONObject) o;
                     String type = (String) jo.get("Name");
-                    if (type.equals("FreeDrawLine"))
-                        lst.add(FreeDrawLine.fromDict(jo));
-                    else if (type.equals("AardText"))
-                        lst.add(AardText.fromDict(jo));
-                    else if (type.equals("AardSquare"))
-                        lst.add(AardSquare.fromDict(jo));
-                    else if (type.equals("AardCircle"))
-                        lst.add(AardCircle.fromDict(jo));
+                    switch (type) {
+                        case "FreeDrawLine":
+                            lst.add(FreeDrawLine.fromDict(jo));
+                            break;
+                        case "AardText":
+                            lst.add(AardText.fromDict(jo));
+                            break;
+                        case "AardSquare":
+                            lst.add(AardSquare.fromDict(jo));
+                            break;
+                        case "AardCircle":
+                            lst.add(AardCircle.fromDict(jo));
+                            break;
+                    }
                 }
                 return (new Project(projName, lst, date, (int) x, (int) y));
 
@@ -313,7 +321,9 @@ public class UserDSGateway {
      */
     public void saveChanges() {
         try (FileWriter fw = new FileWriter(this.file)){
+            //noinspection BlockingMethodInNonBlockingContext
             fw.write(this.dataDocument.toJSONString());
+            //noinspection BlockingMethodInNonBlockingContext
             fw.flush();
         }
         catch (IOException e){

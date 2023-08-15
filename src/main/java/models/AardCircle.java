@@ -2,6 +2,7 @@ package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 
  It implements the interface VisualElement by providing its draw and toDict methods.
  */
+@SuppressWarnings("CanBeFinal")
 public class AardCircle implements VisualElement  {
     /*
     The x-coordinate of the circle's center, y-coordinate of the circle's center,
@@ -91,13 +93,18 @@ public class AardCircle implements VisualElement  {
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> m = new HashMap<>();
         m.put("Name", "AardCircle");
+        return getStringObjectHashMap(m, x, y, r, isFill, isStroke, fill, stroke, strokeSize);
+    }
+
+    @NotNull
+    static HashMap<String, Object> getStringObjectHashMap(HashMap<String, Object> m, double x, double y, double r, boolean isFill, boolean isStroke, Color fill, Color stroke, double strokeSize) {
         m.put("x", x);
         m.put("y", y);
         m.put("r", r);
         m.put("isFill", isFill);
         m.put("isStroke", isStroke);
-        m.put("fill", fill + "");
-        m.put("stroke", stroke + "");
+        m.put("fill", String.valueOf(fill));
+        m.put("stroke", String.valueOf(stroke));
         m.put("strokeSize", strokeSize);
         return m;
     }

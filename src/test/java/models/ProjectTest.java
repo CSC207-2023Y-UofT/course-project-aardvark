@@ -1,7 +1,6 @@
 package models;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.junit.jupiter.api.Assertions;
@@ -182,7 +181,9 @@ class ProjectTest {
 
     @Test
     void toDictTest() {
+        //noinspection unchecked
         HashMap<String, Object> projectDict = project.toDict();
+        //noinspection unchecked
         List<HashMap<String, Object>> elementList = (List<HashMap<String, Object>>) projectDict.get("VisualElements");
         Assertions.assertEquals(1, elementList.size());
 

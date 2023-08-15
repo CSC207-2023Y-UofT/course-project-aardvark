@@ -8,62 +8,59 @@
 <?import javafx.scene.text.*?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="580.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="aardvark.MainAppRouter">
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: EFEDF0;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER" prefHeight="80.0">
-               <children>
-                  <Text fill="#222222" strokeType="OUTSIDE" strokeWidth="0.0" text="New Project" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Text>
-               </children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: EFEDF0;"
+            BorderPane.alignment="CENTER">
+         <HBox alignment="CENTER" prefHeight="80.0">
+            <VBox.margin>
+               <Insets left="50.0" right="50.0"/>
+            </VBox.margin>
+            <Text fill="#222222" strokeType="OUTSIDE" strokeWidth="0.0" text="New Project" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Segoe UI Semibold" size="24.0"/>
+               </font>
+               <HBox.margin>
+                  <Insets/>
+               </HBox.margin>
+            </Text>
+         </HBox>
+         <VBox alignment="CENTER_LEFT" maxWidth="716.0" prefHeight="170.0" prefWidth="716.0" spacing="4.0"
+               style="-fx-background-color: #fff; -fx-background-radius: 20;">
+            <VBox.margin>
+               <Insets left="50.0" right="50.0"/>
+            </VBox.margin>
+            <padding>
+               <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
+            </padding>
+            <Label fx:id="nameError" alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Project Name"
+                   textFill="#222">
+               <font>
+                  <Font name="Segoe UI Semibold" size="20.0"/>
+               </font>
+            </Label>
+            <TextField fx:id="newProjectName" minHeight="40.0" promptText="Project Name">
+               <font>
+                  <Font name="Segoe UI" size="16.0"/>
+               </font>
                <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
+                  <Insets bottom="16.0"/>
                </VBox.margin>
+            </TextField>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+               <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#createNewProject"
+                       text="Create" textAlignment="CENTER" style="-fx-min-width: 120;" textFill="#fff">
+                  <font>
+                     <Font name="Segoe UI Semibold" size="16.0"/>
+                  </font>
+               </Button>
+               <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToProjects" text="Cancel"
+                       textAlignment="CENTER" style="-fx-min-width: 120; -fx-min-height: 50;" textFill="#0067c0">
+                  <font>
+                     <Font name="Segoe UI Semibold" size="16.0"/>
+                  </font>
+               </Button>
             </HBox>
-            <VBox alignment="CENTER_LEFT" maxWidth="716.0" prefHeight="170.0" prefWidth="716.0" spacing="4.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
-               <children>
-                  <Label fx:id="nameError" alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Project Name" textFill="#222">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="newProjectName" minHeight="40.0" promptText="Project Name">
-                     <font>
-                        <Font name="Segoe UI" size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="16.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
-                     <children>
-                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#createNewProject" text="Create" textAlignment="CENTER" style="-fx-min-width: 120;" textFill="#fff">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="16.0" />
-                           </font>
-                        </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToProjects" text="Cancel" textAlignment="CENTER" style="-fx-min-width: 120; -fx-min-height: 50;" textFill="#0067c0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="16.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
-               </padding>
-            </VBox>
-            <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;" />
-         </children>
+         </VBox>
+         <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;"/>
       </VBox>
    </center>
 </BorderPane>
