@@ -184,6 +184,8 @@ public class EditorController {
 
 //      default state of settings boxes
         hideDiv();
+        brushDiv.setVisible(true);
+        brushDiv.setManaged(true);
         selectTool.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (freeDrawBtn.isSelected()) {
                 hideDiv();
