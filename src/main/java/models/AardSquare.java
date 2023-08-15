@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 
+import static models.AardCircle.getStringObjectHashMap;
+
 /**
  The AardSquare class represents a square shape to be drawn on a JavaFX GraphicsContext.
 
@@ -15,23 +17,27 @@ public class AardSquare implements VisualElement {
     The x-coordinate of the square's top-left corner, y-coordinate of the square's top-left corner,
     and the side length of the square.
     */
-    public double x, y, r;
+    public final double x;
+    public final double y;
+    public final double r;
     /*
     isFill represents whether the square should be filled with the Colour fill, or not.
 
     Likewise, isStroke specifies whether the square should have the Colour stroke as its outline.
      */
-    public boolean isFill, isStroke;
+    public final boolean isFill;
+    public final boolean isStroke;
 
     /*
     Specifies the colour of the square's fill, and outline respectively.
      */
-    public Color fill, stroke;
+    public final Color fill;
+    public final Color stroke;
 
     /*
     Specifies the thickness of the square's outline.
      */
-    public double strokeSize;
+    public final double strokeSize;
 
     /**
      Constructs a new AardSquare object with the specified properties.
@@ -90,15 +96,7 @@ public class AardSquare implements VisualElement {
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> m = new HashMap<>();
         m.put("Name", "AardSquare");
-        m.put("x", x);
-        m.put("y", y);
-        m.put("r", r);
-        m.put("isFill", isFill);
-        m.put("isStroke", isStroke);
-        m.put("fill", fill + "");
-        m.put("stroke", stroke + "");
-        m.put("strokeSize", strokeSize);
-        return m;
+        return getStringObjectHashMap(m, x, y, r, isFill, isStroke, fill, stroke, strokeSize);
     }
 
     public static AardSquare fromDict(HashMap<String, Object> m) {

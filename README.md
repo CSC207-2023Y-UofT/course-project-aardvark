@@ -13,7 +13,7 @@ This is the repository for the drawing and image creation software called Aardva
 
 ## Local Development
 
-The following steps will guide you in setting up the repo to run locally. Mainly tested using IntelliJ and Windows (but also checked to run on VS Code, MacOS). Assumes Java and Gradle are installed and setup on computer.
+The following steps will guide you in setting up the repo to run locally. Mainly tested using IntelliJ and Windows (but also checked to run on VS Code, macOS). Assumes Java and Gradle are installed and setup on computer.
 
 >0. Clone the repo:
 ```

@@ -1,8 +1,6 @@
 package controllers;
 
 import aardvark.MainAppRouter;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,10 +49,6 @@ public class EditorController {
     public final Project project;
     public final Scene scene;
     public Label projectName;
-    public Button resizeBtn;
-    public Button clearBtn;
-    public Button exportBtn;
-    public Button undoBtn;
     public RadioButton freeDrawBtn;
     @FXML
     public RadioButton radioButtonCircle;
@@ -92,8 +86,6 @@ public class EditorController {
     public VBox eraserDiv;
     @FXML
     public ToggleGroup selectTool;
-    private Color currentColorDraw = Color.BLACK;
-    private Color currentColorText = Color.BLACK;
     @FXML
     private TextField brushSize;
     @FXML
@@ -104,8 +96,8 @@ public class EditorController {
 
     private MediaPlayer mediaPlayer;
 
-    Font defaultFont = Font.font("Verdana", 16);
-    String [] defaultInput = new String[]{""};
+    final Font defaultFont = Font.font("Verdana", 16);
+    final String [] defaultInput = new String[]{""};
 
     /**
      * Constructor for EditorController.
@@ -143,14 +135,6 @@ public class EditorController {
         // default button
         freeDrawBtn.setSelected(true);
         checkBoxShapeFill.setSelected(true);
-
-        /* CLEAR */
-
-        clearBtn.setOnMousePressed(e -> {
-            project.addVisualElement(new AardSquare(
-                    0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
-                    true, true, Color.WHITE, Color.WHITE, 0));
-        });
 
         // Event handler for Ctrl+Z (Undo)
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -199,68 +183,28 @@ public class EditorController {
         /* SETTINGS */
 
 //      default state of settings boxes
-        brushDiv.setVisible(true);
-        brushDiv.setManaged(true);
-        eraserDiv.setVisible(false);
-        eraserDiv.setManaged(false);
-        textDiv.setVisible(false);
-        textDiv.setManaged(false);
-        shapesDiv.setVisible(false);
-        shapesDiv.setManaged(false);
-        selectTool.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (freeDrawBtn.isSelected()) {
-                    brushDiv.setVisible(true);
-                    brushDiv.setManaged(true);
-                    eraserDiv.setVisible(false);
-                    eraserDiv.setManaged(false);
-                    textDiv.setVisible(false);
-                    textDiv.setManaged(false);
-                    shapesDiv.setVisible(false);
-                    shapesDiv.setManaged(false);
-                }
-                else if (radioButtonCircle.isSelected()) {
-                    brushDiv.setVisible(false);
-                    brushDiv.setManaged(false);
-                    eraserDiv.setVisible(false);
-                    eraserDiv.setManaged(false);
-                    textDiv.setVisible(false);
-                    textDiv.setManaged(false);
-                    shapesDiv.setVisible(true);
-                    shapesDiv.setManaged(true);
-                }
-                else if (radioButtonSquare.isSelected()) {
-                    brushDiv.setVisible(false);
-                    brushDiv.setManaged(false);
-                    eraserDiv.setVisible(false);
-                    eraserDiv.setManaged(false);
-                    textDiv.setVisible(false);
-                    textDiv.setManaged(false);
-                    shapesDiv.setVisible(true);
-                    shapesDiv.setManaged(true);
-                }
-                else if (textBoxBtn.isSelected()) {
-                    brushDiv.setVisible(false);
-                    brushDiv.setManaged(false);
-                    eraserDiv.setVisible(false);
-                    eraserDiv.setManaged(false);
-                    textDiv.setVisible(true);
-                    textDiv.setManaged(true);
-                    shapesDiv.setVisible(false);
-                    shapesDiv.setManaged(false);
-                    textField.requestFocus();
-                }
-                else if (eraserBtn.isSelected()) {
-                    brushDiv.setVisible(false);
-                    brushDiv.setManaged(false);
-                    eraserDiv.setVisible(true);
-                    eraserDiv.setManaged(true);
-                    textDiv.setVisible(false);
-                    textDiv.setManaged(false);
-                    shapesDiv.setVisible(false);
-                    shapesDiv.setManaged(false);
-                }
+        hideDiv();
+        selectTool.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (freeDrawBtn.isSelected()) {
+                hideDiv();
+                brushDiv.setVisible(true);
+                brushDiv.setManaged(true);
+            }
+            else if (radioButtonCircle.isSelected() || radioButtonSquare.isSelected()) {
+                hideDiv();
+                shapesDiv.setVisible(true);
+                shapesDiv.setManaged(true);
+            }
+            else if (textBoxBtn.isSelected()) {
+                hideDiv();
+                textDiv.setVisible(true);
+                textDiv.setManaged(true);
+                textField.requestFocus();
+            }
+            else if (eraserBtn.isSelected()) {
+                hideDiv();
+                eraserDiv.setVisible(true);
+                eraserDiv.setManaged(true);
             }
         });
 
@@ -362,10 +306,22 @@ public class EditorController {
         });
     }
 
+    private void hideDiv() {
+        brushDiv.setVisible(false);
+        brushDiv.setManaged(false);
+        eraserDiv.setVisible(false);
+        eraserDiv.setManaged(false);
+        textDiv.setVisible(false);
+        textDiv.setManaged(false);
+        shapesDiv.setVisible(false);
+        shapesDiv.setManaged(false);
+    }
+
     /**
      * Saves the canvas content as a PNG image file.
      * Displays a FileChooser dialog to select the destination file and exports the image.
      */
+    @SuppressWarnings("BlockingMethodInNonBlockingContext")
     public void onSave() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export as PNG");
@@ -393,6 +349,7 @@ public class EditorController {
      * @param event The ActionEvent that triggers the switch.
      * @throws IOException If there is an error while loading the projects.fxml file.
      */
+    @SuppressWarnings("unused")
     @FXML
     public void switchToProjects(javafx.event.ActionEvent event) throws IOException {
         project.setDate(new Date());
@@ -404,9 +361,9 @@ public class EditorController {
      * Resizes the canvas to the specified dimensions.
      * Called when the user wants to resize the canvas from the Editor view.
      *
-     * @param actionEvent The ActionEvent that triggers the resize.
+     * @param ignoredActionEvent The ActionEvent that triggers the resize.
      */
-    public void resizeCanvas(ActionEvent actionEvent) {
+    public void resizeCanvas(ActionEvent ignoredActionEvent) {
         this.resizerController.resize();
     }
 
@@ -414,12 +371,12 @@ public class EditorController {
      * Clears the canvas by filling it with a white color.
      * Called when the user wants to clear the canvas from the Editor view.
      *
-     * @param actionEvent The ActionEvent that triggers the clear action.
+     * @param ignoredActionEvent The ActionEvent that triggers the clear action.
      */
-    public void clearCanvas(ActionEvent actionEvent) {
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(colorPickerDraw.getValue());
+    public void clearCanvas(ActionEvent ignoredActionEvent) {
+        project.addVisualElement(new AardSquare(
+                0, 0, Math.max(canvas.getWidth(), canvas.getHeight()),
+                true, true, Color.WHITE, Color.WHITE, 0));
     }
 
     /**
@@ -442,10 +399,10 @@ public class EditorController {
      * Redoes the last undone visual element on the canvas.
      * Called when the user wants to redo an undone action from the Editor view.
      *
-     * @param event The ActionEvent that triggers the redo action.
+     * @param ignoredEvent The ActionEvent that triggers the redo action.
      */
     @FXML
-    public void redo(ActionEvent event) {
+    public void redo(ActionEvent ignoredEvent) {
         project.redoVisualElement(gc);
     }
 

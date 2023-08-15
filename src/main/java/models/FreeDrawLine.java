@@ -112,16 +112,14 @@ public class FreeDrawLine implements VisualElement{
     public static FreeDrawLine fromDict(HashMap<String, Object> dict) {
         //points
         ArrayList<Point2D.Double> path = new ArrayList<>();
-        for(Object i : (ArrayList) dict.get("PointList")) {
-            String j = (String) i;
-            Double x = Double.parseDouble(j.split(",")[0]);
-            Double y = Double.parseDouble(j.split(",")[1]);
+        for(String i : (ArrayList<String>) dict.get("PointList")) {
+            double x = Double.parseDouble(i.split(",")[0]);
+            double y = Double.parseDouble(i.split(",")[1]);
             Point2D.Double p = new Point2D.Double(x, y);
             path.add(p);
         }
-        FreeDrawLine ret = new FreeDrawLine(Color.valueOf((String) dict.get("Color")),
+        return new FreeDrawLine(Color.valueOf((String) dict.get("Color")),
                 (Double) dict.get("StrokeSize"), path);
-        return ret;
 
     }
 

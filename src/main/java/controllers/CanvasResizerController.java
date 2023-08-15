@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import models.Project;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -20,8 +21,8 @@ import java.util.Optional;
  It allows the user to input new dimensions for the canvas and then resizes it accordingly.
  */
 public class CanvasResizerController {
-    private Canvas canvas;
-    private Project project;
+    private final Canvas canvas;
+    private final Project project;
 
     /**
      Constructs a new CanvasResizerController object with the specified Canvas and Project.
@@ -60,7 +61,7 @@ public class CanvasResizerController {
         Dialog<Pair<Double, Double>> dialog = new Dialog<>();
         dialog.setTitle("Resize Canvas");
         Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(this.getClass().getResource("/images/icon.png").toString()));
+        stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResource("/images/icon.png")).toString()));
 
         // Set the dialog buttons (OK and Cancel)
         ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -70,9 +71,9 @@ public class CanvasResizerController {
         Label widthLabel = new Label("Width:");
         Label heightLabel = new Label("Height:");
         TextField widthField = new TextField();
-        widthField.setText(""+project.getWidth());
+        widthField.setText(String.valueOf(project.getWidth()));
         TextField heightField = new TextField();
-        heightField.setText(""+project.getHeight());
+        heightField.setText(String.valueOf(project.getHeight()));
 
         // Add the labels and text fields to the dialog
         GridPane grid = new GridPane();
@@ -114,9 +115,7 @@ public class CanvasResizerController {
         Optional<Pair<Double, Double>> result = dialog.showAndWait();
 
         // If the user clicked "OK" and provided valid input, resize the canvas
-        result.ifPresent(dimensions -> {
-            this.resizeCanvas(dimensions.getKey(), dimensions.getValue());
-        });
+        result.ifPresent(dimensions -> this.resizeCanvas(dimensions.getKey(), dimensions.getValue()));
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Fill the canvas with white

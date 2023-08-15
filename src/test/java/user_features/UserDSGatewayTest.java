@@ -2,23 +2,16 @@ package user_features;
 
 import models.Project;
 import models.VisualElement;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 class UserDSGatewayTest {
 
     @Test
     void userLoginTest() {
-        UserDSGateway gateway = new UserDSGateway();
-        User registerUser = gateway.userRegister("Bob", "bob@gmail.com", "12345");
         UserDSGateway gateway2 = new UserDSGateway();
         User loginUser = gateway2.userLogin("bob@gmail.com", "12345");
         Assertions.assertEquals("bob@gmail.com", loginUser.getEmail());
@@ -35,7 +28,7 @@ class UserDSGatewayTest {
     }
 
     @Test
-    void addUserTest() throws IOException {
+    void addUserTest() {
         User user = new User("Alice", "alice@gmail.com", "12345");
         User user1 = new User("Bob", "bob@gmail.com", "123456");
         UserDSGateway gateway = new UserDSGateway();
@@ -47,7 +40,7 @@ class UserDSGatewayTest {
     }
 
     @Test
-    void addUserTest1() throws IOException {
+    void addUserTest1() {
         User user = new User("Ama", "ama@gmail.com", "12345");
         User user1 = new User("Robbie", "robbie@gmail.com", "123456");
         UserDSGateway gateway = new UserDSGateway();

@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 
 /**
  The MainApp class is the main entry point of the Aardvark application.
@@ -26,9 +28,9 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("signin.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("signin.fxml")));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
 
         Image icon = new Image("images/icon.png");
         stage.getIcons().add(icon);

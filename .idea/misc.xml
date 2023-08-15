@@ -1,8 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <entry_points version="2.0">
+      <entry_point TYPE="field" FQNAME="controllers.EditorController brushDiv" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController brushSize" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController canvas" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController checkBoxShapeFill" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController checkBoxShapeStroke" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController clearBtn" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController colorPickerDraw" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController colourPickerShapeFill" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController colorPickerText" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController colourPickerShapeStroke" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController textFieldShapeStroke" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController textField" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController textDiv" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController textBoxBtn" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController shapesDiv" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController selectTool" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController radioButtonSquare" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController eraserBtn" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController eraserDiv" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController eraserSize" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController fontComboBox" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController fontSize" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController freeDrawBtn" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController projectName" />
+      <entry_point TYPE="field" FQNAME="controllers.EditorController radioButtonCircle" />
+      <entry_point TYPE="field" FQNAME="models.Project name" />
+      <entry_point TYPE="field" FQNAME="user_features.User projectsList" />
+    </entry_points>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="javafx.fxml.FXML" />
+    </list>
+    <pattern value="controllers.EditorController" method="switchToProjects" />
+    <pattern value="controllers.EditorController" method="resizeCanvas" />
+    <pattern value="controllers.EditorController" method="initialize" />
+    <pattern value="controllers.EditorController" method="onSave" />
+    <writeAnnotations>
+      <writeAnnotation name="javafx.fxml.FXML" />
+    </writeAnnotations>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="17 (2)" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17 (2)" project-jdk-type="JavaSDK" />
 </project>

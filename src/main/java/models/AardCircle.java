@@ -2,6 +2,7 @@ package models;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -15,24 +16,28 @@ public class AardCircle implements VisualElement  {
     The x-coordinate of the circle's center, y-coordinate of the circle's center,
     and the radius of the circle.
     */
-    public double x, y, r;
+    public final double x;
+    public final double y;
+    public final double r;
 
     /*
     isFill represents whether the circle should be filled with the Colour fill, or not.
 
     Likewise, isStroke specifies whether the circle should have the Colour stroke as its outline.
      */
-    public boolean isFill, isStroke;
+    public final boolean isFill;
+    public final boolean isStroke;
 
     /*
     Specifies the colour of the circle's fill, and outline respectively.
      */
-    public Color fill, stroke;
+    public final Color fill;
+    public final Color stroke;
 
     /*
     Specifies the thickness of the circle's outline.
      */
-    public double strokeSize;
+    public final double strokeSize;
 
     /**
      Constructs a new AardCircle object with the specified properties.
@@ -91,13 +96,18 @@ public class AardCircle implements VisualElement  {
     public HashMap<String, Object> toDict() {
         HashMap<String, Object> m = new HashMap<>();
         m.put("Name", "AardCircle");
+        return getStringObjectHashMap(m, x, y, r, isFill, isStroke, fill, stroke, strokeSize);
+    }
+
+    @NotNull
+    static HashMap<String, Object> getStringObjectHashMap(HashMap<String, Object> m, double x, double y, double r, boolean isFill, boolean isStroke, Color fill, Color stroke, double strokeSize) {
         m.put("x", x);
         m.put("y", y);
         m.put("r", r);
         m.put("isFill", isFill);
         m.put("isStroke", isStroke);
-        m.put("fill", fill + "");
-        m.put("stroke", stroke + "");
+        m.put("fill", String.valueOf(fill));
+        m.put("stroke", String.valueOf(stroke));
         m.put("strokeSize", strokeSize);
         return m;
     }

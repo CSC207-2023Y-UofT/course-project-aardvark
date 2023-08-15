@@ -9,11 +9,11 @@ import java.util.HashMap;
 public class User {
 
     // instance variables
-    private String name;
-    private String email;
-    private String password;
+    private final String name;
+    private final String email;
+    private final String password;
 
-    public ArrayList<HashMap<String, Object>> projectsList;
+    public final ArrayList<HashMap<String, Object>> projectsList;
 
     public User(String name, String email, String password){
         this.name = name;

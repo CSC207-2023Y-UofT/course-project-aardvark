@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.*?>
+<!--suppress ALL -->
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1366" style="-fx-background-color: #EFEDF0;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -33,7 +34,7 @@
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
             </Label>
-            <Button id="resize-btn" fx:id="resizeBtn" mnemonicParsing="false" onAction="#resizeCanvas">
+            <Button id="resize-btn" mnemonicParsing="false" onAction="#resizeCanvas">
                <tooltip>
                   <Tooltip text="Resize Canvas">
                      <font>
@@ -42,7 +43,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="clear-btn" fx:id="clearBtn" mnemonicParsing="false" onAction="#clearCanvas">
+            <Button id="clear-btn" mnemonicParsing="false" onAction="#clearCanvas">
                <tooltip>
                   <Tooltip text="Clear Canvas">
                      <font>
@@ -69,7 +70,7 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Button id="export-btn" fx:id="exportBtn" mnemonicParsing="false" onAction="#onSave">
+            <Button id="export-btn" mnemonicParsing="false" onAction="#onSave">
                <tooltip>
                   <Tooltip text="Export Canvas">
                      <font>

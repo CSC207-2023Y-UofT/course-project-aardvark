@@ -4,39 +4,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<HBox spacing="8.0" style="-fx-background-color: #EFEDF0;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ProjectItemController">
-   <children>
-      <Button fx:id="project" onAction="#openProject" maxHeight="60.0" minHeight="60.0" maxWidth="656.0" mnemonicParsing="false" HBox.hgrow="ALWAYS">
-         <graphic>
-            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                     <Label fx:id="name" text="Project Name" textFill="#222222">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></Label>
-                  <Label fx:id="date" text="Date" textFill="#666666">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font></Label>
-               </children>
-               <padding>
-                  <Insets left="12.0" right="12.0" />
-               </padding>
-            </VBox>
-         </graphic></Button>
-      <Button fx:id="delete" onAction="#deleteButton" minHeight="60.0" minWidth="60.0" mnemonicParsing="false">
-         <tooltip>
-            <Tooltip text="Delete Project">
-               <font>
-                  <Font name="Segoe UI" size="14.0" />
-               </font>
-            </Tooltip>
-         </tooltip></Button>
-   </children>
+<HBox spacing="8.0" style="-fx-background-color: #EFEDF0;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ProjectItemController">
    <padding>
-      <Insets bottom="12.0" left="2.0" right="2.0" top="2.0" />
+      <Insets bottom="12.0" left="2.0" right="2.0" top="2.0"/>
    </padding>
+   <Button fx:id="project" onAction="#openProject" maxHeight="60.0" minHeight="60.0" maxWidth="656.0"
+           mnemonicParsing="false" HBox.hgrow="ALWAYS">
+      <graphic>
+         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+            <padding>
+               <Insets left="12.0" right="12.0"/>
+            </padding>
+            <Label fx:id="name" text="Project Name" textFill="#222222">
+               <font>
+                  <Font name="Segoe UI Semibold" size="16.0"/>
+               </font>
+               <VBox.margin>
+                  <Insets/>
+               </VBox.margin>
+            </Label>
+            <Label fx:id="date" text="Date" textFill="#666666">
+               <font>
+                  <Font name="Segoe UI" size="14.0"/>
+               </font>
+            </Label>
+         </VBox>
+      </graphic>
+   </Button>
+   <Button fx:id="delete" onAction="#deleteButton" minHeight="60.0" minWidth="60.0" mnemonicParsing="false">
+      <tooltip>
+         <Tooltip text="Delete Project">
+            <font>
+               <Font name="Segoe UI" size="14.0"/>
+            </font>
+         </Tooltip>
+      </tooltip>
+   </Button>
 </HBox>

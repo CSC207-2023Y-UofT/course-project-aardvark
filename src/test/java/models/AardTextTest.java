@@ -3,12 +3,11 @@ package models;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AardTextTest {
     @Test
@@ -39,7 +38,7 @@ class AardTextTest {
         m.put("color", Color.AQUAMARINE.toString());
         m.put("fontSize", 12.0);
         AardText arthurText = AardText.fromDict(m);
-        // No assertion for fontFamily, since this causes an error with Github autograding
+        // No assertion for fontFamily, since this causes an error with GitHub auto-grading
         Assertions.assertAll(
                 () -> assertEquals("Arthur", arthurText.text),
                 () -> assertEquals(12.0, arthurText.font.getSize()),

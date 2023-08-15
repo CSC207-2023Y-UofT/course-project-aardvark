@@ -12,14 +12,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 
 /**
  * A gateway class that is used to access and edit the data in the data file "DataModel.json" and interact with
  * instances of user.
- *
+ * <p>
  * Instance variables: dataDocument a JSONObject for editing, representing the JSON file created from parsing the document.
  *                     file a File object for the JSON file.
  */
@@ -27,9 +26,9 @@ public class UserDSGateway {
 
     // instance variable
     JSONObject dataDocument;
-    File file;
+    final File file;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "BlockingMethodInNonBlockingContext"})
     public UserDSGateway(){
 
         // Creating file object to check if file exists and create it if it does not
@@ -162,7 +161,7 @@ public class UserDSGateway {
 
         for (Object e : projectsArray) {
             JSONObject o = (JSONObject) e;
-            if (((String)o.get("ProjectName")).equals(project.getName())) {
+            if (o.get("ProjectName").equals(project.getName())) {
                 o.put("VisualElements", project.toDictElements());
                 o.put("Width", project.getWidth());
                 o.put("Height", project.getHeight());
@@ -252,7 +251,7 @@ public class UserDSGateway {
 
         for (Object p : projectsArray) {
             JSONObject JSONProj = (JSONObject) p;
-            if (((String) JSONProj.get("ProjectName")).equals(newProjectName)) {
+            if (JSONProj.get("ProjectName").equals(newProjectName)) {
                 return Boolean.FALSE;
             }
         }
@@ -289,14 +288,12 @@ public class UserDSGateway {
                 for (Object o : elems) {
                     JSONObject jo = (JSONObject) o;
                     String type = (String) jo.get("Name");
-                    if (type.equals("FreeDrawLine"))
-                        lst.add(FreeDrawLine.fromDict(jo));
-                    else if (type.equals("AardText"))
-                        lst.add(AardText.fromDict(jo));
-                    else if (type.equals("AardSquare"))
-                        lst.add(AardSquare.fromDict(jo));
-                    else if (type.equals("AardCircle"))
-                        lst.add(AardCircle.fromDict(jo));
+                    switch (type) {
+                        case "FreeDrawLine" -> lst.add(FreeDrawLine.fromDict(jo));
+                        case "AardText" -> lst.add(AardText.fromDict(jo));
+                        case "AardSquare" -> lst.add(AardSquare.fromDict(jo));
+                        case "AardCircle" -> lst.add(AardCircle.fromDict(jo));
+                    }
                 }
                 return (new Project(projName, lst, date, (int) x, (int) y));
 
@@ -311,6 +308,7 @@ public class UserDSGateway {
     /**
      * Saves the changes made to the JSON file. Must be called after everytime the JSON file is done being edited.
      */
+    @SuppressWarnings("BlockingMethodInNonBlockingContext")
     public void saveChanges() {
         try (FileWriter fw = new FileWriter(this.file)){
             fw.write(this.dataDocument.toJSONString());

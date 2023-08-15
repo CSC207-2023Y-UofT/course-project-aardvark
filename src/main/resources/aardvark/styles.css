@@ -1,4 +1,5 @@
 /* Text Field */
+/*noinspection ALL*/
 .text-field {
     -fx-background-radius: 4;
     -fx-background-color: #EFEDF0;
@@ -7,10 +8,12 @@
     -fx-border-width: 0 0 2 0;
 }
 
+/*noinspection ALL*/
 .text-field:hover {
     -fx-background-color: #F0F0F0;
 }
 
+/*noinspection ALL*/
 .text-field:focused {
     -fx-border-color: #0067C0;
     -fx-background-color: #F0F0F0;
@@ -145,20 +148,24 @@
 
 
 /* ScrollPane */
+/*noinspection ALL*/
 .scroll-pane {
     -fx-background-color: #EFEDF0;
     -fx-background: #EFEDF0;
 }
 
+/*noinspection ALL*/
 .scroll-bar:horizontal, .scroll-bar:vertical{
     -fx-background-color:transparent;
 }
 
+/*noinspection ALL*/
 .increment-button, .decrement-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
+/*noinspection ALL*/
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
     -fx-background-color: transparent;
@@ -166,28 +173,33 @@
     -fx-background-radius: 0em;
 }
 
+/*noinspection ALL*/
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
     -fx-background-color: #CCCCCC;
     -fx-background-radius: 5em;
 }
 
+/*noinspection ALL*/
 .scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:hover {
     -fx-background-color: #AAA;
 }
 
+/*noinspection ALL*/
 .scroll-bar:horizontal .thumb:pressed,
 .scroll-bar:vertical .thumb:pressed {
     -fx-background-color: #999;
 }
 
+/*noinspection ALL*/
 .scroll-pane > .corner {
     -fx-background-color: #EFEDF0;
 }
 
 
 /* Radio Buttons */
+/*noinspection ALL*/
 .radio-button {
     -fx-background-color: transparent;
     -fx-background-image: null;
@@ -198,20 +210,24 @@
     -fx-border-color: transparent;
 }
 
+/*noinspection ALL*/
 .radio-button:hover {
     -fx-background-color: #e3e1e4;
 }
 
+/*noinspection ALL*/
 .radio-button:selected {
     -fx-background-color: #e3e1e4;
     -fx-border-color: #0067C0;
     -fx-background-insets: 0;
 }
 
+/*noinspection ALL*/
 .radio-button:pressed{
     -fx-border-color: #90CBFF;
 }
 
+/*noinspection ALL*/
 .radio-button .dot,
 .radio-button .radio {
     -fx-background-color: transparent;
@@ -222,6 +238,7 @@
 
 
 /* Combo Box + Color Picker */
+/*noinspection ALL*/
 .combo-box, .color-picker {
     -fx-text-fill: #222;
     -fx-background-color: #EFEDF0;
@@ -231,16 +248,19 @@
     -fx-border-width: 0 0 2 0;
 }
 
+/*noinspection ALL*/
 .combo-box:hover, .color-picker:hover,
 .combo-box:hover .list-cell:selected{
     -fx-background-color: #F0F0F0;
 }
 
+/*noinspection ALL*/
 .combo-box:focused, .color-picker:focused {
     -fx-border-color: #0067C0;
     -fx-background-color: #F0F0F0;
 }
 
+/*noinspection ALL*/
 .combo-box .list-view {
     -fx-border-color: #B3B3B3;
     -fx-border-width: 1;
@@ -248,25 +268,30 @@
     -fx-background-radius: 4;
 }
 
+/*noinspection ALL*/
 .combo-box .list-cell {
     -fx-background-color: #fff;
 }
 
+/*noinspection ALL*/
 .combo-box .list-cell:hover {
     -fx-text-fill: #222;
     -fx-background-color: #ccc;
 }
 
+/*noinspection ALL*/
 .combo-box .list-cell:selected{
     -fx-text-fill: #222;
     -fx-background-color: #EFEDF0;
 }
 
+/*noinspection ALL*/
 .color-palette,
 .color-picker-grid {
     -fx-background-color: #fff;
 }
 
+/*noinspection ALL*/
 .color-palette {
     -fx-border-color: #B3B3B3;
     -fx-border-width: 1;
@@ -276,6 +301,7 @@
 
 
 /* Check Box */
+/*noinspection ALL*/
 .check-box .box {
     -fx-border-width: 2px;
     -fx-border-insets: -2px;
@@ -285,18 +311,22 @@
     -fx-background-color: #ccc;
 }
 
+/*noinspection ALL*/
 .check-box:focused .box {
     -fx-border-color: #90CBFF;
 }
 
+/*noinspection ALL*/
 .check-box:hover .box {
     -fx-background-color: #aaa;
 }
 
+/*noinspection ALL*/
 .check-box:selected .mark {
     -fx-background-color: #fff;
 }
 
+/*noinspection ALL*/
 .check-box:selected .box {
     -fx-background-color: #0067C0;
 }
@@ -304,6 +334,7 @@
 
 /* TOOLTIP */
 
+/*noinspection ALL*/
 .tooltip {
     -fx-show-delay: 30ms;
 }
