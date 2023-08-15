@@ -289,10 +289,18 @@ public class UserDSGateway {
                     JSONObject jo = (JSONObject) o;
                     String type = (String) jo.get("Name");
                     switch (type) {
-                        case "FreeDrawLine" -> lst.add(FreeDrawLine.fromDict(jo));
-                        case "AardText" -> lst.add(AardText.fromDict(jo));
-                        case "AardSquare" -> lst.add(AardSquare.fromDict(jo));
-                        case "AardCircle" -> lst.add(AardCircle.fromDict(jo));
+                        case "FreeDrawLine":
+                            lst.add(FreeDrawLine.fromDict(jo));
+                            break;
+                        case "AardText":
+                            lst.add(AardText.fromDict(jo));
+                            break;
+                        case "AardSquare":
+                            lst.add(AardSquare.fromDict(jo));
+                            break;
+                        case "AardCircle":
+                            lst.add(AardCircle.fromDict(jo));
+                            break;
                     }
                 }
                 return (new Project(projName, lst, date, (int) x, (int) y));
