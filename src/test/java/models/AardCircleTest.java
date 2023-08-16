@@ -1,7 +1,6 @@
 package models;
 
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -15,7 +15,7 @@ public interface VisualElement {
     /**
      * This function should return a dictionary containing
      * the name of the class as its only key, and as the value
-     * an Array of the parameters needed to initalize.
+     * an Array of the parameters needed to initialize.
      */
     HashMap<String, Object> toDict();
 }

@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Test;
-
 class FreeDrawLineTest {
 
     @Test

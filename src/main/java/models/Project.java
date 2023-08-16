@@ -19,11 +19,11 @@ public class Project {
     private String projectName;
     private Date updatedAt;
     private int height;
-    public static int DEFAULT_HEIGHT = 600;
+    public static final int DEFAULT_WIDTH = 800;
+    public static final int DEFAULT_HEIGHT = 600;
     private int width;
-    public static int DEFAULT_WIDTH = 800;
-    private List<VisualElement> elements;
-    private Stack<VisualElement> redoStack;
+    private final List<VisualElement> elements;
+    private final Stack<VisualElement> redoStack;
 
     /**
      Constructs a new Project with the given project name.
@@ -199,8 +199,8 @@ public class Project {
         dictionary.put("Height", height);
 
         List<HashMap<String, Object>> elementList = new ArrayList<>();
-        for(int i = 0; i < elements.size(); i++) {
-            elementList.add(elements.get(i).toDict());
+        for (VisualElement element : elements) {
+            elementList.add(element.toDict());
         }
         dictionary.put("VisualElements", elementList);
 
@@ -209,8 +209,8 @@ public class Project {
 
     public List<HashMap<String, Object>> toDictElements() {
         List<HashMap<String, Object>> elementList = new ArrayList<>();
-        for (int i = 0; i < elements.size(); i++) {
-            elementList.add(elements.get(i).toDict());
+        for (VisualElement element : elements) {
+            elementList.add(element.toDict());
         }
         return elementList;
     }

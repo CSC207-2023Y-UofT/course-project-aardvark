@@ -6,20 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import models.Project;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import user_features.User;
 import user_features.UserDSGateway;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
 /**

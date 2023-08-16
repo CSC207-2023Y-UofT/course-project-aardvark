@@ -8,46 +8,42 @@
 <?import javafx.scene.text.Font?>
 <BorderPane style="-fx-background-color: #EFEDF0;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="aardvark.MainAppRouter">
    <center>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: #EFEDF0;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="716.0">
-               <children>
-                  <Label maxWidth="500" text="Your Projects" textFill="#222222" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#switchToSignIn" style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="16.0" />
-                           </font>
-                        </Button>
-                        <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#switchToNameProject" style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="16.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="607.0" prefWidth="600.0" style="-fx-background-color: #EFEDF0;" BorderPane.alignment="CENTER">
+         <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="716.0">
+            <VBox.margin>
+               <Insets left="50.0" right="50.0"/>
+            </VBox.margin>
+            <Label maxWidth="500" text="Your Projects" textFill="#222222" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Segoe UI Semibold" size="24.0"/>
+               </font>
+               <HBox.margin>
+                  <Insets/>
+               </HBox.margin>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="80.0" style="-fx-spacing: 12;">
+               <Button mnemonicParsing="false" onAction="#switchToSignIn"
+                       style="-fx-min-width: 120; -fx-min-height: 50;" text="Sign out" textFill="#0067c0">
+                  <font>
+                     <Font name="Segoe UI Semibold" size="16.0"/>
+                  </font>
+               </Button>
+               <Button id="primary-btn" alignment="CENTER" mnemonicParsing="false" onAction="#switchToNameProject"
+                       style="-fx-min-width: 150;" text="Create project" textAlignment="CENTER" textFill="#fff">
+                  <font>
+                     <Font name="Segoe UI Semibold" size="16.0"/>
+                  </font>
+               </Button>
             </HBox>
-            <ScrollPane maxHeight="520.0" prefHeight="590.0" prefWidth="716.0" style="-fx-background-color: #EFEDF0;">
-               <content>
-                  <VBox fx:id="projectsLayout" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="470.0" style="-fx-background-color: #EFEDF0;" />
-               </content>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
-            </ScrollPane>
-         </children>
+         </HBox>
+         <ScrollPane maxHeight="520.0" prefHeight="590.0" prefWidth="716.0" style="-fx-background-color: #EFEDF0;">
+            <VBox.margin>
+               <Insets left="50.0" right="50.0"/>
+            </VBox.margin>
+            <VBox fx:id="projectsLayout" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="470.0"
+                  style="-fx-background-color: #EFEDF0;"/>
+         </ScrollPane>
       </VBox>
    </center>
 </BorderPane>
